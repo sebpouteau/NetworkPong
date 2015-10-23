@@ -15,17 +15,7 @@ public class Window extends JFrame {
 	 */
 	private final Pong pong;
 
-	/**
-	 * Width of pong area
-	 */
-	public static final int SIZE_PONG_X = 800;
-	/**
-	 * Height of pong area
-	 */
-	public static final int SIZE_PONG_Y = 600;
-
-	/**
-	 * Constructor
+	 /* Constructor
 	 */
 	public Window(Pong pong) {
 		this.pong = pong;
@@ -44,9 +34,7 @@ public class Window extends JFrame {
 		setVisible(true);
 
 		while(true) {
-			pong.racket.animate(SIZE_PONG_X,SIZE_PONG_Y);
-			pong.ball.animate(SIZE_PONG_X,SIZE_PONG_Y);
-			pong.updateScreen();
+			pong.animateItem();
 
 			try {
 				Thread.sleep(pong.timestep);

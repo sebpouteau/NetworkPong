@@ -74,4 +74,12 @@ public class PongItem implements KeyListener {
     public void keyReleased(KeyEvent e) {
     }
     public void keyTyped(KeyEvent e) { }
+
+  //  public boolean collision(PongItem pi){
+    //    if((this.getPositionX() <= pi.getPositionX() + pi.getWidth()) && (this.getPositionY() <= pi.getPositionY() + pi.getHeight()) && (this.getPositionY() >= pi.getPositionY() - pi.getHeight())){
+      //      return true;
+        //}else {
+          //  return false;
+        //}
+    //}
 }

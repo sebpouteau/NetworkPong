@@ -23,10 +23,20 @@ public class Pong extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Width of pong area
+	 */
+	private static final int SIZE_PONG_X = 800;
+	/**
+	 * Height of pong area
+	 */
+	private static final int SIZE_PONG_Y = 600;
+
+	/**
+	/**
 	 * Constant (c.f. final) common to all Pong instances (c.f. static)
 	 * defining the background color of the Pong
 	 */
-	private static final Color backgroundColor = new Color(255, 15, 35);
+	private static final Color backgroundColor = new Color(209, 209, 206);
 
 
 	/**
@@ -49,12 +59,17 @@ public class Pong extends JPanel {
 	public Pong() {
 		racket = new Racket();
 		ball = new Ball();
-		this.setPreferredSize(new Dimension(Window.SIZE_PONG_X, Window.SIZE_PONG_Y));
-
+		this.setPreferredSize(new Dimension(SIZE_PONG_X, SIZE_PONG_Y));
 		this.addKeyListener(racket);
 	}
+	public void animateItem() {
+		boolean t=ball.collision(racket);
+		if (!t)
+			ball.animate(SIZE_PONG_X, SIZE_PONG_Y, racket);
+		racket.animate(SIZE_PONG_X, SIZE_PONG_Y);
 
-
+		this.updateScreen();
+	}
 
 	/*
 	 * (non-Javadoc) This method is called by the AWT Engine to paint what
@@ -77,7 +92,7 @@ public class Pong extends JPanel {
 	public void updateScreen() {
 		if (buffer == null) {
 			/* First time we get called with all windows initialized */
-			buffer = createImage(Window.SIZE_PONG_X,Window.SIZE_PONG_Y);
+			buffer = createImage(SIZE_PONG_X,SIZE_PONG_Y);
 			if (buffer == null)
 				throw new RuntimeException("Could not instanciate graphics");
 			else
@@ -85,7 +100,7 @@ public class Pong extends JPanel {
 		}
 		/* Fill the area with blue */
 		graphicContext.setColor(backgroundColor);
-		graphicContext.fillRect(0, 0, Window.SIZE_PONG_X, Window.SIZE_PONG_Y);
+		graphicContext.fillRect(0, 0, SIZE_PONG_X, SIZE_PONG_Y);
 
 		/* Draw items */
 		graphicContext.drawImage(ball.getImageItem(), ball.getPositionX(), ball.getPositionY(), ball.getWidth(), ball.getHeight(), null);
@@ -93,6 +108,7 @@ public class Pong extends JPanel {
 						         racket.getPositionX(), racket.getPositionY(),
 				                 racket.getWidth(), racket.getHeight(),
 				                 null);
+
 
 		this.repaint();
 	}

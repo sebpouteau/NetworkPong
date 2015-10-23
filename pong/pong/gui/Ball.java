@@ -31,7 +31,7 @@ public class Ball extends PongItem {
         this.getSpeed().setLocation(this.getSpeed().getX(), y);
     }
     public void setSpeed(Point speed) {
-        this.speed = speed;
+this.speed = speed;
     }
     public Ball() {
         super();
@@ -44,7 +44,7 @@ public class Ball extends PongItem {
         this.setSpeed(new Point(BALL_SPEED, BALL_SPEED));
     }
 
-    public void animate(int sizePongX,int sizePongY){
+    public void animate(int sizePongX,int sizePongY, PongItem pi){
 		/* Update ball position */
         this.getPosition().translate(this.getSpeedX(), this.getSpeedY());
         if (this.getPositionX() < 0) {
@@ -64,5 +64,17 @@ public class Ball extends PongItem {
             this.setSpeedY(-this.getSpeedY());
         }
 
+
     }
+    public boolean collision(PongItem pi){
+        if((this.getPositionX() <= pi.getPositionX() + pi.getWidth()) && (this.getPositionY() <= pi.getPositionY() + pi.getHeight()) && (this.getPositionY() >= pi.getPositionY() - pi.getHeight())){
+            this.setSpeedX(-this.getSpeedX());
+            this.setPositionX(this.getPositionX() + BALL_SPEED );
+            this.setPositionY(this.getPositionY() + BALL_SPEED );
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 }
