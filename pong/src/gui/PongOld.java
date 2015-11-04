@@ -1,4 +1,4 @@
-package pong.gui;
+package src.gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,11 +20,11 @@ public class PongOld extends JPanel implements KeyListener {
 	private static final Color backgroundColor = new Color(254, 255, 235);
 
 	/**
-	 * Width of pong area
+	 * Width of src area
 	 */
 	private static final int SIZE_PONG_X = 800;
 	/**
-	 * Height of pong area
+	 * Height of src area
 	 */
 	private static final int SIZE_PONG_Y = 600;
 	/**

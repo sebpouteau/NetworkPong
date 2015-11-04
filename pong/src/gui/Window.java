@@ -1,7 +1,6 @@
-package pong.gui;
+package src.gui;
 
 import javax.swing.JFrame;
-import java.awt.*;
 
 /**
  * A Window is a Java frame containing an Pong
