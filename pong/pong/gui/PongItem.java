@@ -46,7 +46,7 @@ public class PongItem implements KeyListener {
         this.height = height;
     }
 
-    public Point getPosition() {return position;}
+    public Point getPosition() {return (Point)position.clone();}
     public int getPositionX() {
         return (int)position.getX();
     }
