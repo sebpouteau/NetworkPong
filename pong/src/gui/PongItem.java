@@ -4,9 +4,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-/**
- * Created by sebpouteau on 23/10/15.
- */
 public class PongItem implements KeyListener {
     private int width;
     private int height;
@@ -74,11 +71,23 @@ public class PongItem implements KeyListener {
     }
     public void keyTyped(KeyEvent e) { }
 
-  //  public boolean collision(PongItem pi){
-    //    if((this.getPositionX() <= pi.getPositionX() + pi.getWidth()) && (this.getPositionY() <= pi.getPositionY() + pi.getHeight()) && (this.getPositionY() >= pi.getPositionY() - pi.getHeight())){
-      //      return true;
-        //}else {
-          //  return false;
-        //}
-    //}
+ /*   public boolean collision(PongItem pi){
+        if((this.getPositionX() <= pi.getPositionX() + pi.getWidth()) &&
+           (this.getPositionY() <= pi.getPositionY() + pi.getHeight()) &&
+                (this.getPositionY() >= pi.getPositionY() - pi.getHeight())){
+            return true;
+        }else {
+            return false;
+        }
+    }*/
+    public boolean collision (PongItem[] p){
+        for (int i = 0; i < p.length; i++) {
+            for (int j = i+1; j < p.length; j++) {
+                if()
+
+            }
+
+        }
+    }
+
 }

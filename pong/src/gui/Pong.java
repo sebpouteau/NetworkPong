@@ -48,6 +48,7 @@ public class Pong extends JPanel {
 
 	public Racket racket;
 	public Ball ball;
+	public PongItem pongItems[];
 
 	public Pong() {
 		racket = new Racket();
@@ -55,33 +56,19 @@ public class Pong extends JPanel {
 		this.setPreferredSize(new Dimension(SIZE_PONG_X, SIZE_PONG_Y));
 		this.addKeyListener(racket);
 	}
+
 	public void animateItem() {
-		boolean t=ball.collision(racket);
-		if (!t)
-			ball.animate(SIZE_PONG_X, SIZE_PONG_Y, racket);
+		ball.collision(racket);
+		ball.animate(SIZE_PONG_X, SIZE_PONG_Y);
 		racket.animate(SIZE_PONG_X, SIZE_PONG_Y);
 
 		this.updateScreen();
 	}
 
-	/*
-	 * (non-Javadoc) This method is called by the AWT Engine to paint what
-	 * appears in the screen. The AWT engine calls the paint method every time
-	 * the operative system reports that the canvas has to be painted. When the
-	 * window is created for the first time paint is called. The paint method is
-	 * also called if we minimize and after we maximize the window and if we
-	 * change the size of the window with the mouse.
-	 * 
-	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
-	 */
-	@Override
 	public void paint(Graphics g) {
 		g.drawImage(buffer, 0, 0, this);
 	}
 
-	/**
-	 * Draw each Pong item based on new positions
-	 */
 	public void updateScreen() {
 		if (buffer == null) {
 			/* First time we get called with all windows initialized */
@@ -101,8 +88,6 @@ public class Pong extends JPanel {
 						         racket.getPositionX(), racket.getPositionY(),
 				                 racket.getWidth(), racket.getHeight(),
 				                 null);
-
-
 		this.repaint();
 	}
 }
