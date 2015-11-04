@@ -1,0 +1,18 @@
+
+import java.net.*;
+import java.io.*;
+import java.nio.*;
+import java.nio.channels.*;
+import java.util.*;
+
+public class DatagramPacket {
+	byte tampon[];
+	int port;
+	public DatagramPacket (int port){
+		tampon = new  byte[1500];
+		this.port =port;
+		
+	}
+	
+	
+}
