@@ -3,6 +3,7 @@ package src.gui;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class PongItem implements KeyListener {
     private int width;
@@ -16,7 +17,9 @@ public class PongItem implements KeyListener {
 
 	}
 
-    public void animate(int sizePongX,int sizePongY){}
+    public void animate(int sizePongX,int sizePongY){
+
+    }
 
     public Image getImageItem() {
         return imageItem;
@@ -80,14 +83,18 @@ public class PongItem implements KeyListener {
             return false;
         }
     }*/
-    public boolean collision (PongItem[] p){
-        for (int i = 0; i < p.length; i++) {
-            for (int j = i+1; j < p.length; j++) {
-                if()
-
+    public static boolean collision (ArrayList<PongItem> p){
+        boolean t = false;
+        for (int i = 0; i < p.size() - 1; i++) {
+            for (int j = i+1; j < p.size() ; j++) {
+                if(p.get(i) instanceof Ball){
+                    Ball b = (Ball) p.get(i);
+                    b.collision(p.get(j));
+                    t = true;
+                }
             }
-
         }
+        return t;
     }
 
 }

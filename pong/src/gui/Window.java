@@ -18,10 +18,14 @@ public class Window extends JFrame {
 	 */
 	public Window(Pong pong) {
 		this.pong = pong;
+		for (int i = 0; i < pong.pongList.size(); i++) {
+			if (pong.pongList.get(i) instanceof Racket) {
+				this.addKeyListener(pong.pongList.get(i));
 
-		this.addKeyListener(pong.racket);
+			}
+
+		}
 	}
-
 	/**
 	 * Displays the Window using the defined margins, and call the
 	 * {@link Pong#animate()} method of the {@link Pong} every 100ms

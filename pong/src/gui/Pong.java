@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -48,20 +49,23 @@ public class Pong extends JPanel {
 
 	public Racket racket;
 	public Ball ball;
-	public PongItem pongItems[];
+
+	public ArrayList<PongItem> pongList;
 
 	public Pong() {
-		racket = new Racket();
-		ball = new Ball();
+		pongList = new ArrayList<PongItem>();
+
+			pongList.add(new Racket());
+
 		this.setPreferredSize(new Dimension(SIZE_PONG_X, SIZE_PONG_Y));
-		this.addKeyListener(racket);
+		this.addKeyListener(pongList.get(0));
 	}
 
 	public void animateItem() {
-		ball.collision(racket);
-		ball.animate(SIZE_PONG_X, SIZE_PONG_Y);
-		racket.animate(SIZE_PONG_X, SIZE_PONG_Y);
-
+		PongItem.collision(pongList);
+		for (int i = 0; i <pongList.size(); i++) {
+			pongList.get(i).animate(SIZE_PONG_X, SIZE_PONG_Y);
+		}
 		this.updateScreen();
 	}
 
@@ -78,16 +82,18 @@ public class Pong extends JPanel {
 			else
 				graphicContext = buffer.getGraphics();
 		}
+
 		/* Fill the area with blue */
 		graphicContext.setColor(backgroundColor);
 		graphicContext.fillRect(0, 0, SIZE_PONG_X, SIZE_PONG_Y);
 
 		/* Draw items */
-		graphicContext.drawImage(ball.getImageItem(), ball.getPositionX(), ball.getPositionY(), ball.getWidth(), ball.getHeight(), null);
-		graphicContext.drawImage(racket.getImageItem(),
-						         racket.getPositionX(), racket.getPositionY(),
-				                 racket.getWidth(), racket.getHeight(),
-				                 null);
+		for (int i = 0; i < pongList.size(); i++) {
+			graphicContext.drawImage(pongList.get(i).getImageItem(),
+					pongList.get(i).getPositionX(), pongList.get(i).getPositionY(),
+					pongList.get(i).getWidth(), pongList.get(i).getHeight(),
+					null);
+		}
 		this.repaint();
 	}
 }
