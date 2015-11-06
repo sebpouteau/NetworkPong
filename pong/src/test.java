@@ -4,9 +4,17 @@ package src;
  * Created by seb on 05/11/15.
  */
 public class test {
+    /*
     private static void decrypt(String message){
-        String[] tab = null;
-        tab = message.split(" ");
+        String[] tabMessage = null;
+        String[][] tabItem = null;
+        tabMessage = message.split(";");
+        for (int i = 0; i < tabMessage.length; i++) {
+            tabItem[i] = tabMessage[i].split(" ");
+        }
+        for (int i = 0; i < tabMessage.length; i++) {
+
+
         switch(tab[0]){
             case "add":
                 System.out.println("add");
@@ -18,10 +26,10 @@ public class test {
                 System.out.println("Ball");
         }
 
-    }
+    }}
 
     public static void main(String []args){
         decrypt("Racket bonjour");
     }
-
+*/
 }
