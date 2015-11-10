@@ -54,8 +54,7 @@ public class Pong extends JPanel {
 
 	public Pong() {
 		pongList = new ArrayList<PongItem>();
-
-			pongList.add(new Racket());
+		//pongList.add(new Racket());
 
 		this.setPreferredSize(new Dimension(SIZE_PONG_X, SIZE_PONG_Y));
 		this.addKeyListener(pongList.get(0));

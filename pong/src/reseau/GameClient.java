@@ -32,7 +32,7 @@ public class GameClient {
         StringBuffer message = new StringBuffer();
         for (int i = 0; i < this.getArraySocket().size(); i++) {
             message.append("IP " + this.getSocketClient(i).getInetAddress());
-            message.append("IP " + this.getSocketClient(i).getPort());
+            message.append("PORT" + this.getSocketClient(i).getPort());
             message.append(";");
         }
         return message.toString();
@@ -60,7 +60,6 @@ public class GameClient {
             lu = br.readLine();
             System.out.println(lu);
         }while(lu.compareTo("FIN") != 0);
-
         System.out.println("fin lu");
         String[] message = lu.split(";");
         if (message.length != 2 && message[0].compareTo("Pong Play") != 0)
@@ -83,7 +82,7 @@ public class GameClient {
 
         Pong pong = new Pong();
         if (args.length == 0) {
-            ThreadSocketListen t = new ThreadSocketListen(client, 7777);
+            ThreadSocketListen t = new ThreadSocketListen(client, Integer.parseInt(args[1]));
             t.start();
         }
         else{

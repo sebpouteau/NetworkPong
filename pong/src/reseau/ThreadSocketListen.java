@@ -25,7 +25,9 @@ public class ThreadSocketListen extends Thread {
     public void run(){
         try {
             while (true) {
+
                 Socket socket2 = socket.accept();
+
                 client.addNewClient(socket2);
             }
         }
