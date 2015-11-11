@@ -18,6 +18,7 @@ public class Window extends JFrame {
 	 */
 	public Window(Pong pong) {
 		this.pong = pong;
+
 		for (int i = 0; i < pong.pongList.size(); i++) {
 			if (pong.pongList.get(i) instanceof Racket) {
 				this.addKeyListener(pong.pongList.get(i));
@@ -28,20 +29,18 @@ public class Window extends JFrame {
 	}
 	/**
 	 * Displays the Window using the defined margins, and call the
-	 * {@link Pong#animate()} method of the {@link Pong} every 100ms
+	 * {@link Pong#()} method of the {@link Pong} every 100ms
 	 */
+
 	public void displayOnscreen() {
 		add(pong);
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 
-		while(true) {
-			pong.animateItem();
+		//while(true) {
+			//pong.animateItem();
 
-			try {
-				Thread.sleep(pong.timestep);
-			} catch (InterruptedException e) {};
-		}
+		//}
 	}
 }

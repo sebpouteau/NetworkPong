@@ -52,10 +52,14 @@ public class Pong extends JPanel {
 
 	public ArrayList<PongItem> pongList;
 
+	public void add(PongItem item){
+		this.pongList.add(item);
+	}
 	public Pong() {
 		pongList = new ArrayList<PongItem>();
 		//pongList.add(new Racket());
-
+		pongList.add(new Racket(1));
+		pongList.add(new Ball());
 		this.setPreferredSize(new Dimension(SIZE_PONG_X, SIZE_PONG_Y));
 		this.addKeyListener(pongList.get(0));
 	}

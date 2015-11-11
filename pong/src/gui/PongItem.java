@@ -16,7 +16,11 @@ public class PongItem implements KeyListener {
         this.setPosition(new Point(0, 0));
 
 	}
+    public PongItem(int x, int y)
+    {
+        this.setPosition(new Point(x, y));
 
+    }
     public void animate(int sizePongX,int sizePongY){
 
     }

@@ -10,6 +10,14 @@ import java.awt.event.KeyEvent;
 public class Racket extends PongItem {
 	public static final int RACKET_SPEED = 4;
 	private int speed;
+	private int idPlayer;
+	public int getIdPlayer() {
+		return this.idPlayer;
+	}
+
+	public void setIdPlayer(int speed) {
+		this.speed = speed;
+	}
 
 	public int getSpeed() {
 		return speed;
@@ -19,8 +27,20 @@ public class Racket extends PongItem {
 		this.speed = speed;
 	}
 
-	public Racket(){
+
+	public Racket(int idPlayer){
 		super();
+		this.setIdPlayer(idPlayer);
+		ImageIcon icon;
+		this.setImageItem(Toolkit.getDefaultToolkit().createImage(
+				ClassLoader.getSystemResource("image/racket.png")));
+		icon = new ImageIcon(this.getImageItem());
+		this.setWidth(icon.getIconWidth());
+		this.setHeight(icon.getIconHeight());
+	}
+	public Racket(int idPlayer,int x, int y){
+		super(x,y);
+		this.setIdPlayer(idPlayer);
 		ImageIcon icon;
 		this.setImageItem(Toolkit.getDefaultToolkit().createImage(
 				ClassLoader.getSystemResource("image/racket.png")));
