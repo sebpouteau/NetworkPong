@@ -46,10 +46,6 @@ public class Pong extends JPanel {
 	 */
 	private Graphics graphicContext = null;
 
-
-	public Racket racket;
-	public Ball ball;
-
 	public ArrayList<PongItem> pongList;
 
 	public void add(PongItem item){
@@ -60,14 +56,19 @@ public class Pong extends JPanel {
 		//pongList.add(new Racket());
 		pongList.add(new Racket(1));
 		pongList.add(new Ball());
+		//	pongList.add(new Ball(80,80));
+		//	pongList.add(new Ball(500,500));
+		//	pongList.add(new Ball(689, 522));
+		//	pongList.add(new Racket(760,560));
+
 		this.setPreferredSize(new Dimension(SIZE_PONG_X, SIZE_PONG_Y));
 		this.addKeyListener(pongList.get(0));
 	}
 
 	public void animateItem() {
-		PongItem.collision(pongList);
-		for (int i = 0; i <pongList.size(); i++) {
-			pongList.get(i).animate(SIZE_PONG_X, SIZE_PONG_Y);
+		for (int i = 0; i < pongList.size(); i++) {
+			pongList.get(i).collision(pongList);
+			pongList.get(i).animate(SIZE_PONG_X,SIZE_PONG_Y);
 		}
 		this.updateScreen();
 	}

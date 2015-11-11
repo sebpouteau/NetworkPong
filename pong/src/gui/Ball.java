@@ -2,10 +2,8 @@ package src.gui;
 
 import javax.swing.*;
 import java.awt.*;
-
-/**
- * Created by sebpouteau on 23/10/15.
- */
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 public class Ball extends PongItem {
 
@@ -31,8 +29,9 @@ public class Ball extends PongItem {
         this.getSpeed().setLocation(this.getSpeed().getX(), y);
     }
     public void setSpeed(Point speed) {
-this.speed = speed;
+        this.speed = speed;
     }
+
     public Ball() {
         super();
         ImageIcon icon;
@@ -43,12 +42,25 @@ this.speed = speed;
         this.setWidth(icon.getIconWidth());
         this.setHeight(icon.getIconHeight());
         this.setSpeed(new Point(BALL_SPEED, BALL_SPEED));
+        this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
+    }
+
+    public Ball(int x, int y) {
+        super();
+        this.setPosition(x,y);
+        ImageIcon icon;
+        this.setImageItem(Toolkit.getDefaultToolkit().createImage(
+                ClassLoader.getSystemResource("image/ball.png")));
+        icon = new ImageIcon(this.getImageItem());
+        this.setWidth(icon.getIconWidth());
+        this.setHeight(icon.getIconHeight());
+        this.setSpeed(new Point(BALL_SPEED, BALL_SPEED));
+        this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
     }
 
     public void animate(int sizePongX,int sizePongY){
-		/* Update ball position */
         this.setPosition((this.getPositionX() + this.getSpeedX()),(this.getPositionY() + this.getSpeedY()));
-       // this.getPosition().translate(this.getSpeedX(), this.getSpeedY());
+		/* Update ball position */
         if (this.getPositionX() < 0) {
             this.setPositionX(0);
             this.setSpeedX(-this.getSpeedX());
@@ -65,8 +77,44 @@ this.speed = speed;
             this.setPositionY(sizePongY - this.getHeight());
             this.setSpeedY(-this.getSpeedY());
         }
+        this.setPositionRectangle(this.getPositionX(), this.getPositionY());
+
     }
     public boolean collision(PongItem pi){
+//        while(pi.getSurface().contains(this.getSurface()))
+        //          this.setPosition(this.getSpeedX(), this.getSpeedY());
+
+        if(this.getSurface().getBounds().intersects(pi.getSurface().getBounds())){
+
+            if(((pi.getSurface().intersectsLine(this.getSurface().getMinX(), this.getSurface().getMinY(), this.getSurface().getMinX(), this.getSurface().getMaxY())) ||
+                    (pi.getSurface().intersectsLine(this.getSurface().getMaxX(), this.getSurface().getMinY(), this.getSurface().getMaxX(), this.getSurface().getMaxY())))){
+
+                if( this.getSurface().getMaxY() > pi.getSurface().getMinY() && this.getSurface().getMinY() < pi.getSurface().getMaxY() &&
+                        this.getSurface().getMaxY() < pi.getSurface().getMaxY() && this.getSurface().getMinY() > pi.getSurface().getMinY()){
+                    this.setSpeedX(-this.getSpeedX());}
+                // des qu'une collision est en cours je m'assure de replacer ma ball au limite de ma raquette puis je change sa vitesse
+                else {
+                    this.setSpeedY(-this.getSpeedY());
+                    this.setSpeedX(- this.getSpeedX());
+                }
+            }
+
+            else{
+
+                this.setSpeedY(-this.getSpeedY());
+            }
+            //problème lors de l'arrivé à la verticale car le y ne change pas
+            // this.setPositionX(this.getPositionX() + this.getSpeedX());
+            //this.setPositionY(this.getPositionY() + this.getSpeedY());
+            this.setPositionRectangle(this.getPositionX(), this.getPositionY());
+
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+/*    public boolean collision(PongItem pi){
         if((this.getPositionX() <= pi.getPositionX() + pi.getWidth()) &&
                 (this.getPositionY() <= pi.getPositionY() + pi.getHeight()) &&
                 (this.getPositionY() >= pi.getPositionY() - pi.getHeight())){
@@ -79,6 +127,6 @@ this.speed = speed;
         }else {
             return false;
         }
-    }
+    }*/
 
 }
