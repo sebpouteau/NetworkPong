@@ -10,6 +10,10 @@ import java.net.Socket;
  * Starting point of the Pong application
  */
 public class Main  {
+	public void test()
+	{
+		System.out.println();
+	}
 /*
 	public static void main(String[] args) {
 		Pong pong = new Pong();

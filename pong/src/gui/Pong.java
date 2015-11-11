@@ -51,6 +51,7 @@ public class Pong extends JPanel {
 	public void add(PongItem item){
 		this.pongList.add(item);
 	}
+
 	public Pong() {
 		pongList = new ArrayList<PongItem>();
 		//pongList.add(new Racket());

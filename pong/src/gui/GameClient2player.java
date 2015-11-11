@@ -11,9 +11,9 @@ import java.nio.channels.SocketChannel;
  * Created by sebpouteau on 06/11/15.
  */
 public class GameClient2player extends JFrame {
-    private Pong pong;
+    /*private Pong pong;
     ServerSocketChannel server;
-    Socket socket;
+    Socket player;
     int port;
     int nombrePlayer = 0;
 
@@ -88,12 +88,43 @@ public class GameClient2player extends JFrame {
                 pong.pongList.get(1).setPositionY(Integer.parseInt(de[2]));
             }
             if (de[0].compareTo("RAK") == 0) {
-                pong.pongList.add(0,new Racket(Integer.parseInt(de[1]),
+                pong.pongList.add(new Racket(Integer.parseInt(de[1]),
                         Integer.parseInt(de[2]), Integer.parseInt(de[3])));
             }
         }
 
     }
+
+
+    public String Information() {
+        StringBuffer message = new StringBuffer();
+        message.append("RACKET " + ((Racket)pong.pongList.get(0)).getIdPlayer() + " " + pong.pongList.get(0).getPositionX() + " " + pong.pongList.get(0).getPositionY());
+        message.append(";");
+        message.append("BALL " + pong.pongList.get(1).getPositionX() + " " + pong.pongList.get(1).getPositionY());
+        return  message.toString();
+    }
+
+    public void update(String message){
+        String[] item = message.split(";");
+        for (int i = 0; i < item.length; i++) {
+            String[] info = item[i].split(" ");
+            int j = 0;
+            if (info[j].compareTo("BALL") == 0){
+                pong.pongList.get(1).setPosition(Integer.parseInt(info[j+1]), Integer.parseInt(info[j+2]));
+            }
+            if (info[j].compareTo("RACKET") == 0){
+                int idP = Integer.parseInt(info[j+1]);
+                for (int k = 0; k < pong.pongList.size(); k++) {
+                    if (pong.pongList.get(k) instanceof Racket){
+                        if (((Racket) pong.pongList.get(k)).getIdPlayer() == idP){
+                            pong.pongList.get(k).setPosition(Integer.parseInt(info[j+2]), Integer.parseInt(info[j+3]));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }*/
 
 
     /**
@@ -110,19 +141,20 @@ public class GameClient2player extends JFrame {
 
         Window window = new Window(pong);
 
-        GameClient2player client = new GameClient2player(pong);
+        Player client = new Player(pong);
         if (args.length == 0) {
             client.server = ServerSocketChannel.open();
             client.server.socket().bind(new InetSocketAddress(port));
             client.server.configureBlocking(false);
+            ((Racket)client.pong.pongList.get(0)).setIdPlayer(5);
             client.addPlayer();
         } else {
             client.nombrePlayer = 2;
             portConnection = Integer.parseInt(args[1]);
             adresse = args[0];
-            Socket player = new Socket(adresse, portConnection);
-            InputStream is = player.getInputStream();
-            OutputStream os = player.getOutputStream();
+            client.player = new Socket(adresse, portConnection);
+            InputStream is = client.player.getInputStream();
+            OutputStream os = client.player.getOutputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
             PrintStream ps = new PrintStream(os, false, "utf-8");
             ps.println("Pong Play;Port:7778");
@@ -145,21 +177,37 @@ public class GameClient2player extends JFrame {
             }
             client.init(lu);
 
-        }
 
+        }
+        client.aff();
         window.displayOnscreen();
         while (true) {
 
             if (client.server != null) {
                 SocketChannel sc = client.server.accept();
                 if (sc != null) {
-                    client.pong.add(new Racket(2, 50, 50));
+                    client.player = sc.socket();
+                    client.pong.add(new Racket(2, 250, 250));
+                    client.nombrePlayer=2;
                     client.addNewClient(sc.socket());
-                    client.nombrePlayer++;
                 }
             }
             if (client.nombrePlayer > 1) {
-                pong.animateItem();
+                //System.out.println("je lance la boucle");
+                client.pong.animateItem();
+                InputStream is = client.player.getInputStream();
+                OutputStream os = client.player.getOutputStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+                PrintStream ps = new PrintStream(os, false, "utf-8");
+                String info = client.Information();
+                //System.out.println(info);
+                ps.println(info);
+                //if (is.available() != 0) {
+                    String lu = br.readLine();
+                    if (lu != null)
+                        //System.out.println(lu);
+                        client.update(lu);
+                //}
                 try {
                     Thread.sleep(pong.timestep);
                 } catch (InterruptedException e) {
@@ -172,13 +220,10 @@ public class GameClient2player extends JFrame {
     }
 
 
-public void aff(){
-    for (int i= 0; i < pong.pongList.size();i++){
-        System.out.println(pong.pongList.get(i).getPosition());
-}
-}
 
 }
+
+
 
 
 

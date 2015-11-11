@@ -7,13 +7,13 @@ import java.awt.event.KeyEvent;
 public class Racket extends PongItem {
 	public static final int RACKET_SPEED = 4;
 	private int speed;
-	private int idPlayer;
+	int idPlayer;
 	public int getIdPlayer() {
 		return this.idPlayer;
 	}
 
-	public void setIdPlayer(int speed) {
-		this.speed = speed;
+	public void setIdPlayer(int number) {
+		this.idPlayer = number;
 	}
 
 	public int getSpeed() {
@@ -27,10 +27,10 @@ public class Racket extends PongItem {
 
 	public Racket(int idPlayer){
 		super();
-		this.setIdPlayer(idPlayer);
+		this.idPlayer = idPlayer;
 		ImageIcon icon;
 		this.setImageItem(Toolkit.getDefaultToolkit().createImage(
-				ClassLoader.getSystemResource("image/racket.png")));
+				ClassLoader.getSystemResource("image/raquette.png")));
 		icon = new ImageIcon(this.getImageItem());
 		this.setWidth(icon.getIconWidth());
 		this.setHeight(icon.getIconHeight());
@@ -46,17 +46,7 @@ public class Racket extends PongItem {
 		this.setHeight(icon.getIconHeight());
 		this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
 	}
-	public Racket(int x, int y){
-		super();
-		this.setPosition(x,y);
-		ImageIcon icon;
-		this.setImageItem(Toolkit.getDefaultToolkit().createImage(
-				ClassLoader.getSystemResource("image/raquetteH.png")));
-		icon = new ImageIcon(this.getImageItem());
-		this.setWidth(icon.getIconWidth());
-		this.setHeight(icon.getIconHeight());
-		this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
-	}
+
 
 	public void animate(int sizePongX,int sizePongY){
 /* Update racket position */
