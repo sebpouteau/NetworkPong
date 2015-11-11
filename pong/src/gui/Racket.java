@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-/**
- * Created by sebpouteau on 23/10/15.
- */
 public class Racket extends PongItem {
 	public static final int RACKET_SPEED = 4;
 	private int speed;
@@ -23,10 +20,22 @@ public class Racket extends PongItem {
 		super();
 		ImageIcon icon;
 		this.setImageItem(Toolkit.getDefaultToolkit().createImage(
-				ClassLoader.getSystemResource("image/racket.png")));
+				ClassLoader.getSystemResource("image/raquette.png")));
 		icon = new ImageIcon(this.getImageItem());
 		this.setWidth(icon.getIconWidth());
 		this.setHeight(icon.getIconHeight());
+		this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
+	}
+	public Racket(int x, int y){
+		super();
+		this.setPosition(x,y);
+		ImageIcon icon;
+		this.setImageItem(Toolkit.getDefaultToolkit().createImage(
+				ClassLoader.getSystemResource("image/raquetteH.png")));
+		icon = new ImageIcon(this.getImageItem());
+		this.setWidth(icon.getIconWidth());
+		this.setHeight(icon.getIconHeight());
+		this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
 	}
 
 	public void animate(int sizePongX,int sizePongY){
@@ -34,8 +43,10 @@ public class Racket extends PongItem {
 		this.setPositionY(this.getPositionY() + this.getSpeed());
 		if (this.getPositionY() < 0)
 			this.setPositionY(0);
-		if (this.getPositionY() > sizePongY - this.getHeight()/2)
-			this.setPositionY(sizePongY - this.getHeight()/2);
+		if (this.getPositionY() > sizePongY - this.getHeight())
+			this.setPositionY(sizePongY - this.getHeight());
+		this.setPositionRectangle(this.getPositionX(), this.getPositionY());
+
 	}
 
 
@@ -68,4 +79,6 @@ public class Racket extends PongItem {
 		}
 	}
 	public void keyTyped(KeyEvent e) { }
+
+
 }
