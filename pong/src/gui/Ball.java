@@ -37,7 +37,7 @@ public class Ball extends PongItem {
         ImageIcon icon;
         this.setImageItem(Toolkit.getDefaultToolkit().createImage(
                 ClassLoader.getSystemResource("image/ball.png")));
-        //this.setPosition(40,40);
+        this.setPosition(40,40);
         icon = new ImageIcon(this.getImageItem());
         this.setWidth(icon.getIconWidth());
         this.setHeight(icon.getIconHeight());

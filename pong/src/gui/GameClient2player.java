@@ -145,12 +145,13 @@ public class GameClient2player extends JFrame {
         client.initServeur(port);
 
 
-        ((Racket)client.pong.pongList.get(0)).setIdPlayer(5);
+        ((Racket)client.pong.pongList.get(0)).setIdPlayer(1);
         client.addPlayer();
 
         if (args.length > 1){
-            client.nombrePlayer = 2;
+            client.nombrePlayer = 1;
             client.connectionServer(adresse,portConnection,true);
+            System.out.println("fin");
         }
         client.aff();
         window.displayOnscreen();
@@ -162,7 +163,8 @@ public class GameClient2player extends JFrame {
                    client.connectionAccept(sc.socket());
                 }
             }
-            if (client.nombrePlayer > 2) {
+            if (client.nombrePlayer > 1) {
+                System.out.println(client.getReader(0).getPort() + " " + client.getWriter(0).getLocalPort());
                 //System.out.println("je lance la boucle");
                 client.pong.animateItem();
                 InputStream is = client.getReader(0).getInputStream();
@@ -174,7 +176,7 @@ public class GameClient2player extends JFrame {
                 if (is.available() != 0) {
                     String lu = br.readLine();
                     if (lu != null)
-                        //System.out.println(lu);
+                        System.out.println(lu);
                         client.update(lu);
                 }
                 ps.println(info);

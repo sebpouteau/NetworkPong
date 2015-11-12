@@ -1,5 +1,6 @@
 package src.gui;
 
+import java.awt.*;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -51,7 +52,7 @@ public class Player {
         message.append(";");
         for (int i = 0; i < pong.pongList.size() - 1; i++) {
             if (pong.pongList.get(i) instanceof Ball) {
-                message.append("BALL " + pong.pongList.get(i).getPositionX() + " " + pong.pongList.get(i).getPositionY());
+                message.append("BALL ").append(pong.pongList.get(i).getPositionX()).append(" ").append(pong.pongList.get(i).getPositionY());
             }
             if (pong.pongList.get(i) instanceof Racket) {
                 message.append("RACKET " +
@@ -98,8 +99,10 @@ public class Player {
         PrintStream ps = new PrintStream(os, false, "utf-8");
         System.out.println("nouveau player");
         String item = SendAllItem();
+        System.out.println();
         ps.println(item);
         ps.println("FIN");
+        System.out.println("fin");
     }
 
     public String Information() {
@@ -116,7 +119,8 @@ public class Player {
             String[] info = item[i].split(" ");
             int j = 0;
             if (info[j].compareTo("BALL") == 0) {
-                pong.pongList.get(1).setPosition(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]));
+                if (!pong.pongList.get(1).getPosition().equals(new Point(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]))));
+                        pong.pongList.get(1).setPosition(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]));
             }
             if (info[j].compareTo("RACKET") == 0) {
                 int idP = Integer.parseInt(info[j + 1]);
@@ -140,30 +144,18 @@ public class Player {
     }
 
     public void connectionServer(String adress, int portConnection,boolean first) throws IOException {
-        int position = this.addWriter(new Socket(adress,portConnection));
-        InputStream is = this.getWriter(position).getInputStream();
-        OutputStream os = this.getWriter(position).getOutputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+        int position = this.addReader(new Socket(adress, portConnection));
+        OutputStream os = this.getReader(position).getOutputStream();
         PrintStream ps = new PrintStream(os, false, "utf-8");
-        ps.println("Pong Play;Port: "+this.port + ";ConnectionFirst "+ first);
-        ps.flush();
+        System.out.println(portConnection);
+        ps.println("Pong Play;Port: " + this.port + ";ConnectionFirst " + first);
+
         ps.println("FIN");
-        ps.flush();
-//        if (first) {
-//            String lu = "";
-//            while (true) {
-//                String tmp = br.readLine();
-//                if (tmp.compareTo("FIN") == 0)
-//                    break;
-//                lu = tmp;
-//                System.out.println(lu);
-//            }
-//            this.init(lu);
-//        }
+
         if( !first ){
             this.pong.add(new Racket(2, 250, 250));
             this.addPlayer();
-            this.addNewClient(this.getWriter(position));
+            this.addNewClient(this.getReader(position));
         }
 
     }
@@ -176,41 +168,50 @@ public class Player {
         }
     }
 
-    public void connectionAccept(Socket socket) throws IOException {
-        int pos = this.addReader(socket);
-        InputStream is = this.getReader(pos).getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+    public boolean validPlayer(String message){
+        String[] tabMessage = message.split(";");
+        return tabMessage[0].compareTo("Pong Play")==0 && tabMessage.length == 3;
+    }
+
+    public String  decryptFirst(String message){
+        String[] tabMessage = message.split(";");
+        String[] infoFirst = tabMessage[2].split(" ");
+        return infoFirst[1];
+    }
+        public int decryptPort (String message){
+        String[] tabMessage = message.split(";");
+        String[] infoPort = tabMessage[1].split(" ");
+        return Integer.parseInt(infoPort[1]);
+
+    }
+
+    public String read(BufferedReader br) throws IOException {
         String lu = "";
         while (true) {
             String tmp = br.readLine();
             if (tmp.compareTo("FIN") == 0)
                 break;
             lu = tmp;
-            System.out.println(lu);
         }
-        String[] message = lu.split(";");
-        // si ce n'est pas un joueur on Quitte
-        if (message.length != 3 && message[0].compareTo("Pong Play") != 0)
-            return;
-        String[] infoPort = message[1].split(" ");
-        int port = Integer.parseInt(infoPort[1]);
-        String[] connectionFirst = message[2].split(" ");
-        String first = connectionFirst[1];
-
+        return lu;
+    }
+    public void connectionAccept(Socket socket) throws IOException {
+        int pos = this.addWriter(socket);
+        InputStream is = this.getWriter(pos).getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+        String lu = read(br);
+        System.out.println(lu);
+        if (!validPlayer(lu))
+         return;
+        System.out.println(lu);
+        int port = decryptPort(lu);
+        String first = decryptFirst(lu);
         if (first.compareTo("true") == 0){
-            this.addWriter(new Socket(socket.getInetAddress(),port));
-            System.out.println(socket.getInetAddress().getHostName());
-            connectionServer(socket.getInetAddress().getHostName(),this.getWriter(pos).getLocalPort(),false);
+            connectionServer(socket.getInetAddress().getHostName(),port,false);
         }
         else{
-            String info="";
-            while (true) {
-                String tmp = br.readLine();
-                if (tmp.compareTo("FIN") == 0)
-                    break;
-                info = tmp;
-                System.out.println(lu);
-            }
+            String info=read(br);
+
             this.init(info);
             System.out.println(this.nombrePlayer);
         }
