@@ -1,18 +1,14 @@
 package src;
 
-import src.gui.Window;
-import src.gui.Pong;
-import src.reseau.ThreadSocketListen;
-
-import java.net.Socket;
 
 /**
  * Starting point of the Pong application
  */
 public class Main  {
-	public void test()
+	public static void  main(String[] args)
 	{
-		System.out.println();
+		boolean t = true;
+		System.out.println(t);
 	}
 /*
 	public static void main(String[] args) {

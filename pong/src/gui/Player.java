@@ -1,8 +1,10 @@
 package src.gui;
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.channels.ServerSocketChannel;
+import java.util.ArrayList;
 
 /**
  * Created by seb on 11/11/2015.
@@ -10,13 +12,35 @@ import java.nio.channels.ServerSocketChannel;
 public class Player {
     Pong pong;
     ServerSocketChannel server;
-    Socket player;
+    ArrayList<Socket> playerRead;
+    ArrayList<Socket> playerWrite;
     int port;
     int idplayer;
-    int nombrePlayer = 0;
+    int nombrePlayer;
+
+    public int addReader(Socket socket){
+        this.playerRead.add(socket);
+        return this.playerRead.size()-1;
+    }
+
+    public int addWriter(Socket socket){
+        this.playerWrite.add(socket);
+        return this.playerWrite.size()-1;
+
+    }
+    public Socket getWriter(int pos){
+        return this.playerWrite.get(pos);
+    }
+    public Socket getReader(int pos){
+        return this.playerRead.get(pos);
+    }
+
 
     public Player(Pong pong) {
         this.pong = pong;
+        playerRead = new ArrayList<Socket>();
+        playerWrite = new ArrayList<Socket>();
+
     }
 
     private String SendAllItem() {
@@ -70,29 +94,12 @@ public class Player {
     }
 
     public void addNewClient(Socket socket) throws IOException {
-        InputStream is = socket.getInputStream();
         OutputStream os = socket.getOutputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
         PrintStream ps = new PrintStream(os, false, "utf-8");
         System.out.println("nouveau player");
-        String lu = "";
-        while (true) {
-            String tmp = br.readLine();
-            if (tmp.compareTo("FIN") == 0)
-                break;
-            lu = tmp;
-            System.out.println(lu);
-        }
-        String[] message = lu.split(";");
-        // si ce n'est pas un joueur on Quitte
-        if (message.length != 2 && message[0].compareTo("Pong Play") != 0)
-            return;
-        // sinon on lui envoie les informations
         String item = SendAllItem();
         ps.println(item);
         ps.println("FIN");
-        String[] port = message[1].split(":");
-        this.port = Integer.parseInt(port[1]);
     }
 
     public String Information() {
@@ -108,9 +115,9 @@ public class Player {
         for (int i = 0; i < item.length; i++) {
             String[] info = item[i].split(" ");
             int j = 0;
-            /*if (info[j].compareTo("BALL") == 0) {
+            if (info[j].compareTo("BALL") == 0) {
                 pong.pongList.get(1).setPosition(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]));
-            }*/
+            }
             if (info[j].compareTo("RACKET") == 0) {
                 int idP = Integer.parseInt(info[j + 1]);
                 for (int k = 0; k < pong.pongList.size(); k++) {
@@ -125,7 +132,42 @@ public class Player {
         }
     }
 
-    //public void initServeur
+    public void initServeur(int port) throws IOException {
+        this.port = port;
+        this.server = ServerSocketChannel.open();
+        this.server.socket().bind(new InetSocketAddress(this.port));
+        this.server.configureBlocking(false);
+    }
+
+    public void connectionServer(String adress, int portConnection,boolean first) throws IOException {
+        int position = this.addWriter(new Socket(adress,portConnection));
+        InputStream is = this.getWriter(position).getInputStream();
+        OutputStream os = this.getWriter(position).getOutputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+        PrintStream ps = new PrintStream(os, false, "utf-8");
+        ps.println("Pong Play;Port: "+this.port + ";ConnectionFirst "+ first);
+        ps.flush();
+        ps.println("FIN");
+        ps.flush();
+//        if (first) {
+//            String lu = "";
+//            while (true) {
+//                String tmp = br.readLine();
+//                if (tmp.compareTo("FIN") == 0)
+//                    break;
+//                lu = tmp;
+//                System.out.println(lu);
+//            }
+//            this.init(lu);
+//        }
+        if( !first ){
+            this.pong.add(new Racket(2, 250, 250));
+            this.addPlayer();
+            this.addNewClient(this.getWriter(position));
+        }
+
+    }
+
 
 
     public void aff() {
@@ -133,4 +175,48 @@ public class Player {
             System.out.println(pong.pongList.get(i).getPosition());
         }
     }
+
+    public void connectionAccept(Socket socket) throws IOException {
+        int pos = this.addReader(socket);
+        InputStream is = this.getReader(pos).getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+        String lu = "";
+        while (true) {
+            String tmp = br.readLine();
+            if (tmp.compareTo("FIN") == 0)
+                break;
+            lu = tmp;
+            System.out.println(lu);
+        }
+        String[] message = lu.split(";");
+        // si ce n'est pas un joueur on Quitte
+        if (message.length != 3 && message[0].compareTo("Pong Play") != 0)
+            return;
+        String[] infoPort = message[1].split(" ");
+        int port = Integer.parseInt(infoPort[1]);
+        String[] connectionFirst = message[2].split(" ");
+        String first = connectionFirst[1];
+
+        if (first.compareTo("true") == 0){
+            this.addWriter(new Socket(socket.getInetAddress(),port));
+            System.out.println(socket.getInetAddress().getHostName());
+            connectionServer(socket.getInetAddress().getHostName(),this.getWriter(pos).getLocalPort(),false);
+        }
+        else{
+            String info="";
+            while (true) {
+                String tmp = br.readLine();
+                if (tmp.compareTo("FIN") == 0)
+                    break;
+                info = tmp;
+                System.out.println(lu);
+            }
+            this.init(info);
+            System.out.println(this.nombrePlayer);
+        }
+
+
+    }
+
+
 }

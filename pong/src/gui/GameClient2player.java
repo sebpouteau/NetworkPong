@@ -134,7 +134,7 @@ public class GameClient2player extends JFrame {
      * 3 port de l'autre joueur
      */
     public static void main(String[] args) throws IOException {
-        int port = 7777;
+        int port = Integer.parseInt(args[0]);
         String adresse = "localhost";
         int portConnection = 7777;
         Pong pong = new Pong();
@@ -142,42 +142,15 @@ public class GameClient2player extends JFrame {
         Window window = new Window(pong);
 
         Player client = new Player(pong);
-        if (args.length == 0) {
-            client.server = ServerSocketChannel.open();
-            client.server.socket().bind(new InetSocketAddress(port));
-            client.server.configureBlocking(false);
-            ((Racket)client.pong.pongList.get(0)).setIdPlayer(5);
-            client.addPlayer();
-        } else {
+        client.initServeur(port);
+
+
+        ((Racket)client.pong.pongList.get(0)).setIdPlayer(5);
+        client.addPlayer();
+
+        if (args.length > 1){
             client.nombrePlayer = 2;
-            portConnection = Integer.parseInt(args[1]);
-            adresse = args[0];
-            client.player = new Socket(adresse, portConnection);
-            InputStream is = client.player.getInputStream();
-            OutputStream os = client.player.getOutputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
-            PrintStream ps = new PrintStream(os, false, "utf-8");
-            ps.println("Pong Play;Port:7778");
-            ps.flush();
-            ps.println("FIN");
-            ps.flush();
-            if (is.available() != 0) {
-                String lu = br.readLine();
-                if (lu != null)
-                    System.out.println(lu);
-            }
-            System.out.println("j'zi fini d'envoyer");
-            String lu = "";
-            while (true) {
-                String tmp = br.readLine();
-                if (tmp.compareTo("FIN") == 0)
-                    break;
-                lu = tmp;
-                System.out.println(lu);
-            }
-            client.init(lu);
-
-
+            client.connectionServer(adresse,portConnection,true);
         }
         client.aff();
         window.displayOnscreen();
@@ -186,28 +159,26 @@ public class GameClient2player extends JFrame {
             if (client.server != null) {
                 SocketChannel sc = client.server.accept();
                 if (sc != null) {
-                    client.player = sc.socket();
-                    client.pong.add(new Racket(2, 250, 250));
-                    client.nombrePlayer=2;
-                    client.addNewClient(sc.socket());
+                   client.connectionAccept(sc.socket());
                 }
             }
-            if (client.nombrePlayer > 1) {
+            if (client.nombrePlayer > 2) {
                 //System.out.println("je lance la boucle");
                 client.pong.animateItem();
-                InputStream is = client.player.getInputStream();
-                OutputStream os = client.player.getOutputStream();
+                InputStream is = client.getReader(0).getInputStream();
+                OutputStream os = client.getWriter(0).getOutputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
                 PrintStream ps = new PrintStream(os, false, "utf-8");
                 String info = client.Information();
                 //System.out.println(info);
-                ps.println(info);
-                //if (is.available() != 0) {
+                if (is.available() != 0) {
                     String lu = br.readLine();
                     if (lu != null)
                         //System.out.println(lu);
                         client.update(lu);
-                //}
+                }
+                ps.println(info);
+                ps.flush();
                 try {
                     Thread.sleep(pong.timestep);
                 } catch (InterruptedException e) {
@@ -219,8 +190,41 @@ public class GameClient2player extends JFrame {
         }
     }
 
-
-
+/*
+    if (client.server != null) {
+        SocketChannel sc = client.server.accept();
+        if (sc != null) {
+            client.player = sc.socket();
+            client.pong.add(new Racket(2, 250, 250));
+            client.nombrePlayer=2;
+            client.addNewClient(sc.socket());
+        }
+    }
+    if (client.nombrePlayer > 1) {
+        //System.out.println("je lance la boucle");
+        client.pong.animateItem();
+        InputStream is = client.player.getInputStream();
+        OutputStream os = client.player.getOutputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+        PrintStream ps = new PrintStream(os, false, "utf-8");
+        String info = client.Information();
+        //System.out.println(info);
+        if (is.available() != 0) {
+            String lu = br.readLine();
+            if (lu != null)
+                //System.out.println(lu);
+                client.update(lu);
+        }
+        ps.println(info);
+        ps.flush();
+        try {
+            Thread.sleep(pong.timestep);
+        } catch (InterruptedException e) {
+        }
+        ;
+        //client.aff();
+    }
+*/
 }
 
 
