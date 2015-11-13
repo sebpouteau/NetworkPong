@@ -18,37 +18,24 @@ import java.util.ArrayList;
 public class Player {
     public Pong pong;
     public ServerSocketChannel server;
-    public ArrayList<Socket> playerRead;
-    public ArrayList<SocketChannel> playerWrite;
+    public ArrayList<SocketChannel> tabSocket;
     public int port;
     public int idplayer;
     public int nombrePlayer;
 
-    public int addReader(Socket socket) {
-        this.playerRead.add(socket);
-        return this.playerRead.size() - 1;
+    public int addSocket(SocketChannel socket) {
+        this.tabSocket.add(socket);
+        return this.tabSocket.size() - 1;
     }
 
-    public int addWriter(SocketChannel socket) {
-        this.playerWrite.add(socket);
-        return this.playerWrite.size() - 1;
-
-    }
-
-    public SocketChannel getWriter(int pos) {
-        return this.playerWrite.get(pos);
-    }
-
-    public Socket getReader(int pos) {
-        return this.playerRead.get(pos);
+    public SocketChannel getSocket(int pos) {
+        return this.tabSocket.get(pos);
     }
 
 
     public Player(Pong pong) {
         this.pong = pong;
-        playerRead = new ArrayList<Socket>();
-        playerWrite = new ArrayList<SocketChannel>();
-
+        tabSocket = new ArrayList<SocketChannel>();
     }
 
     private String SendAllItem() {
@@ -66,7 +53,6 @@ public class Player {
                         ((Racket) pong.pongList.get(i)).getIdPlayer() + " " +
                         pong.pongList.get(i).getPositionX() + " " + pong.pongList.get(i).getPositionY());
             }
-            //message.append();
             message.append(";");
         }
         return message.toString();
@@ -102,16 +88,16 @@ public class Player {
     }
 
     public void addNewClient(SocketChannel socket) throws IOException {
-        ObjectOutputStream  oos = new
-                ObjectOutputStream(this.getWriter(0).socket().getOutputStream());
+        OutputStream os = socket.socket().getOutputStream();
+        PrintStream ps = new PrintStream(os, false, "utf-8");
         System.out.println("nouveau player");
 
         String item = SendAllItem();
         System.out.println();
-        oos.writeObject(item);
-        oos.flush();
-        oos.writeObject("FIN");
-        oos.flush();
+        ps.println(item);
+        ps.flush();
+        ps.println("FIN");
+        ps.flush();
         System.out.println("fin");
     }
 
@@ -124,9 +110,9 @@ public class Player {
     }
 
     public void update() throws IOException, ClassNotFoundException {
-        ObjectInputStream ois =
-                new ObjectInputStream(this.getWriter(0).socket().getInputStream());
-        String message = (String) ois.readObject();
+        InputStream is = this.getSocket(0).socket().getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+        String message = (String) br.readLine();
         if (message != null) {
             System.out.println(message);
             String[] item = message.split(";");
@@ -163,26 +149,27 @@ public class Player {
     public void connectionServer(String adress, int portConnection, boolean first) throws IOException, ClassNotFoundException {
         System.out.println("connection serveur");
         SocketChannel socket = SocketChannel.open();
-        socket.socket().setTcpNoDelay(false);
+
         System.out.println("connection serveur 1");
 
         socket.connect(new InetSocketAddress(adress, portConnection));
         System.out.println("connection serveur 2");
 
 
-        int position = this.addWriter(socket);
+        int position = this.addSocket(socket);
         System.out.println("connection serveur 3");
+        socket.socket().setTcpNoDelay(false);
+        //socket.configureBlocking(false);
 
-
-        ObjectOutputStream  oos = new
-                ObjectOutputStream(socket.socket().getOutputStream());
+        OutputStream os = socket.socket().getOutputStream();
+        PrintStream ps = new PrintStream(os, false, "utf-8");
         System.out.println("connection serveur 5");
 
         System.out.println(portConnection);
-        oos.writeObject("Pong Play;Port: " + this.port + ";ConnectionFirst " + first);
-        oos.flush();
-        oos.writeObject("FIN");
-        oos.flush();
+        ps.println("Pong Play;Port: " + this.port + ";ConnectionFirst " + first);
+        ps.flush();
+        ps.println("FIN");
+        ps.flush();
         System.out.println("connection serveur 6");
 
 
@@ -191,12 +178,7 @@ public class Player {
         String info =read();
         System.out.println(info);
         this.init(info);
-        getWriter(0).configureBlocking(false);
-        //if (!first) {
-//            this.pong.add(new Racket(2, 785, 0));
-//            this.addPlayer();
-//            this.addNewClient(this.getWriter(position));
-        //}
+        //getSocket(0).configureBlocking(false);
 
     }
 
@@ -212,12 +194,6 @@ public class Player {
         return tabMessage[0].compareTo("Pong Play") == 0 && tabMessage.length == 3;
     }
 
-    public String decryptFirst(String message) {
-        String[] tabMessage = message.split(";");
-        String[] infoFirst = tabMessage[2].split(" ");
-        return infoFirst[1];
-    }
-
     public int decryptPort(String message) {
         String[] tabMessage = message.split(";");
         String[] infoPort = tabMessage[1].split(" ");
@@ -226,11 +202,11 @@ public class Player {
     }
 
     public String read() throws IOException, ClassNotFoundException {
-        ObjectInputStream ois =
-                new ObjectInputStream(getWriter(0).socket().getInputStream());
+        InputStream is = this.getSocket(0).socket().getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
         String lu = "";
         while (true) {
-            String tmp = (String)ois.readObject();
+            String tmp = br.readLine();
             if (tmp.compareTo("FIN") == 0)
                 break;
             lu = tmp;
@@ -239,7 +215,7 @@ public class Player {
     }
 
     public void connectionAccept(SocketChannel socket) throws IOException, ClassNotFoundException {
-        int pos = this.addWriter(socket);
+        int pos = this.addSocket(socket);
 
         String lu = read();
         System.out.println(lu);
@@ -247,16 +223,11 @@ public class Player {
             return;
         System.out.println(lu);
         int port = decryptPort(lu);
-        String first = decryptFirst(lu);
 
-        //String info = read(ois);
-
-        //this.init(info);
         this.pong.add(new Racket(2, 785, 0));
         this.addPlayer();
-        this.addNewClient(this.getWriter(pos));
+        this.addNewClient(this.getSocket(pos));
         System.out.println(this.nombrePlayer);
-getWriter(0).configureBlocking(false);
 
 
     }

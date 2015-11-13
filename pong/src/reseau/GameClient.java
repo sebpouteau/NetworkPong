@@ -51,37 +51,26 @@ public class GameClient {
                 }
             }
             if (client.nombrePlayer > 1) {
-                System.out.println("je lance la boucle");
-
 //                client.getWriter(0).configureBlocking(false);
 
-                System.out.println("je lance la boucle 1");
-
-
                 String info = client.Information();
-
                 //System.out.println(info);
-                //if (is.available() != 0) {
-                System.out.println("je lance la boucle 2");
-                client.getWriter(0).socket().setTcpNoDelay(false);
-                client.getWriter(0).configureBlocking(true);
+                                client.getSocket(0).socket().setTcpNoDelay(false);
+                //client.getSocket(0).configureBlocking(true);
 
-                ObjectOutputStream  oos = new
-                        ObjectOutputStream(client.getWriter(0).socket().getOutputStream());
-                oos.writeObject(info);
-                oos.flush();
+                OutputStream os = client.getSocket(0).socket().getOutputStream();
+                PrintStream ps = new PrintStream(os, false, "utf-8");
+                ps.println(info);
+                ps.flush();
                 //client.getWriter(0).configureBlocking(true);
-
                 client.update();
 
-                client.getWriter(0).configureBlocking(false);
+                //client.getSocket(0).configureBlocking(false);
                 client.pong.animateItem();
                 try {
                     Thread.sleep(pong.timestep);
                 } catch (InterruptedException e) {
                 }
-                ;
-                //client.aff();
             }
 
         }
