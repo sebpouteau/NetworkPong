@@ -1,110 +1,79 @@
 package src.reseau;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Parser;
 import src.gui.Pong;
+import src.gui.Racket;
+import src.gui.Window;
+import src.reseau.Player;
 
 import java.io.*;
-import java.net.Socket;
-import java.util.ArrayList;
+import java.nio.channels.SocketChannel;
 
 /**
- * Created by sebpouteau on 06/11/15.
+ * Nous passerons
+ * 1 port du client
+ * 2 adresse de l'autre joueur
+ * 3 port de l'autre joueur
  */
 public class GameClient {
-    private ArrayList<Socket> ArraySocketClient;
-    private Pong pong;
-
-    public GameClient(){
-        ArraySocketClient = new ArrayList<>();
-    }
-
-    public void addArrayList(Socket s){
-        this.ArraySocketClient.add(s);
-    }
-    private ArrayList<Socket> getArraySocket(){
-        return ArraySocketClient;
-    }
-
-    private Socket getSocketClient(int indice){
-        return ArraySocketClient.get(indice);
-    }
-    private String SendOtherPlayer(){
-        StringBuffer message = new StringBuffer();
-        for (int i = 0; i < this.getArraySocket().size(); i++) {
-            message.append("IP " + this.getSocketClient(i).getInetAddress());
-            message.append("PORT" + this.getSocketClient(i).getPort());
-            message.append(";");
-        }
-        return message.toString();
-    }
-
-    private String SendAllItem(){
-        StringBuffer message = new StringBuffer();
-        for (int i = 0; i < this.getArraySocket().size(); i++) {
-            message.append("IP " + this.getSocketClient(i).getInetAddress());
-            message.append("IP " + this.getSocketClient(i).getPort());
-            message.append(";");
-        }
-        return message.toString();
-    }
-
-
-    public void addNewClient(Socket socket) throws IOException {
-        InputStream is = socket.getInputStream();
-        OutputStream os = socket.getOutputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is,"utf-8"));
-        PrintStream ps = new PrintStream(os,false,"utf-8");
-        System.out.println("nouveau player");
-        String lu;
-        do{
-            lu = br.readLine();
-            System.out.println(lu);
-        }while(lu.compareTo("FIN") != 0);
-        System.out.println("fin lu");
-        String[] message = lu.split(";");
-        if (message.length != 2 && message[0].compareTo("Pong Play") != 0)
-            return;
-        //Ajout d'une racket a la liste
-        System.out.println("fin lu");
-
-        String[] first = message[1].split(":");
-        if (first.length == 2 && first[1].compareTo("T") == 0) {
-            ps.println(SendOtherPlayer());
-            ps.flush();
-            //ps.println(SendAllItem());
-        }
-        this.addArrayList(socket);
-
-    }
-    public static void main(String[] args) throws IOException {
-        GameClient client = new GameClient();
-
-
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        int port = Integer.parseInt(args[0]);
+        String adresse = "localhost";
+        int portConnection = 7777;
         Pong pong = new Pong();
-        if (args.length == 0) {
-            ThreadSocketListen t = new ThreadSocketListen(client, Integer.parseInt(args[1]));
-            t.start();
-        }
-        else{
-            ThreadSocketListen t = new ThreadSocketListen(client, Integer.parseInt(args[2]));
-            Socket player = new Socket(args[0],Integer.parseInt(args[1]));
-            client.addArrayList(player);
-            InputStream is = player.getInputStream();
-            OutputStream os = player.getOutputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(is,"utf-8"));
-            PrintStream ps = new PrintStream(os,false,"utf-8");
-            ps.println("Pong Play;first:T");
-            ps.flush();
-            ps.println("FIN");
-            ps.flush();
-            System.out.println("j'zi fini d'envoyer");
-            while (true) {
-                String lu = br.readLine();
-                if (lu == null)
-                    break;
-                System.out.println(lu);
-            }
-        }
 
+        Window window = new Window(pong);
+
+        Player client = new Player(pong);
+        client.initServeur(port);
+
+
+        ((Racket) client.pong.pongList.get(0)).setIdPlayer(1);
+        client.addPlayer();
+
+        if (args.length > 1) {
+            client.nombrePlayer = 1;
+            client.connectionServer(adresse, portConnection, true);
+            System.out.println("fin");
+        }
+        client.aff();
+        window.displayOnscreen();
+        while (true) {
+
+            if (client.server != null) {
+                SocketChannel sc = client.server.accept();
+                if (sc != null) {
+                    client.connectionAccept(sc);
+                }
+            }
+            if (client.nombrePlayer > 1) {
+                System.out.println(client.getWriter(0).socket().getLocalPort());
+                //System.out.println("je lance la boucle");
+
+                client.getWriter(0).configureBlocking(false);
+                ObjectInputStream ois =
+                        new ObjectInputStream(client.getWriter(0).socket().getInputStream());
+                ObjectOutputStream  oos = new
+                        ObjectOutputStream(client.getWriter(0).socket().getOutputStream());
+                String info = client.Information();
+
+                //System.out.println(info);
+                //if (is.available() != 0) {
+                    String lu = (String)ois.readObject();
+                    if (lu != null){
+                        System.out.println(lu);
+                        client.update(lu);}
+
+                oos.writeObject(info);
+                oos.flush();
+                client.pong.animateItem();
+                try {
+                    Thread.sleep(pong.timestep);
+                } catch (InterruptedException e) {
+                }
+                ;
+                //client.aff();
+            }
+
+        }
     }
 }
