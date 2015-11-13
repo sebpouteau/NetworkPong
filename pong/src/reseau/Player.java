@@ -102,15 +102,16 @@ public class Player {
     }
 
     public void addNewClient(SocketChannel socket) throws IOException {
-        ObjectInputStream ois =
-                new ObjectInputStream(socket.socket().getInputStream());
         ObjectOutputStream  oos = new
-                ObjectOutputStream(socket.socket().getOutputStream());
+                ObjectOutputStream(this.getWriter(0).socket().getOutputStream());
         System.out.println("nouveau player");
+
         String item = SendAllItem();
         System.out.println();
         oos.writeObject(item);
+        oos.flush();
         oos.writeObject("FIN");
+        oos.flush();
         System.out.println("fin");
     }
 
@@ -122,31 +123,36 @@ public class Player {
         return message.toString();
     }
 
-    public void update(String message) {
-        String[] item = message.split(";");
-        for (int i = 0; i < item.length; i++) {
-            String[] info = item[i].split(" ");
-            int j = 0;
-            if (info[j].compareTo("BALL") == 0) {
-                if (Integer.parseInt(info[j + 1]) > 400 && this.idplayer == 1)
-                    pong.pongList.get(1).setPosition(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]));
-                if (Integer.parseInt(info[j + 1]) < 400 && this.idplayer == 2)
-                    pong.pongList.get(1).setPosition(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]));
-            }
-            if (info[j].compareTo("RACKET") == 0) {
-                int idP = Integer.parseInt(info[j + 1]);
-                for (int k = 0; k < pong.pongList.size(); k++) {
-                    if (pong.pongList.get(k) instanceof Racket) {
-                        if (((Racket) pong.pongList.get(k)).getIdPlayer() == idP) {
-                            pong.pongList.get(k).setPosition(Integer.parseInt(info[j + 2]), Integer.parseInt(info[j + 3]));
-                            break;
+    public void update() throws IOException, ClassNotFoundException {
+        ObjectInputStream ois =
+                new ObjectInputStream(this.getWriter(0).socket().getInputStream());
+        String message = (String) ois.readObject();
+        if (message != null) {
+            System.out.println(message);
+            String[] item = message.split(";");
+            for (int i = 0; i < item.length; i++) {
+                String[] info = item[i].split(" ");
+                int j = 0;
+                if (info[j].compareTo("BALL") == 0) {
+                    if (Integer.parseInt(info[j + 1]) > 400 && this.idplayer == 1)
+                        pong.pongList.get(1).setPosition(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]));
+                    if (Integer.parseInt(info[j + 1]) < 400 && this.idplayer == 2)
+                        pong.pongList.get(1).setPosition(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]));
+                }
+                if (info[j].compareTo("RACKET") == 0) {
+                    int idP = Integer.parseInt(info[j + 1]);
+                    for (int k = 0; k < pong.pongList.size(); k++) {
+                        if (pong.pongList.get(k) instanceof Racket) {
+                            if (((Racket) pong.pongList.get(k)).getIdPlayer() == idP) {
+                                pong.pongList.get(k).setPosition(Integer.parseInt(info[j + 2]), Integer.parseInt(info[j + 3]));
+                                break;
+                            }
                         }
                     }
                 }
             }
         }
     }
-
     public void initServeur(int port) throws IOException {
         this.port = port;
         this.server = ServerSocketChannel.open();
@@ -154,14 +160,15 @@ public class Player {
         this.server.configureBlocking(false);
     }
 
-    public void connectionServer(String adress, int portConnection, boolean first) throws IOException {
+    public void connectionServer(String adress, int portConnection, boolean first) throws IOException, ClassNotFoundException {
         System.out.println("connection serveur");
         SocketChannel socket = SocketChannel.open();
-        socket.configureBlocking(true);
+        socket.socket().setTcpNoDelay(false);
         System.out.println("connection serveur 1");
 
-        socket.connect(new InetSocketAddress(adress, port));
+        socket.connect(new InetSocketAddress(adress, portConnection));
         System.out.println("connection serveur 2");
+
 
         int position = this.addWriter(socket);
         System.out.println("connection serveur 3");
@@ -176,7 +183,15 @@ public class Player {
         oos.flush();
         oos.writeObject("FIN");
         oos.flush();
+        System.out.println("connection serveur 6");
 
+
+        System.out.println("connection serveur 7");
+
+        String info =read();
+        System.out.println(info);
+        this.init(info);
+        getWriter(0).configureBlocking(false);
         //if (!first) {
 //            this.pong.add(new Racket(2, 785, 0));
 //            this.addPlayer();
@@ -210,10 +225,12 @@ public class Player {
 
     }
 
-    public String read(ObjectInputStream br) throws IOException, ClassNotFoundException {
+    public String read() throws IOException, ClassNotFoundException {
+        ObjectInputStream ois =
+                new ObjectInputStream(getWriter(0).socket().getInputStream());
         String lu = "";
         while (true) {
-            String tmp = (String)br.readObject();
+            String tmp = (String)ois.readObject();
             if (tmp.compareTo("FIN") == 0)
                 break;
             lu = tmp;
@@ -223,11 +240,8 @@ public class Player {
 
     public void connectionAccept(SocketChannel socket) throws IOException, ClassNotFoundException {
         int pos = this.addWriter(socket);
-        ObjectInputStream ois =
-                new ObjectInputStream(socket.socket().getInputStream());
-        ObjectOutputStream  oos = new
-                ObjectOutputStream(socket.socket().getOutputStream());
-        String lu = read(ois);
+
+        String lu = read();
         System.out.println(lu);
         if (!validPlayer(lu))
             return;
@@ -235,14 +249,15 @@ public class Player {
         int port = decryptPort(lu);
         String first = decryptFirst(lu);
 
-        String info = read(ois);
+        //String info = read(ois);
 
-        this.init(info);
-        System.out.println(this.nombrePlayer);
-
+        //this.init(info);
         this.pong.add(new Racket(2, 785, 0));
         this.addPlayer();
         this.addNewClient(this.getWriter(pos));
+        System.out.println(this.nombrePlayer);
+getWriter(0).configureBlocking(false);
+
 
     }
 
