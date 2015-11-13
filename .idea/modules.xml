@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Reseau/TP5/Reseau/Reseau.iml" filepath="$PROJECT_DIR$/Reseau/TP5/Reseau/Reseau.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pong2.iml" filepath="$PROJECT_DIR$/pong2.iml" />
     </modules>
   </component>
 </project>

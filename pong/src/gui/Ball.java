@@ -80,7 +80,7 @@ public class Ball extends PongItem {
         this.setPositionRectangle(this.getPositionX(), this.getPositionY());
 
     }
-    public boolean collision(PongItem pi){
+/*    public boolean collision(PongItem pi){
 //        while(pi.getSurface().contains(this.getSurface()))
         //          this.setPosition(this.getSpeedX(), this.getSpeedY());
 
@@ -112,21 +112,27 @@ public class Ball extends PongItem {
         }else {
             return false;
         }
-    }
+    }*/
 
-/*    public boolean collision(PongItem pi){
-        if((this.getPositionX() <= pi.getPositionX() + pi.getWidth()) &&
-                (this.getPositionY() <= pi.getPositionY() + pi.getHeight()) &&
-                (this.getPositionY() >= pi.getPositionY() - pi.getHeight())){
+    public boolean collision(PongItem pi){
+        boolean t = false;
+        if((this.getPositionX() <= pi.getPositionX() + pi.getWidth()) || this.getPositionX()+this.getWidth() >= pi.getPositionX() &&
+                (this.getPositionY() + this.getHeight() <= pi.getPositionY() + pi.getHeight()) &&
+                (this.getPositionY() >= pi.getPositionY() )) {
 
             this.setSpeedX(-this.getSpeedX());
 
-            this.setPositionX(this.getPositionX() + BALL_SPEED);
-            this.setPositionY(this.getPositionY() + BALL_SPEED);
-            return true;
-        }else {
-            return false;
+            this.setPositionX(this.getPositionX() + this.getSpeedX());
+            this.setPositionY(this.getPositionY() + this.getSpeedY());
+            t = true;
         }
-    }*/
+        else if(this.getPositionY()+this.getHeight() >= pi.getPositionY() || this.getPositionY() <= pi.getPositionY() + pi.getHeight()
+                && this.getPositionX() >= pi.getPositionX() && this.getPositionX() + this.getWidth() <= pi.getPositionX()  + pi.getWidth()){
+            this.setSpeedY(-this.getSpeedY());
+            this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY());
+            t = true;
+        }
+        return t;
+    }
 
 }
