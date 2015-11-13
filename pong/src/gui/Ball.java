@@ -8,29 +8,7 @@ import java.awt.geom.Point2D;
 public class Ball extends PongItem {
 
     public static final int BALL_SPEED = 2;
-    private Point speed;
 
-    public Point getSpeed() {
-        return speed;
-    }
-    public int getSpeedX() {
-        return (int)speed.getX();
-    }
-    public int getSpeedY() {
-        return (int)speed.getY();
-    }
-    public void setSpeed(int x, int y) {
-        this.speed.setLocation(x, y);
-    }
-    public void setSpeedX(int x) {
-        this.getSpeed().setLocation(x, this.getSpeed().getY());
-    }
-    public void setSpeedY(int y) {
-        this.getSpeed().setLocation(this.getSpeed().getX(), y);
-    }
-    public void setSpeed(Point speed) {
-        this.speed = speed;
-    }
 
     public Ball() {
         super();
@@ -38,6 +16,7 @@ public class Ball extends PongItem {
         this.setImageItem(Toolkit.getDefaultToolkit().createImage(
                 ClassLoader.getSystemResource("image/ball.png")));
         this.setPosition(40,40);
+        this.setSpeed(BALL_SPEED, BALL_SPEED);
         icon = new ImageIcon(this.getImageItem());
         this.setWidth(icon.getIconWidth());
         this.setHeight(icon.getIconHeight());
@@ -51,6 +30,7 @@ public class Ball extends PongItem {
         ImageIcon icon;
         this.setImageItem(Toolkit.getDefaultToolkit().createImage(
                 ClassLoader.getSystemResource("image/ball.png")));
+        this.setSpeed(BALL_SPEED, BALL_SPEED);
         icon = new ImageIcon(this.getImageItem());
         this.setWidth(icon.getIconWidth());
         this.setHeight(icon.getIconHeight());
@@ -81,8 +61,6 @@ public class Ball extends PongItem {
 
     }
     public boolean collision(PongItem pi){
-//        while(pi.getSurface().contains(this.getSurface()))
-        //          this.setPosition(this.getSpeedX(), this.getSpeedY());
 
         if(this.getSurface().getBounds().intersects(pi.getSurface().getBounds())){
 
@@ -91,22 +69,36 @@ public class Ball extends PongItem {
 
                 if( this.getSurface().getMaxY() > pi.getSurface().getMinY() && this.getSurface().getMinY() < pi.getSurface().getMaxY() &&
                         this.getSurface().getMaxY() < pi.getSurface().getMaxY() && this.getSurface().getMinY() > pi.getSurface().getMinY()){
-                    this.setSpeedX(-this.getSpeedX());}
-                // des qu'une collision est en cours je m'assure de replacer ma ball au limite de ma raquette puis je change sa vitesse
+
+                    this.setSpeedX(-this.getSpeedX());
+                    this.setPositionX(this.getPositionX() + this.getSpeedX());
+                }
+
                 else {
                     this.setSpeedY(-this.getSpeedY());
                     this.setSpeedX(- this.getSpeedX());
+                    this.setPositionY(this.getPositionY() + pi.getSpeedY());
+                    this.setPositionX(this.getPositionX() + this.getSpeedX());
                 }
             }
 
             else{
 
                 this.setSpeedY(-this.getSpeedY());
+                this.setPositionY(this.getPositionY() + this.getSpeedY());
             }
-            //problème lors de l'arrivé à la verticale car le y ne change pas
-            // this.setPositionX(this.getPositionX() + this.getSpeedX());
-            //this.setPositionY(this.getPositionY() + this.getSpeedY());
-            this.setPositionRectangle(this.getPositionX(), this.getPositionY());
+
+            if(this.getPositionY() == 0 ){
+                pi.setPosition(pi.getPositionX(), this.getPositionY() + this.getHeight() + 1);
+            }
+            else if(this.getPositionY() + this.getHeight() ==  600){
+                pi.setPosition(pi.getPositionX() , this.getPositionY() - 1);
+            }
+
+            if(this.getSurface().getBounds().intersects(pi.getSurface().getBounds())){
+                this.setPosition(this.getPositionX() , this.getPositionY() + pi.getSpeedX());
+
+            }
 
             return true;
         }else {
@@ -114,19 +106,4 @@ public class Ball extends PongItem {
         }
     }
 
-/*    public boolean collision(PongItem pi){
-        if((this.getPositionX() <= pi.getPositionX() + pi.getWidth()) &&
-                (this.getPositionY() <= pi.getPositionY() + pi.getHeight()) &&
-                (this.getPositionY() >= pi.getPositionY() - pi.getHeight())){
-
-            this.setSpeedX(-this.getSpeedX());
-
-            this.setPositionX(this.getPositionX() + BALL_SPEED);
-            this.setPositionY(this.getPositionY() + BALL_SPEED);
-            return true;
-        }else {
-            return false;
-        }
-    }*/
-
-}
+ }

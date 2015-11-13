@@ -97,7 +97,7 @@ public class GameClient {
             ps.flush();
             ps.println("FIN");
             ps.flush();
-            System.out.println("j'zi fini d'envoyer");
+            System.out.println("j'ai fini d'envoyer");
             while (true) {
                 String lu = br.readLine();
                 if (lu == null)

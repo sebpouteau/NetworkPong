@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 
 public class Racket extends PongItem {
 	public static final int RACKET_SPEED = 4;
-	private int speed;
+
 	int idPlayer;
 	public int getIdPlayer() {
 		return this.idPlayer;
@@ -16,21 +16,13 @@ public class Racket extends PongItem {
 		this.idPlayer = number;
 	}
 
-	public int getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
-
-
 	public Racket(int idPlayer){
 		super();
 		this.idPlayer = idPlayer;
 		ImageIcon icon;
 		this.setImageItem(Toolkit.getDefaultToolkit().createImage(
 				ClassLoader.getSystemResource("image/raquette.png")));
+
 		icon = new ImageIcon(this.getImageItem());
 		this.setWidth(icon.getIconWidth());
 		this.setHeight(icon.getIconHeight());
@@ -41,6 +33,7 @@ public class Racket extends PongItem {
 		ImageIcon icon;
 		this.setImageItem(Toolkit.getDefaultToolkit().createImage(
 				ClassLoader.getSystemResource("image/raquette.png")));
+
 		icon = new ImageIcon(this.getImageItem());
 		this.setWidth(icon.getIconWidth());
 		this.setHeight(icon.getIconHeight());
@@ -50,7 +43,7 @@ public class Racket extends PongItem {
 
 	public void animate(int sizePongX,int sizePongY){
 /* Update racket position */
-		this.setPositionY(this.getPositionY() + this.getSpeed());
+		this.setPositionY(this.getPositionY() + this.getSpeedX());
 		if (this.getPositionY() < 0)
 			this.setPositionY(0);
 		if (this.getPositionY() > sizePongY - this.getHeight())
@@ -64,11 +57,11 @@ public class Racket extends PongItem {
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_UP:
 			case KeyEvent.VK_KP_UP:
-				this.setSpeed( -RACKET_SPEED);
+				this.setSpeedX( -RACKET_SPEED);
 				break;
 			case KeyEvent.VK_DOWN:
 			case KeyEvent.VK_KP_DOWN:
-				this.setSpeed(RACKET_SPEED);
+				this.setSpeedX(RACKET_SPEED);
 				break;
 			default:
 				System.out.println("got press "+e);
@@ -78,11 +71,11 @@ public class Racket extends PongItem {
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_UP:
 			case KeyEvent.VK_KP_UP:
-				this.setSpeed(0);
+				this.setSpeedX(0);
 				break;
 			case KeyEvent.VK_DOWN:
 			case KeyEvent.VK_KP_DOWN:
-				this.setSpeed(0);
+				this.setSpeedX(0);
 				break;
 			default:
 				System.out.println("got release "+e);
