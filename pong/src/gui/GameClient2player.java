@@ -166,7 +166,7 @@ public class GameClient2player extends JFrame {
             if (client.nombrePlayer > 1) {
                 System.out.println(client.getReader(0).getPort() + " " + client.getWriter(0).getLocalPort());
                 //System.out.println("je lance la boucle");
-                client.pong.animateItem();
+
                 InputStream is = client.getReader(0).getInputStream();
                 OutputStream os = client.getWriter(0).getOutputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
@@ -181,6 +181,7 @@ public class GameClient2player extends JFrame {
                 }
                 ps.println(info);
                 ps.flush();
+                client.pong.animateItem();
                 try {
                     Thread.sleep(pong.timestep);
                 } catch (InterruptedException e) {

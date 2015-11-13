@@ -119,8 +119,10 @@ public class Player {
             String[] info = item[i].split(" ");
             int j = 0;
             if (info[j].compareTo("BALL") == 0) {
-                if (!pong.pongList.get(1).getPosition().equals(new Point(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]))));
-                        pong.pongList.get(1).setPosition(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]));
+                if (  Integer.parseInt(info[j + 1]) > 400 && this.idplayer == 1 )
+                    pong.pongList.get(1).setPosition(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]));
+                if (  Integer.parseInt(info[j + 1]) < 400 && this.idplayer ==2 )
+                    pong.pongList.get(1).setPosition(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]));
             }
             if (info[j].compareTo("RACKET") == 0) {
                 int idP = Integer.parseInt(info[j + 1]);
@@ -149,11 +151,9 @@ public class Player {
         PrintStream ps = new PrintStream(os, false, "utf-8");
         System.out.println(portConnection);
         ps.println("Pong Play;Port: " + this.port + ";ConnectionFirst " + first);
-
         ps.println("FIN");
-
         if( !first ){
-            this.pong.add(new Racket(2, 250, 250));
+            this.pong.add(new Racket(2, 785, 0));
             this.addPlayer();
             this.addNewClient(this.getReader(position));
         }
