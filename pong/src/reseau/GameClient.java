@@ -43,35 +43,34 @@ public class GameClient {
                 SocketChannel sc = client.server.accept();
                 if (sc != null) {
                     client.connectionAccept(sc);
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             if (client.nombrePlayer > 1) {
-                System.out.println(client.getWriter(0).socket().getLocalPort());
-                //System.out.println("je lance la boucle");
+//                client.getWriter(0).configureBlocking(false);
 
-                client.getWriter(0).configureBlocking(false);
-                ObjectInputStream ois =
-                        new ObjectInputStream(client.getWriter(0).socket().getInputStream());
-                ObjectOutputStream  oos = new
-                        ObjectOutputStream(client.getWriter(0).socket().getOutputStream());
                 String info = client.Information();
-
                 //System.out.println(info);
-                //if (is.available() != 0) {
-                    String lu = (String)ois.readObject();
-                    if (lu != null){
-                        System.out.println(lu);
-                        client.update(lu);}
+                                client.getSocket(0).socket().setTcpNoDelay(false);
+                //client.getSocket(0).configureBlocking(true);
 
-                oos.writeObject(info);
-                oos.flush();
+                OutputStream os = client.getSocket(0).socket().getOutputStream();
+                PrintStream ps = new PrintStream(os, false, "utf-8");
+                ps.println(info);
+                ps.flush();
+                //client.getWriter(0).configureBlocking(true);
+                client.update();
+
+                //client.getSocket(0).configureBlocking(false);
                 client.pong.animateItem();
                 try {
                     Thread.sleep(pong.timestep);
                 } catch (InterruptedException e) {
                 }
-                ;
-                //client.aff();
             }
 
         }
