@@ -175,9 +175,9 @@ public class GameClient2player extends JFrame {
                 //System.out.println(info);
                 if (is.available() != 0) {
                     String lu = br.readLine();
-                    if (lu != null)
+                    if (lu != null){
                         System.out.println(lu);
-                        client.update(lu);
+                        client.update(lu);}
                 }
                 ps.println(info);
                 ps.flush();
