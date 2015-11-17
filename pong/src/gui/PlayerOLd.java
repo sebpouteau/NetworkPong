@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by seb on 11/11/2015.
  */
-public class Player {
+public class PlayerOLd {
     Pong pong;
     ServerSocketChannel server;
     ArrayList<Socket> playerRead;
@@ -37,7 +37,7 @@ public class Player {
     }
 
 
-    public Player(Pong pong) {
+    public PlayerOLd(Pong pong) {
         this.pong = pong;
         playerRead = new ArrayList<Socket>();
         playerWrite = new ArrayList<Socket>();

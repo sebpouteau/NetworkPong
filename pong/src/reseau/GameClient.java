@@ -3,7 +3,6 @@ package src.reseau;
 import src.gui.Pong;
 import src.gui.Racket;
 import src.gui.Window;
-import src.reseau.Player;
 
 import java.io.*;
 import java.nio.channels.SocketChannel;
@@ -42,12 +41,8 @@ public class GameClient {
             if (client.server != null) {
                 SocketChannel sc = client.server.accept();
                 if (sc != null) {
-                    client.connectionAccept(sc);
-                    try {
-                        Thread.sleep(20);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    client.connectionAccept(sc.socket());
+
                 }
             }
             if (client.nombrePlayer > 1) {
@@ -55,20 +50,27 @@ public class GameClient {
 
                 String info = client.Information();
                 //System.out.println(info);
-                                client.getSocket(0).socket().setTcpNoDelay(false);
-                //client.getSocket(0).configureBlocking(true);
+                for (int i = 0; i < client.tabSocket.size(); i++) {
+                client.getSocket(i).setTcpNoDelay(true);
 
-                OutputStream os = client.getSocket(0).socket().getOutputStream();
+                OutputStream os = client.getSocket(i).getOutputStream();
                 PrintStream ps = new PrintStream(os, false, "utf-8");
                 ps.println(info);
                 ps.flush();
-                //client.getWriter(0).configureBlocking(true);
-                client.update();
 
-                //client.getSocket(0).configureBlocking(false);
+
+
+
+                    client.update(i);
+                }//client.getWriter(0).configureBlocking(true);
+
+
+
+
                 client.pong.animateItem();
+
                 try {
-                    Thread.sleep(pong.timestep);
+                    Thread.sleep(Pong.timestep);
                 } catch (InterruptedException e) {
                 }
             }
