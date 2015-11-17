@@ -81,7 +81,7 @@ public class Ball extends PongItem {
 
     }
     public boolean collision(PongItem pi){
-
+        
         if(this.getSurface().getBounds().intersects(pi.getSurface().getBounds())){
 
             if(((pi.getSurface().intersectsLine(this.getSurface().getMinX(), this.getSurface().getMinY(), this.getSurface().getMinX(), this.getSurface().getMaxY())) ||
