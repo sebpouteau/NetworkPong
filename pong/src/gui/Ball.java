@@ -81,23 +81,28 @@ public class Ball extends PongItem {
 
     }
     public boolean collision(PongItem pi){
-        
-        if(this.getSurface().getBounds().intersects(pi.getSurface().getBounds())){
+        Rectangle ball =  new Rectangle( (int)this.getSurface().getX() + this.getSpeedX(),(int) this.getSurface().getY() + this.getSpeedY(), this.getWidth(), this.getHeight());
+        if(ball.getBounds().intersects(pi.getSurface().getBounds())){
 
-            if(((pi.getSurface().intersectsLine(this.getSurface().getMinX(), this.getSurface().getMinY(), this.getSurface().getMinX(), this.getSurface().getMaxY())) ||
-                    (pi.getSurface().intersectsLine(this.getSurface().getMaxX(), this.getSurface().getMinY(), this.getSurface().getMaxX(), this.getSurface().getMaxY())))){
+            if(((pi.getSurface().intersectsLine(ball.getMinX(), ball.getMinY(), ball.getMinX(), ball.getMaxY())) ||
+                    (pi.getSurface().intersectsLine(ball.getMaxX(), ball.getMinY(), ball.getMaxX(), ball.getMaxY())))){
 
-                if( this.getSurface().getMaxY() > pi.getSurface().getMinY() && this.getSurface().getMinY() < pi.getSurface().getMaxY() &&
-                        this.getSurface().getMaxY() < pi.getSurface().getMaxY() && this.getSurface().getMinY() > pi.getSurface().getMinY()){
+                if( ball.getMaxY() > pi.getSurface().getMinY() && ball.getMinY() < pi.getSurface().getMaxY() &&
+                        ball.getMaxY() < pi.getSurface().getMaxY() && ball.getMinY() > pi.getSurface().getMinY()){
 
                     this.setSpeedX(-this.getSpeedX());
-                    this.setPositionX(this.getPositionX() + this.getSpeedX());
+                    if(this.getSpeedY() != this.getSpeedX() && this.getSpeedY() != -this.getSpeedX() )
+                        this.setSpeedY(this.getSpeedY()/2);
+                    //this.setPositionX(this.getPositionX() + this.getSpeedX());
                 }
 
                 else {
-                    this.setSpeedY(-this.getSpeedY());
+                    if(this.getSpeedY() == this.getSpeedX() || this.getSpeedY() == -this.getSpeedX())
+                        this.setSpeedY(-this.getSpeedY()*2);
+                    else
+                        this.setSpeedY(-this.getSpeedY());
                     this.setSpeedX(- this.getSpeedX());
-                    this.setPositionY(this.getPositionY() + pi.getSpeedY());
+                    this.setPositionY(this.getPositionY() + pi.getSpeedY() + this.getSpeedY());
                     this.setPositionX(this.getPositionX() + this.getSpeedX());
                 }
             }
@@ -115,7 +120,7 @@ public class Ball extends PongItem {
                 pi.setPosition(pi.getPositionX() , this.getPositionY() - pi.getHeight() - 1);
             }
 
-            if(this.getSurface().getBounds().intersects(pi.getSurface().getBounds())){
+            if(ball.getBounds().intersects(pi.getSurface().getBounds())){
                 this.setPosition(this.getPositionX() , this.getPositionY() + pi.getSpeedX());
 
             }
