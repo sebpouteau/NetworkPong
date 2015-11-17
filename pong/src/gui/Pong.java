@@ -25,6 +25,13 @@ public class Pong extends JPanel {
 	 */
 	private static final int SIZE_PONG_Y = 600;
 
+	public static int getSizePongX() {
+		return SIZE_PONG_X;
+	}
+	public static int getSizePongY(){
+		return SIZE_PONG_Y;
+	}
+
 	/**
 	/**
 	 * Constant (c.f. final) common to all Pong instances (c.f. static)

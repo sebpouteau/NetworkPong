@@ -8,7 +8,29 @@ import java.awt.geom.Point2D;
 public class Ball extends PongItem {
 
     public static final int BALL_SPEED = 2;
+    private Point speed;
 
+    public Point getSpeed() {
+        return speed;
+    }
+    public int getSpeedX() {
+        return (int)speed.getX();
+    }
+    public int getSpeedY() {
+        return (int)speed.getY();
+    }
+    public void setSpeed(int x, int y) {
+        this.speed.setLocation(x, y);
+    }
+    public void setSpeedX(int x) {
+        this.getSpeed().setLocation(x, this.getSpeed().getY());
+    }
+    public void setSpeedY(int y) {
+        this.getSpeed().setLocation(this.getSpeed().getX(), y);
+    }
+    public void setSpeed(Point speed) {
+        this.speed = speed;
+    }
 
     public Ball() {
         super();
@@ -16,7 +38,6 @@ public class Ball extends PongItem {
         this.setImageItem(Toolkit.getDefaultToolkit().createImage(
                 ClassLoader.getSystemResource("image/ball.png")));
         this.setPosition(40,40);
-        this.setSpeed(BALL_SPEED, BALL_SPEED);
         icon = new ImageIcon(this.getImageItem());
         this.setWidth(icon.getIconWidth());
         this.setHeight(icon.getIconHeight());
@@ -30,7 +51,6 @@ public class Ball extends PongItem {
         ImageIcon icon;
         this.setImageItem(Toolkit.getDefaultToolkit().createImage(
                 ClassLoader.getSystemResource("image/ball.png")));
-        this.setSpeed(BALL_SPEED, BALL_SPEED);
         icon = new ImageIcon(this.getImageItem());
         this.setWidth(icon.getIconWidth());
         this.setHeight(icon.getIconHeight());
@@ -88,11 +108,11 @@ public class Ball extends PongItem {
                 this.setPositionY(this.getPositionY() + this.getSpeedY());
             }
 
-            if(this.getPositionY() == 0 ){
+            if(this.getPositionY() <= 0 ){
                 pi.setPosition(pi.getPositionX(), this.getPositionY() + this.getHeight() + 1);
             }
-            else if(this.getPositionY() + this.getHeight() ==  600){
-                pi.setPosition(pi.getPositionX() , this.getPositionY() - 1);
+            else if(this.getPositionY() + this.getHeight() >= 600){
+                pi.setPosition(pi.getPositionX() , this.getPositionY() - pi.getHeight() - 1);
             }
 
             if(this.getSurface().getBounds().intersects(pi.getSurface().getBounds())){
@@ -105,5 +125,42 @@ public class Ball extends PongItem {
             return false;
         }
     }
+
+//    public boolean collision(PongItem pi){
+//        this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY());
+//        if((this.getSurface().getX() >= pi.getSurface().getX() + pi.getSurface().getWidth())      // trop à droite
+//                || (this.getSurface().getX() + this.getSurface().getWidth() <= pi.getSurface().getX()) // trop à gauche
+//                || (this.getSurface().getY() >= pi.getSurface().getY() + pi.getSurface().getHeight()) // trop en bas
+//                || (this.getSurface().getY() + this.getSurface().getHeight() <= pi.getSurface().getY())) { // trop en haut
+//            this.setPosition(this.getPositionX() - this.getSpeedX(), this.getPositionY() - this.getSpeedY());
+//            return false;
+//        }
+//        else {
+//
+//            doCollision(pi);
+//            return true;
+//        }
+//    }
+//    public void doCollision(PongItem pi) {
+//        boolean done = false;
+//        if(this.getSurface().getY() > 0 || this.getSurface().getMaxY() < 600) {
+//            if (this.getSurface().getY() <= pi.getSurface().getY() + pi.getSurface().getHeight() || this.getSurface().getY() + this.getSurface().getHeight() <= pi.getSurface().getY()) {
+//                this.setPosition(this.getPositionX() - this.getSpeedX(), this.getPositionY() - this.getSpeedY());
+//                done = true;
+//                this.setSpeedY(-this.getSpeedY());
+//                int s = pi.getSpeedX();
+//                this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY() + s);
+//
+//            } else if (this.getSurface().getX() <= pi.getSurface().getX() + pi.getSurface().getWidth() || this.getSurface().getX() + this.getSurface().getWidth() >= pi.getSurface().getX()) {
+//                if(!done)
+//                    this.setPosition(this.getPositionX() - this.getSpeedX(), this.getPositionY() - this.getSpeedY());
+//                this.setSpeedX(-this.getSpeedX());
+//                this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY()+ this.getSpeedY() );
+//            }
+//        }
+//        else
+//            pi.setSpeedX(0);
+//    }
+
 
 }
