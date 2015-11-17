@@ -17,7 +17,7 @@ public class PongItem implements KeyListener {
     {
         this.setPosition(new Point(10, 0));
         this.speed = new Point(0,0);
-	}
+    }
     public PongItem(int x, int y)
     {
         this.setPosition(new Point(x, y));
