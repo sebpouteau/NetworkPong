@@ -1,8 +1,4 @@
-package src.reseau;
-
-import src.gui.Pong;
-import src.gui.Racket;
-import src.gui.Window;
+package src.gui;
 
 import java.io.*;
 import java.nio.channels.SocketChannel;
@@ -26,7 +22,7 @@ public class GameClient {
         client.initServeur(port);
 
 
-        ((Racket) client.pong.pongList.get(0)).setIdPlayer(1);
+        ((Racket) client.pong.getItem(0)).setIdPlayer(1);
         client.addPlayer();
 
         if (args.length > 1) {
@@ -46,33 +42,24 @@ public class GameClient {
                 }
             }
             if (client.nombrePlayer > 1) {
-//                client.getWriter(0).configureBlocking(false);
 
                 String info = client.Information();
-                //System.out.println(info);
                 for (int i = 0; i < client.tabSocket.size(); i++) {
-                client.getSocket(i).setTcpNoDelay(true);
+                    client.getSocket(i).setTcpNoDelay(true);
 
-                OutputStream os = client.getSocket(i).getOutputStream();
-                PrintStream ps = new PrintStream(os, false, "utf-8");
-                ps.println(info);
-                ps.flush();
-
-
-
+                    OutputStream os = client.getSocket(i).getOutputStream();
+                    PrintStream ps = new PrintStream(os, false, "utf-8");
+                    ps.println(info);
+                    ps.flush();
+                    try {
+                        Thread.sleep(Pong.timestep);
+                    } catch (InterruptedException e) {
+                    }
 
                     client.update(i);
-                }//client.getWriter(0).configureBlocking(true);
-
-
-
-
+                }
                 client.pong.animateItem();
 
-                try {
-                    Thread.sleep(Pong.timestep);
-                } catch (InterruptedException e) {
-                }
             }
 
         }

@@ -13,6 +13,7 @@ public class PongItem implements KeyListener {
     private Rectangle surface;
     private Point speed;
 
+
     public PongItem()
     {
         this.setPosition(new Point(10, 0));
@@ -22,8 +23,6 @@ public class PongItem implements KeyListener {
     {
         this.setPosition(new Point(x, y));
         this.speed = new Point(0 , 0);
-
-
     }
 
     public Point getSpeed() {

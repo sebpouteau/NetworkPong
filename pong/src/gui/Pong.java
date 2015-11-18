@@ -53,10 +53,18 @@ public class Pong extends JPanel {
 	 */
 	private Graphics graphicContext = null;
 
-	public ArrayList<PongItem> pongList;
+	private ArrayList<PongItem> pongList;
+
 
 	public void add(PongItem item){
 		this.pongList.add(item);
+	}
+	public PongItem getItem(int number){
+		return this.pongList.get(number);
+	}
+
+	public int listItemSize(){
+		return pongList.size();
 	}
 
 	public Pong() {
@@ -70,13 +78,13 @@ public class Pong extends JPanel {
 		//	pongList.add(new Racket(760,560));
 
 		this.setPreferredSize(new Dimension(SIZE_PONG_X, SIZE_PONG_Y));
-		this.addKeyListener(pongList.get(0));
+		this.addKeyListener(getItem(0));
 	}
 
 	public void animateItem() {
-		for (int i = 0; i < pongList.size(); i++) {
-			pongList.get(i).collision(pongList);
-			pongList.get(i).animate(SIZE_PONG_X,SIZE_PONG_Y);
+		for (int i = 0; i < listItemSize(); i++) {
+			getItem(i).collision(pongList);
+			getItem(i).animate(SIZE_PONG_X,SIZE_PONG_Y);
 		}
 		this.updateScreen();
 	}
@@ -100,10 +108,10 @@ public class Pong extends JPanel {
 		graphicContext.fillRect(0, 0, SIZE_PONG_X, SIZE_PONG_Y);
 
 		/* Draw items */
-		for (int i = 0; i < pongList.size(); i++) {
-			graphicContext.drawImage(pongList.get(i).getImageItem(),
-					pongList.get(i).getPositionX(), pongList.get(i).getPositionY(),
-					pongList.get(i).getWidth(), pongList.get(i).getHeight(),
+		for (int i = 0; i < listItemSize(); i++) {
+			graphicContext.drawImage(getItem(i).getImageItem(),
+					getItem(i).getPositionX(), getItem(i).getPositionY(),
+					getItem(i).getWidth(), getItem(i).getHeight(),
 					null);
 		}
 		this.repaint();
