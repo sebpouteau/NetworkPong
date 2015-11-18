@@ -1,46 +1,27 @@
 package src.gui;
 
-import src.gui.Ball;
-import src.gui.Pong;
-import src.gui.Racket;
-
-import java.awt.*;
 import java.io.*;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
-import java.util.ArrayList;
 
 /**
  * Created by seb on 11/11/2015.
  */
-public class Player {
+public class Player extends PlayerNetwork{
 
+    private static int MYRACKET= 0;
     public Pong pong;
-    public ServerSocketChannel server;
-    public ArrayList<Socket> tabSocket;
-    public int port;
+
     public int idplayer;
     public int nombrePlayer;
 
-    public int addSocket(Socket socket) {
-        this.tabSocket.add(socket);
-        return this.tabSocket.size() - 1;
-    }
-
-    public Socket getSocket(int pos) {
-        return this.tabSocket.get(pos);
-    }
-
-
     public Player(Pong pong) {
+        super();
         this.pong = pong;
-        tabSocket = new ArrayList<Socket>();
+        idplayer = 1;
     }
 
     /**
-     * Permet de lsiter tout les items du jeu
+     * Permet de lister tout les items du jeu
      * @return String contenant tout les Items
      */
     private String listAllItem() {
@@ -55,7 +36,7 @@ public class Player {
             }
             if (pong.getItem(i) instanceof Racket) {
                 message.append("RACKET " +
-                        ((Racket) pong.getItem(i)).getIdPlayer() + " " +
+                        pong.getItem(i).getNumber() + " " +
                         pong.getItem(i).getPositionX() + " " +
                         pong.getItem(i).getPositionY());
             }
@@ -64,20 +45,7 @@ public class Player {
         return message.toString();
     }
 
-    /**
-     * Envoie un message sur une socket
-     * @param socket Socket
-     * @param message message à envoyer
-     * @throws IOException
-     */
-    public void sendMessage(Socket socket,String message) throws IOException {
-        OutputStream os = socket.getOutputStream();
-        PrintStream ps = new PrintStream(os, false, "utf-8");
-        ps.println(message);
-        ps.flush();
-        ps.println("FIN");
-        ps.flush();
-    }
+
 
     /**
      * Permet d'initialiser un joueur en fonction d'un string reçu
@@ -88,10 +56,9 @@ public class Player {
         String[] de = decoupe[0].split(" ");
         this.nombrePlayer = Integer.parseInt(de[0]);
         this.idplayer = Integer.parseInt(de[1]);
-        ((Racket) (pong.getItem(0))).setIdPlayer(this.idplayer);
-        pong.getItem(0).setPositionX(Integer.parseInt(de[2]));
-        pong.getItem(0).setPositionY(Integer.parseInt(de[3]));
-
+        pong.getItem(MYRACKET).setNumber(this.idplayer);
+        pong.getItem(MYRACKET).setPositionX(Integer.parseInt(de[2]));
+        pong.getItem(MYRACKET).setPositionY(Integer.parseInt(de[3]));
         for (int i = 1; i < decoupe.length - 1; i++) {
             de = decoupe[i].split(" ");
             if (de[0].compareTo("BALL") == 0) {
@@ -129,125 +96,106 @@ public class Player {
      */
     public String Information() {
         StringBuffer message = new StringBuffer();
-        message.append("RACKET "
-                + ((Racket) pong.getItem(0)).getIdPlayer() + " "
-                + pong.getItem(0).getPositionX() + " "
-                + pong.getItem(0).getPositionY()
+        message.append("Racket "
+                + pong.getItem(MYRACKET).getNumber() + " "
+                + pong.getItem(MYRACKET).getPositionX() + " "
+                + pong.getItem(MYRACKET).getPositionY() + " "
+                + pong.getItem(MYRACKET).getSpeedX() + " "
+                + pong.getItem(MYRACKET).getSpeedY() + " "
+
                 + ";");
         for (int i = 0; i < pong.listItemSize(); i++) {
             if (pong.getItem(i) instanceof Ball){
-                message.append("BALL "
-
-                        + pong.getItem(1).getPositionX() + " "
-                        + pong.getItem(1).getPositionY());
+                message.append("Ball "+
+                        pong.getItem(i).getNumber() + " "+
+                        + pong.getItem(i).getPositionX() + " "
+                        + pong.getItem(i).getPositionY() + " "
+                        + pong.getItem(i).getSpeedX() + " "
+                        + pong.getItem(i).getSpeedY() + " "
+                        +";");
 
             }
         }
-
         return message.toString();
     }
 
     public void update(int pos) throws IOException, ClassNotFoundException {
-        InputStream is =this.getSocket(pos).getInputStream();
+        InputStream is = this.getSocket(pos).getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
         String message = br.readLine();
         if (message != null) {
-            System.out.println(message);
             String[] item = message.split(";");
             for (int i = 0; i < item.length; i++) {
                 String[] info = item[i].split(" ");
                 int j = 0;
-                if (info[j].compareTo("BALL") == 0) {
-                    if (Integer.parseInt(info[j + 1]) > 400 && this.idplayer == 1)
-                        pong.getItem(1).setPosition(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]));
-                    if (Integer.parseInt(info[j + 1]) < 400 && this.idplayer == 2)
-                        pong.getItem(1).setPosition(Integer.parseInt(info[j + 1]), Integer.parseInt(info[j + 2]));
+                //if (info[0].equals("Ball")) {
+                    if (verificationSetBall(info) != idplayer)
+                        updateItem(info, "Ball");
+                //}
+
+                updateItem(info, "Racket");
+            }
+        }
+    }
+
+
+    public int verificationSetBall(String[] message){
+        int x = Integer.parseInt(message[2]);
+        int y = Integer.parseInt(message[3]);
+        int idPlayer = 0;
+        int distanceMin = 100000000;
+        for (int k = 0; k < pong.listItemSize(); k++) {
+            if (pong.getItem(k) instanceof Racket) {
+                int distance = (int)Math.sqrt( Math.pow((x-pong.getItem(k).getPositionX()),2) +
+                        Math.pow((y-pong.getItem(k).getPositionY()),2));
+                if (distance < distanceMin) {
+                    idPlayer = pong.getItem(k).getNumber();
+                    distanceMin=distance;
                 }
-                if (info[j].compareTo("RACKET") == 0) {
-                    int idP = Integer.parseInt(info[j + 1]);
-                    for (int k = 0; k < pong.listItemSize(); k++) {
-                        if (pong.getItem(k) instanceof Racket) {
-                            if (((Racket) pong.getItem(k)).getIdPlayer() == idP) {
-                                pong.getItem(k).setPosition(Integer.parseInt(info[j + 2]), Integer.parseInt(info[j + 3]));
-                                break;
-                            }
-                        }
-                    }
+            }
+        }
+        return idPlayer;
+    }
+
+
+    public void updateItem (String[] message, String type){
+        if (!message[0].equals(type))
+            return;
+        int idP = Integer.parseInt(message[1]);
+        int x = Integer.parseInt(message[2]);
+        int y = Integer.parseInt(message[3]);
+        int speedX = Integer.parseInt(message[4]);
+        int speedY = Integer.parseInt(message[5]);
+        for (int k = 0; k < pong.listItemSize(); k++) {
+            if (pong.getItem(k).getClass().getSimpleName().equals(type)) {
+                if (pong.getItem(k).getNumber() == idP) {
+                    pong.getItem(k).setPosition(x,y);
+                    if (type.equals("Ball"))
+                        pong.getItem(k).setSpeed(speedX,speedY);
+                    break;
                 }
             }
         }
     }
-    public void initServeur(int port) throws IOException {
-        this.port = port;
-        this.server = ServerSocketChannel.open();
-        this.server.socket().bind(new InetSocketAddress(this.port));
-        this.server.configureBlocking(false);
-    }
 
-    public void connectionServer(String adress, int portConnection, boolean first) throws IOException, ClassNotFoundException {
-        SocketChannel socket = SocketChannel.open();
-        socket.connect(new InetSocketAddress(adress, portConnection));
-        /* permet d'ignorer Nagle */
-        socket.socket().setTcpNoDelay(true);
-        int position = this.addSocket(socket.socket());
-        System.out.println(portConnection);
-        /* envoie des informations de reconnaissance */
-        String message  = "Pong Play;Port: " + this.port + ";ConnectionFirst " + first;
-        sendMessage(this.getSocket(position),message);
-        /* reception des informations envoyées par le serveur du premier joueur */
-        String info =read(position);
-        System.out.println(info);
-        /* initialisation de tout les objets grâce à l'information reçu */
+
+
+
+
+
+
+    public void connectionServerInit(String adress, int portConnection, boolean first) throws IOException, ClassNotFoundException {
+        String info = super.connectionServer(adress,portConnection,first);
         this.initialisation(info);
     }
 
 
-    public void aff() {
-        for (int i = 0; i < pong.listItemSize(); i++) {
-            System.out.println(pong.getItem(i).getPosition());
-        }
-    }
-
-    public boolean validPlayer(String message) {
-        String[] tabMessage = message.split(";");
-        return tabMessage[0].compareTo("Pong Play") == 0 && tabMessage.length == 3;
-    }
-
-    public int decryptPort(String message) {
-        String[] tabMessage = message.split(";");
-        String[] infoPort = tabMessage[1].split(" ");
-        return Integer.parseInt(infoPort[1]);
-
-    }
-
-    public String read(int pos) throws IOException, ClassNotFoundException {
-        InputStream is = this.getSocket(pos).getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
-        String lu = "";
-        while (true) {
-            String tmp = br.readLine();
-            if (tmp.compareTo("FIN") == 0)
-                break;
-            lu = tmp;
-        }
-        return lu;
-    }
-
-    public void connectionAccept(Socket socket) throws IOException, ClassNotFoundException {
-        int pos = this.addSocket(socket);
-        String lu = read(pos);
-        System.out.println(lu);
-        if (!validPlayer(lu))
-            return;
-        System.out.println(lu);
-        int port = decryptPort(lu);
-
+    public int connectionAccept(Socket socket) throws IOException, ClassNotFoundException {
+        int position = super.connectionAccept(socket);
         this.pong.add(new Racket(2, 785, 0));
         this.addPlayer();
-        this.addNewClient(this.getSocket(pos));
-        System.out.println(this.nombrePlayer);
-
-
+        this.addNewClient(this.getSocket(position));
+        return 0;
     }
 
 

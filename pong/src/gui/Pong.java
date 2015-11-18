@@ -56,10 +56,19 @@ public class Pong extends JPanel {
 	private ArrayList<PongItem> pongList;
 
 
-
 	public void add(PongItem item){
+		if (item instanceof Ball) {
+			int compteur=0;
+			for (int i = 0; i < listItemSize(); i++) {
+				if (getItem(i) instanceof Ball)
+					compteur = Math.max(compteur,getItem(i).getNumber())+1;
+			}
+			item.setNumber(compteur++);
+			System.out.println(compteur);
+		}
 		this.pongList.add(item);
 	}
+
 	public PongItem getItem(int number){
 		return this.pongList.get(number);
 	}
@@ -71,9 +80,9 @@ public class Pong extends JPanel {
 	public Pong() {
 		pongList = new ArrayList<PongItem>();
 		//pongList.add(new Racket());
-		pongList.add(new Racket(1));
-		pongList.add(new Ball());
-		//	pongList.add(new Ball(80,80));
+		this.add(new Racket(1));
+		this.add(new Ball(80, 80));
+		this.add(new Ball(200, 200));
 		//	pongList.add(new Ball(500,500));
 		//	pongList.add(new Ball(689, 522));
 		//	pongList.add(new Racket(760,560));

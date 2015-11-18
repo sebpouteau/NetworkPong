@@ -12,6 +12,16 @@ public class PongItem implements KeyListener {
     private Image imageItem;
     private Rectangle surface;
     private Point speed;
+    private int number;
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
 
 
     public PongItem()

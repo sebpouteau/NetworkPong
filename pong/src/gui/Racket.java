@@ -7,18 +7,9 @@ import java.awt.event.KeyEvent;
 public class Racket extends PongItem {
 	public static final int RACKET_SPEED = 4;
 
-	int idPlayer;
-	public int getIdPlayer() {
-		return this.idPlayer;
-	}
-
-	public void setIdPlayer(int number) {
-		this.idPlayer = number;
-	}
 
 	public Racket(int idPlayer){
 		super();
-		this.idPlayer = idPlayer;
 		ImageIcon icon;
 		this.setImageItem(Toolkit.getDefaultToolkit().createImage(
 				ClassLoader.getSystemResource("image/raquette.png")));
@@ -29,7 +20,7 @@ public class Racket extends PongItem {
 	}
 	public Racket(int idPlayer,int x, int y){
 		super(x,y);
-		this.setIdPlayer(idPlayer);
+		this.setNumber(idPlayer);
 		ImageIcon icon;
 		this.setImageItem(Toolkit.getDefaultToolkit().createImage(
 				ClassLoader.getSystemResource("image/raquette.png")));

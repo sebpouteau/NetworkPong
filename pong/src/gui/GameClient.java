@@ -15,27 +15,21 @@ public class GameClient {
         String adresse = "localhost";
         int portConnection = 7777;
         Pong pong = new Pong();
-
         Window window = new Window(pong);
-
         Player client = new Player(pong);
         client.initServeur(port);
-
-
-        ((Racket) client.pong.getItem(0)).setIdPlayer(1);
+        client.pong.getItem(0).setNumber(1);
         client.addPlayer();
 
         if (args.length > 1) {
             client.nombrePlayer = 1;
-            client.connectionServer(adresse, portConnection, true);
-            System.out.println("fin");
+            client.connectionServerInit(adresse, portConnection, true);
         }
-        client.aff();
         window.displayOnscreen();
         while (true) {
 
-            if (client.server != null) {
-                SocketChannel sc = client.server.accept();
+            if (client.getServer() != null) {
+                SocketChannel sc = client.getServer().accept();
                 if (sc != null) {
                     client.connectionAccept(sc.socket());
 
@@ -44,9 +38,8 @@ public class GameClient {
             if (client.nombrePlayer > 1) {
 
                 String info = client.Information();
-                for (int i = 0; i < client.tabSocket.size(); i++) {
+                for (int i = 0; i < client.listSocketSize(); i++) {
                     client.getSocket(i).setTcpNoDelay(true);
-
                     OutputStream os = client.getSocket(i).getOutputStream();
                     PrintStream ps = new PrintStream(os, false, "utf-8");
                     ps.println(info);
