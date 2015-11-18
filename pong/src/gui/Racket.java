@@ -10,30 +10,17 @@ public class Racket extends PongItem {
 
 	public Racket(int idPlayer){
 		super();
-		ImageIcon icon;
-		this.setImageItem(Toolkit.getDefaultToolkit().createImage(
-				ClassLoader.getSystemResource("image/raquette.png")));
-
-		icon = new ImageIcon(this.getImageItem());
-		this.setWidth(icon.getIconWidth());
-		this.setHeight(icon.getIconHeight());
+		this.initImage("image/raquette.png");
 	}
 	public Racket(int idPlayer,int x, int y){
 		super(x,y);
 		this.setNumber(idPlayer);
-		ImageIcon icon;
-		this.setImageItem(Toolkit.getDefaultToolkit().createImage(
-				ClassLoader.getSystemResource("image/raquette.png")));
-
-		icon = new ImageIcon(this.getImageItem());
-		this.setWidth(icon.getIconWidth());
-		this.setHeight(icon.getIconHeight());
-		this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
+		this.initImage("image/raquette.png");
 	}
 
 
 	public void animate(int sizePongX,int sizePongY){
-/* Update racket position */
+		/* Update racket position */
 		this.setPositionY(this.getPositionY() + this.getSpeedX());
 		if (this.getPositionY() < 0)
 			this.setPositionY(0);

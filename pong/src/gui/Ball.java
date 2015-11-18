@@ -35,29 +35,16 @@ public class Ball extends PongItem {
     }
 
     public Ball() {
-        super();
-        ImageIcon icon;
-        this.setImageItem(Toolkit.getDefaultToolkit().createImage(
-                ClassLoader.getSystemResource("image/ball.png")));
-        this.setPosition(40,40);
-        icon = new ImageIcon(this.getImageItem());
-        this.setWidth(icon.getIconWidth());
-        this.setHeight(icon.getIconHeight());
+        super(40,40);
+        this.initImage("image/ball.png");
         this.setSpeed(new Point(BALL_SPEED, BALL_SPEED));
-        this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
     }
 
-    public Ball(int x, int y) {
-        super();
-        this.setPosition(x,y);
-        ImageIcon icon;
-        this.setImageItem(Toolkit.getDefaultToolkit().createImage(
-                ClassLoader.getSystemResource("image/ball.png")));
-        icon = new ImageIcon(this.getImageItem());
-        this.setWidth(icon.getIconWidth());
-        this.setHeight(icon.getIconHeight());
+    public Ball(int id, int x, int y) {
+        super(x,y);
+        this.setNumber(id);
+        this.initImage("image/ball.png");
         this.setSpeed(new Point(BALL_SPEED, BALL_SPEED));
-        this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
     }
 
     public void animate(int sizePongX,int sizePongY){

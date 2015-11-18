@@ -33,10 +33,25 @@ public class PlayerNetwork {
         return this.tabSocket.get(pos);
     }
 
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    /**
+     * Ajoute une Socket à la liste de socket existante
+     * @param socket Socket à ajouter
+     * @return retourne la position dans la liste de la socket
+     */
     public int addSocket(SocketPlayer socket) {
         this.tabSocket.add(socket);
         return this.tabSocket.size() - 1;
     }
+
 
     /**
      * Envoie un message sur une socket
@@ -44,15 +59,21 @@ public class PlayerNetwork {
      * @param message message à envoyer
      * @throws IOException
      */
+
     public void sendMessage(Socket socket,String message) throws IOException {
         OutputStream os = socket.getOutputStream();
         PrintStream ps = new PrintStream(os, false, "utf-8");
         ps.println(message);
         ps.flush();
-        ps.println("FIN");
+        ps.println(Protocol.MESSAGE_END);
         ps.flush();
     }
 
+    /**
+     * Initialise le serveur du joueur
+     * @param port port d'écoute du serveur
+     * @throws IOException
+     */
     public void initServeur(int port) throws IOException {
         this.port = port;
         this.server = ServerSocketChannel.open();
@@ -60,31 +81,34 @@ public class PlayerNetwork {
         this.server.configureBlocking(false);
     }
 
-    public String read(int pos) throws IOException, ClassNotFoundException {
-        InputStream is = this.getSocket(pos).getInputStream();
+    /**
+     * Permet de lire les information recu durant la phase de connection d'un nouveau joueur
+     * @param idSocket numero de la socket dans l'arrayList SocketPlayer
+     * @return Retourne le String lu
+     * @throws IOException
+     */
+    public String read(int idSocket) throws IOException{
+        InputStream is = this.getSocket(idSocket).getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
         String lu = "";
         while (true) {
             String tmp = br.readLine();
-            if (tmp.compareTo("FIN") == 0)
+            if (tmp.compareTo(Protocol.MESSAGE_END) == 0)
                 break;
             lu = tmp;
         }
         return lu;
     }
-    public boolean validPlayer(String message) {
-        String[] tabMessage = message.split(";");
-        return tabMessage[0].compareTo("Pong Play") == 0 && tabMessage.length == 3;
-    }
 
-    public int decryptPort(String message) {
-        String[] tabMessage = message.split(";");
-        String[] infoPort = tabMessage[1].split(" ");
-        return Integer.parseInt(infoPort[1]);
-
-    }
-
-    public String connectionServer(String adress, int portConnection, boolean first) throws IOException, ClassNotFoundException {
+    /**
+     * Fonction permettant de ce connecter à un serveur
+     * @param adress addresse à se connecter
+     * @param portConnection port de connection
+     * @param first Vrai si première connection dans la partie Faux sinon
+     * @return retourne le String contenant la réponse du serveur
+     * @throws IOException
+     */
+    public String connectionServer(String adress, int portConnection, boolean first) throws IOException {
         SocketChannel socket = SocketChannel.open();
         socket.connect(new InetSocketAddress(adress, portConnection));
         /* permet d'ignorer Nagle */
@@ -92,22 +116,25 @@ public class PlayerNetwork {
         SocketPlayer socketPlayer = new SocketPlayer(socket.socket(), portConnection);
         int position = this.addSocket(socketPlayer);
         /* envoie des informations de reconnaissance */
-        String message  = "Pong Play;Port: " + this.port + ";ConnectionFirst " + first;
+        String message = Protocol.identification(this.getPort(),first);
         sendMessage(this.getSocket(position),message);
         /* reception des informations envoyées par le serveur du premier joueur */
         return read(position);
-        /* initialisation de tout les objets grâce à l'information reçu */
-        //this.initialisation(info);
     }
-    public int connectionAccept(Socket socket) throws IOException, ClassNotFoundException {
+    /**
+     * Fonction permettant d'accepter une connexion d'un joueur
+     * @param socket Socket à accepter
+     * @return return si Connection établie et joueur valide retourne EXIT_SUCCESS sinon retourne EXIT_FAILURE
+     * @throws IOException
+     */
+    public int connectionAccept(Socket socket) throws IOException {
         SocketPlayer socketPlayer = new SocketPlayer(socket, 0);
         int position = this.addSocket(socketPlayer);
         String lu = read(position);
-        if (!validPlayer(lu))
-            return 0;
-        int port = decryptPort(lu);
+        if (!Protocol.validPlayer(lu))
+            return -1;
+        int port = Protocol.decryptPort(lu);
         this.getSocketPlayer(position).setPort(port);
-        System.out.println(socketPlayer.getPort() + " " + socketPlayer.getAddress());
         return position;
     }
 }

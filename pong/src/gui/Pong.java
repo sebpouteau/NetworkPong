@@ -81,8 +81,8 @@ public class Pong extends JPanel {
 		pongList = new ArrayList<PongItem>();
 		//pongList.add(new Racket());
 		this.add(new Racket(1));
-		this.add(new Ball(80, 80));
-		this.add(new Ball(200, 200));
+		this.add(new Ball(1,80, 80));
+		this.add(new Ball(2,200, 200));
 		//	pongList.add(new Ball(500,500));
 		//	pongList.add(new Ball(689, 522));
 		//	pongList.add(new Racket(760,560));
