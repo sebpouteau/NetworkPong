@@ -1,5 +1,8 @@
 package src.gui;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
+import src.util.VariableStatic;
+
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -22,6 +25,7 @@ public class PlayerNetwork {
     public int listSocketSize(){
         return this.tabSocket.size();
     }
+
     public PlayerNetwork(){
         tabSocket = new ArrayList<SocketPlayer>();
     }
@@ -29,6 +33,7 @@ public class PlayerNetwork {
     public Socket getSocket(int pos) {
         return this.tabSocket.get(pos).getSocket();
     }
+
     public SocketPlayer getSocketPlayer(int pos) {
         return this.tabSocket.get(pos);
     }
@@ -52,21 +57,19 @@ public class PlayerNetwork {
         return this.tabSocket.size() - 1;
     }
 
-
     /**
      * Envoie un message sur une socket
      * @param socket Socket
      * @param message message à envoyer
      * @throws IOException
      */
-
     public void sendMessage(Socket socket,String message) throws IOException {
         OutputStream os = socket.getOutputStream();
         PrintStream ps = new PrintStream(os, false, "utf-8");
         ps.println(message);
         ps.flush();
-        ps.println(Protocol.MESSAGE_END);
-        ps.flush();
+//        ps.println(Protocol.MESSAGE_END);
+//        ps.flush();
     }
 
     /**
@@ -91,13 +94,21 @@ public class PlayerNetwork {
         InputStream is = this.getSocket(idSocket).getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
         String lu = "";
-        while (true) {
+        //while (true) {
             String tmp = br.readLine();
-            if (tmp.compareTo(Protocol.MESSAGE_END) == 0)
-                break;
-            lu = tmp;
-        }
-        return lu;
+          //  if (tmp.compareTo(Protocol.MESSAGE_END) == 0)
+            //    break;
+            //lu = tmp;
+        //}
+        return tmp;
+    }
+
+    public Socket connection(String adress, int portConnection) throws IOException {
+        SocketChannel socket = SocketChannel.open();
+        socket.connect(new InetSocketAddress(adress, portConnection));
+        /* permet d'ignorer Nagle */
+        socket.socket().setTcpNoDelay(true);
+        return socket.socket();
     }
 
     /**
@@ -108,33 +119,46 @@ public class PlayerNetwork {
      * @return retourne le String contenant la réponse du serveur
      * @throws IOException
      */
-    public String connectionServer(String adress, int portConnection, boolean first) throws IOException {
-        SocketChannel socket = SocketChannel.open();
-        socket.connect(new InetSocketAddress(adress, portConnection));
-        /* permet d'ignorer Nagle */
-        socket.socket().setTcpNoDelay(true);
-        SocketPlayer socketPlayer = new SocketPlayer(socket.socket(), portConnection);
+    public String[] connectionServer(String adress, int portConnection, boolean first) throws IOException {
+        Socket s = connection(adress, portConnection);
+        SocketPlayer socketPlayer = new SocketPlayer(s, portConnection);
         int position = this.addSocket(socketPlayer);
         /* envoie des informations de reconnaissance */
         String message = Protocol.identification(this.getPort(),first);
         sendMessage(this.getSocket(position),message);
         /* reception des informations envoyées par le serveur du premier joueur */
-        return read(position);
+        String[] tabLecture= new String[2];
+        tabLecture[0] = read(position);
+        tabLecture[1] = read(position);
+
+        System.out.println(tabLecture[0]);
+        System.out.println(tabLecture[1]);
+
+        return tabLecture;
     }
+
     /**
      * Fonction permettant d'accepter une connexion d'un joueur
      * @param socket Socket à accepter
      * @return return si Connection établie et joueur valide retourne EXIT_SUCCESS sinon retourne EXIT_FAILURE
      * @throws IOException
      */
-    public int connectionAccept(Socket socket) throws IOException {
+    public int[] connectionAccept(Socket socket) throws IOException {
         SocketPlayer socketPlayer = new SocketPlayer(socket, 0);
         int position = this.addSocket(socketPlayer);
         String lu = read(position);
+        System.out.println(lu);
         if (!Protocol.validPlayer(lu))
-            return -1;
+             position = -1;
         int port = Protocol.decryptPort(lu);
         this.getSocketPlayer(position).setPort(port);
-        return position;
+        int t[] = new int[2];
+        t[0] = position;
+        System.out.println(Protocol.decryptFirst(lu));
+        t[1] = Protocol.decryptFirst(lu)?1:0;
+        System.out.println(t[1]);
+        return t;
     }
+
+
 }

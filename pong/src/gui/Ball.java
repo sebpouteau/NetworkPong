@@ -73,14 +73,14 @@ public class Ball extends PongItem {
     }
 
     public int getLosePlayerSize(){
-       if (this.getPositionX() <= 0) {
-          return 1;
+        if (this.getPositionX() <= 0) {
+            return 1;
         }
-         else if (this.getPositionY()<= 0) {
+        else if (this.getPositionY()<= 0) {
             return 3;
         }
         else if (this.getPositionX() >= (Pong.getSizePongX() - this.getWidth())) {
-           return 2;
+            return 2;
         }
         else if (this.getPositionY() >= (Pong.getSizePongY() - this.getHeight())) {
             return 4;

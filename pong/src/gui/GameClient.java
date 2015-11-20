@@ -10,7 +10,7 @@ import java.nio.channels.SocketChannel;
  * 3 port de l'autre joueur
  */
 public class GameClient {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         int port = Integer.parseInt(args[0]);
         String adresse = "localhost";
         int portConnection = 7777;
@@ -31,13 +31,13 @@ public class GameClient {
             if (client.getServer() != null) {
                 SocketChannel sc = client.getServer().accept();
                 if (sc != null) {
-                    client.connectionAccept(sc.socket());
+                    client.connectionAcceptPlayer(sc.socket());
 
                 }
             }
             if (client.nombrePlayer > 1) {
 
-                String info = client.Information();
+                String info = client.information();
                 for (int i = 0; i < client.listSocketSize(); i++) {
                     client.getSocket(i).setTcpNoDelay(true);
                     OutputStream os = client.getSocket(i).getOutputStream();
@@ -48,7 +48,8 @@ public class GameClient {
                         Thread.sleep(Pong.timestep);
                     } catch (InterruptedException e) {
                     }
-
+                }
+                for (int i = 0; i < client.listSocketSize(); i++) {
                     client.update(i);
                 }
                 client.pong.animateItem();

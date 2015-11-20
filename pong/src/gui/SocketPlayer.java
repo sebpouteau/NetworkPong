@@ -34,7 +34,7 @@ public class SocketPlayer {
     }
 
 
-    public String getAddress() {
+    public String getAdress() {
         return address;
     }
 

@@ -24,6 +24,8 @@ public class RandomNumber {
 	 *         max_y
 	 */
 	public static Point randomPoint(int min_x, int max_x, int min_y, int max_y) {
+		String test;
+		
 		return new Point(randomValue(min_x, max_x), randomValue(min_y, max_y));
 	}
 }

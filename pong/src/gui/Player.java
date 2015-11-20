@@ -4,10 +4,14 @@ import src.util.VariableStatic;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Created by seb on 11/11/2015.
+ */
 public class Player extends PlayerNetwork{
 
     private static int MYRACKET= 0;
     public Pong pong;
+
     public int idplayer;
     public int nombrePlayer;
 
@@ -30,9 +34,10 @@ public class Player extends PlayerNetwork{
     private String listAllItem(Racket newRacket) {
         StringBuilder message = new StringBuilder();
         message.append(Protocol.attributionNewPlayer(this.nombrePlayer,this.nombrePlayer,newRacket));
+        System.out.println(message.toString());
         message.append(";");
         for (int i = 0; i < pong.listItemSize(); i++) {
-            message.append(Protocol.InformationItem(pong.getItem(i)));
+            message.append(Protocol.informationItem(pong.getItem(i)));
             message.append(";");
             }
         return message.toString();
@@ -42,13 +47,13 @@ public class Player extends PlayerNetwork{
      * Permet d'initialiser un joueur en fonction d'un string reçu
      * @param message String contenant tout les objets du jeu
      */
-    public void initialisation(String message)  {
+    public void initialisationItem(String message)  {
         String[] listItem = message.split(";");
         String[] item = listItem[MYRACKET].split(" ");
         this.nombrePlayer = Protocol.decryptNumberPlayer(item);
         this.idplayer = Protocol.decryptId(item);
         pong.getItem(MYRACKET).setNumber(this.idplayer);
-        for (int i = 0; i < listItem.length - 1; i++) {
+        for (int i = 0; i < listItem.length; i++) {
             item = listItem[i].split(" ");
             if (updateItem(item, Protocol.decryptClasseItem(item))==VariableStatic.EXIT_FAILURE) {
                 if (Protocol.decryptClasseItem(item).compareTo("Racket") == 0)
@@ -64,18 +69,32 @@ public class Player extends PlayerNetwork{
 
     }
 
+    public void initialisationSocket(String message) throws IOException, InterruptedException {
+        String[] socketList = message.split(";");
+        for (int i = 0; i < socketList.length ; i++) {
+            String[] socket = socketList[i].split(" ");
+            connectionOtherPlayer(Protocol.decryptAdress(socket),Protocol.decryptPortSocket(socket));
+        }
+
+    }
     /**
      * Permet de lister et envoyer tout les éléments à un joueur
      * @param socket Socket à qui envoyer les information
      * @throws IOException
      */
-    public void addNewClient(Socket socket) throws IOException {
+    public void addNewClient(Socket socket,int position) throws IOException, InterruptedException {
         /* envoie tout les objets présent dans le jeu */
-        Racket newRacket = new Racket(2, 785, 0);
+        StringBuffer listOtherPlayer = new StringBuffer();
+        for (int i = 0; i < position; i++) {
+            listOtherPlayer.append(Protocol.infomationSocket(getSocketPlayer(i)));
+        }
+        sendMessage(socket, listOtherPlayer.toString());
         this.addPlayer();
+        Racket newRacket = new Racket(this.nombrePlayer, 785, 0);
         String item = listAllItem(newRacket);
         this.pong.add(newRacket);
-        sendMessage(socket,item);
+        Thread.sleep(1);
+        sendMessage(socket, item);
     }
 
     /**
@@ -83,12 +102,12 @@ public class Player extends PlayerNetwork{
      * ainsi que tout les positions des balles
      * @return String contenant les positions
      */
-    public String Information() {
+    public String information() {
         StringBuffer message = new StringBuffer();
-        message.append(Protocol.InformationItem(this.pong.getItem(MYRACKET))).append(";");
+        message.append(Protocol.informationItem(this.pong.getItem(MYRACKET))).append(";");
         for (int i = 0; i < pong.listItemSize(); i++) {
             if (pong.getItem(i) instanceof Ball){
-                message.append(Protocol.InformationItem(pong.getItem(i))).append(";");
+                message.append(Protocol.informationItem(pong.getItem(i))).append(";");
             }
         }
         return message.toString();
@@ -114,6 +133,7 @@ public class Player extends PlayerNetwork{
             }
         }
     }
+
 
     /**
      * Permet de connaitre l'id du joueur contolant la balle
@@ -164,6 +184,7 @@ public class Player extends PlayerNetwork{
         return VariableStatic.EXIT_FAILURE;
     }
 
+
     /**
      * Fonction permettant de ce connecter à un serveur et d'initialisé le pong
      * @param adress addresse à se connecter
@@ -171,10 +192,15 @@ public class Player extends PlayerNetwork{
      * @param first Vrai si première connection dans la partie Faux sinon
      * @throws IOException
      */
-    public void connectionServerInit(String adress, int portConnection, boolean first) throws IOException {
-        String info = super.connectionServer(adress,portConnection,first);
+    public void connectionServerInit(String adress, int portConnection, boolean first) throws IOException, InterruptedException {
+        String[] info = super.connectionServer(adress, portConnection, first);
         /* initialisation de tout les objets grâce à l'information reçu */
-        this.initialisation(info);
+
+        this.initialisationItem(info[1]);
+        if (!info[0].isEmpty())
+            this.initialisationSocket(info[0]);
+
+
     }
 
     /**
@@ -184,13 +210,47 @@ public class Player extends PlayerNetwork{
      * @return return si Connection établie et joueur valide retourne EXIT_SUCCESS sinon retourne EXIT_FAILURE
      * @throws IOException
      */
-    public int connectionAccept(Socket socket) throws IOException {
-        int position = super.connectionAccept(socket);
-        if (position < 0)
+    public int connectionAcceptPlayer(Socket socket) throws IOException, InterruptedException {
+        int[] tab = super.connectionAccept(socket);
+        if ( tab[0] < 0)
             return VariableStatic.EXIT_FAILURE;
-        this.addNewClient(this.getSocket(position));
+        if (tab[1]==1){
+            this.addNewClient(this.getSocket(tab[0]),tab[0]);
+            System.out.println("ajout player");}
+        else{
+            System.out.println("lire info");
+            System.out.println(tab[0]);
+            String lu = read(listSocketSize()-1);
+            System.out.println(lu);
+            addRacketNewPlayer(lu);
+        }
         return VariableStatic.EXIT_SUCCESS;
     }
+
+    public void addRacketNewPlayer(String message){
+        String[] item = message.split(" ");
+        Racket r = new Racket(Protocol.decryptId(item),Protocol.decryptX(item),Protocol.decryptY(item));
+        pong.add(r);
+    }
+
+
+
+
+    public void connectionOtherPlayer(String adress, int portConnection) throws IOException, InterruptedException {
+        System.out.println(adress + " "+ portConnection);
+        String myRacket = Protocol.informationItem(pong.getItem(MYRACKET));
+        String message = Protocol.identification(getPort(),false);
+        Socket s = connection(adress, portConnection);
+        sendMessage(s,message);
+        System.out.println("envoie 2e joueur");
+        System.out.println(myRacket);
+        Thread.sleep(2);
+        sendMessage(s, myRacket);
+
+        SocketPlayer socketPlayer = new SocketPlayer(s, portConnection);
+        this.addSocket(socketPlayer);
+        }
+
 
     public void getPoint(){
         for (int i = 0; i < pong.listItemSize() ; i++) {
@@ -199,10 +259,12 @@ public class Player extends PlayerNetwork{
                 int player = b.getLosePlayerSize();
                 if(player != 0 && player <= nombrePlayer ){
                     //tous les autres gagne un point!
-                   b.restart();
+                    b.restart();
                 }
             }
         }
     }
-
 }
+
+
+
