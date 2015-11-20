@@ -4,9 +4,6 @@ import src.util.VariableStatic;
 import java.io.*;
 import java.net.Socket;
 
-/**
- * Created by seb on 11/11/2015.
- */
 public class Player extends PlayerNetwork{
 
     private static int MYRACKET= 0;
@@ -200,10 +197,9 @@ public class Player extends PlayerNetwork{
             if(pong.getItem(i) instanceof Ball){
                 Ball b =(Ball) pong.getItem(i);
                 int player = b.getLosePlayerSize();
-                if(player != 0 || nombrePlayer <= player){
-
+                if(player != 0 && player <= nombrePlayer ){
                     //tous les autres gagne un point!
-                    b.restart();
+                   b.restart();
                 }
             }
         }

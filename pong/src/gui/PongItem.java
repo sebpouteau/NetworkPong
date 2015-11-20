@@ -18,21 +18,16 @@ public class PongItem implements KeyListener {
     public int getNumber() {
         return number;
     }
-
     public void setNumber(int number) {
         this.number = number;
     }
 
-
-
-    public PongItem()
-    {
+    public PongItem() {
         this.setPosition(new Point(10, 0));
         this.speed = new Point(0,0);
 
     }
-    public PongItem(int x, int y)
-    {
+    public PongItem(int x, int y) {
         this.setPosition(new Point(x, y));
         this.speed = new Point(0 , 0);
 
@@ -77,15 +72,12 @@ public class PongItem implements KeyListener {
     public void setSurface(int x, int y, int width, int height){
         this.surface = new Rectangle(x, y,width,height);
     }
-
     public Rectangle getSurface(){
         return this.surface;
     }
-
     public Rectangle setPositionRectangle (int x, int y){
         return this.surface = new Rectangle(x, y, this.getWidth(), this.getHeight());
     }
-
     public Image getImageItem() {
         return imageItem;
     }
@@ -125,13 +117,11 @@ public class PongItem implements KeyListener {
         this.position = position;
     }
 
-
     public void keyPressed(KeyEvent e) {
     }
     public void keyReleased(KeyEvent e) {
     }
     public void keyTyped(KeyEvent e) { }
-
 
     public boolean collision (ArrayList<PongItem> p){
         boolean t = false;

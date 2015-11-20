@@ -21,10 +21,8 @@ public class Racket extends PongItem {
 		super(x,y);
 		if(idPlayer < 3) {
 			initImage(getImage());
-			if(idPlayer == 1){
-                System.out.println("je m'initialise");
+			if(idPlayer == 1)
             this.setPosition(10 ,Pong.getSizePongY()/2 - getHeight()/2 );
-                System.out.println(this.getPosition());}
 			else
 				this.setPosition(Pong.getSizePongX() - getWidth() - 10, Pong.getSizePongY()/2- getHeight()/2);
 		}

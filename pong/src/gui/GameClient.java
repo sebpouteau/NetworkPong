@@ -54,7 +54,7 @@ public class GameClient {
                 client.pong.animateItem();
 
             }
-
+            client.getPoint();
         }
     }
 }

@@ -73,16 +73,16 @@ public class Ball extends PongItem {
     }
 
     public int getLosePlayerSize(){
-       if (this.getPositionX() < 0) {
+       if (this.getPositionX() <= 0) {
           return 1;
         }
-         else if (this.getPositionY()< 0) {
+         else if (this.getPositionY()<= 0) {
             return 3;
         }
-        else if (this.getPositionX() > (Pong.getSizePongX() - this.getWidth())) {
+        else if (this.getPositionX() >= (Pong.getSizePongX() - this.getWidth())) {
            return 2;
         }
-        else if (this.getPositionY() > (Pong.getSizePongY() - this.getHeight())) {
+        else if (this.getPositionY() >= (Pong.getSizePongY() - this.getHeight())) {
             return 4;
         }
         return 0;
@@ -90,7 +90,8 @@ public class Ball extends PongItem {
 
 
     public void restart(){
-        this.setPosition(40,40);
+        //à completer si l'on souhaite changer position /vitesse
+        this.setPosition(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
     }
 
     public boolean collision(PongItem pi){
@@ -107,7 +108,6 @@ public class Ball extends PongItem {
             return false;
         }
         else {
-            System.out.println(this.getSpeed());
             if(pi instanceof Ball)
                 doCollisionBall(pi);
             else
