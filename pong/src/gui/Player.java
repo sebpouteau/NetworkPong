@@ -11,9 +11,10 @@ public class Player extends PlayerNetwork{
 
     private static int MYRACKET= 0;
     public Pong pong;
-
     public int idplayer;
     public int nombrePlayer;
+
+    public int getNombrePlayer(){return nombrePlayer;}
 
     public Player(Pong pong) {
         super();
@@ -65,8 +66,6 @@ public class Player extends PlayerNetwork{
         }
 
     }
-
-
 
     /**
      * Permet de lister et envoyer tout les éléments à un joueur
@@ -168,7 +167,6 @@ public class Player extends PlayerNetwork{
         return VariableStatic.EXIT_FAILURE;
     }
 
-
     /**
      * Fonction permettant de ce connecter à un serveur et d'initialisé le pong
      * @param adress addresse à se connecter
@@ -197,5 +195,18 @@ public class Player extends PlayerNetwork{
         return VariableStatic.EXIT_SUCCESS;
     }
 
+    public void getPoint(){
+        for (int i = 0; i < pong.listItemSize() ; i++) {
+            if(pong.getItem(i) instanceof Ball){
+                Ball b =(Ball) pong.getItem(i);
+                int player = b.getLosePlayerSize();
+                if(player != 0 || nombrePlayer <= player){
+
+                    //tous les autres gagne un point!
+                    b.restart();
+                }
+            }
+        }
+    }
 
 }

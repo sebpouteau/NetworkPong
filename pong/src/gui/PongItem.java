@@ -29,14 +29,12 @@ public class PongItem implements KeyListener {
     {
         this.setPosition(new Point(10, 0));
         this.speed = new Point(0,0);
-        this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
 
     }
     public PongItem(int x, int y)
     {
         this.setPosition(new Point(x, y));
         this.speed = new Point(0 , 0);
-        this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
 
     }
 
@@ -69,6 +67,8 @@ public class PongItem implements KeyListener {
         icon = new ImageIcon(this.getImageItem());
         this.setWidth(icon.getIconWidth());
         this.setHeight(icon.getIconHeight());
+        this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
+
     }
 
     public void animate(int sizePongX,int sizePongY){
