@@ -79,11 +79,7 @@ public class Pong extends JPanel {
 
 	public Pong() {
 		pongList = new ArrayList<PongItem>();
-		this.add(new Racket(3));
-		this.add(new Ball(1,80, 80));
-		this.add(new Ball(2,200, 200));
         this.setPreferredSize(new Dimension(SIZE_PONG_X, SIZE_PONG_Y));
-		this.addKeyListener(getItem(0));
 	}
 
 	public void animateItem() {

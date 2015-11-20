@@ -52,10 +52,10 @@ public class Player extends PlayerNetwork{
         String[] item = listItem[MYRACKET].split(" ");
         this.nombrePlayer = Protocol.decryptNumberPlayer(item);
         this.idplayer = Protocol.decryptId(item);
-        pong.getItem(MYRACKET).setNumber(this.idplayer);
+        //pong.getItem(MYRACKET).setNumber(this.idplayer);
         for (int i = 0; i < listItem.length; i++) {
             item = listItem[i].split(" ");
-            if (updateItem(item, Protocol.decryptClasseItem(item))==VariableStatic.EXIT_FAILURE) {
+            //if (updateItem(item, Protocol.decryptClasseItem(item))==VariableStatic.EXIT_FAILURE) {
                 if (Protocol.decryptClasseItem(item).compareTo("Racket") == 0)
                     pong.add(new Racket(Protocol.decryptId(item),
                             Protocol.decryptX(item),
@@ -65,7 +65,9 @@ public class Player extends PlayerNetwork{
                             Protocol.decryptX(item),
                             Protocol.decryptY(item)));
             }
-        }
+       // }
+       pong.addKeyListener(pong.getItem(0));
+
 
     }
 
@@ -141,6 +143,7 @@ public class Player extends PlayerNetwork{
      * @return retourne le numero du joueur controlant la balle
      */
     public int idPlayerControlerBall(String[] message){
+        System.out.println(message);
         int x = Protocol.decryptX(message);
         int y = Protocol.decryptY(message);
         int idPlayer = 0;
@@ -223,6 +226,7 @@ public class Player extends PlayerNetwork{
             String lu = read(listSocketSize()-1);
             System.out.println(lu);
             addRacketNewPlayer(lu);
+            this.addPlayer();
         }
         return VariableStatic.EXIT_SUCCESS;
     }

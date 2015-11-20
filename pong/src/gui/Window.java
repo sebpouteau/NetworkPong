@@ -19,13 +19,13 @@ public class Window extends JFrame {
 	public Window(Pong pong) {
 		this.pong = pong;
 
-		for (int i = 0; i < pong.listItemSize(); i++) {
-			if (pong.getItem(i) instanceof Racket) {
-				this.addKeyListener(pong.getItem(i));
+		//for (int i = 0; i < pong.listItemSize(); i++) {
+		//	if (pong.getItem(i) instanceof Racket) {
+				this.addKeyListener(pong.getItem(0));
 
-			}
+	//		}
 
-		}
+		//}
 	}
 	/**
 	 * Displays the Window using the defined margins, and call the

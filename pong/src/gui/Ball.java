@@ -129,7 +129,6 @@ public class Ball extends PongItem {
             this.setSpeedX(-this.getSpeedX());
             this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY()+ this.getSpeedY() );
         }
-
         else{
             this.setSpeedY(-this.getSpeedY());
             int s = pi.getSpeedX();

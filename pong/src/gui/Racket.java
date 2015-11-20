@@ -14,7 +14,21 @@ public class Racket extends PongItem {
 
 	public Racket(int idPlayer){
 		super();
-		initImage(getImage());
+		if(idPlayer < 3) {
+			initImage(getImage());
+			if(idPlayer == 1)
+				this.setPosition(10 ,Pong.getSizePongY()/2 - getHeight()/2 );
+			else
+				this.setPosition(Pong.getSizePongX() - getWidth() - 10, Pong.getSizePongY()/2- getHeight()/2);
+		}
+		else {
+			initImage(getImageH());
+			if(idPlayer == 3)
+				this.setPosition( Pong.getSizePongX() / 2 - this.getWidth()/2, 10);
+			else
+				this.setPosition(Pong.getSizePongX() / 2 - this.getWidth()/2, Pong.getSizePongY() - getHeight() - 10);
+		}
+		this.setNumber(idPlayer);
 	}
 
 	public Racket(int idPlayer,int x, int y){
@@ -39,7 +53,12 @@ public class Racket extends PongItem {
 
 	public void animate(int sizePongX,int sizePongY){
 		/* Update racket position */
+		this.setPositionX(this.getPositionX()+this.getSpeedY());
 		this.setPositionY(this.getPositionY() + this.getSpeedX());
+		if (this.getPositionX() < 0)
+			this.setPositionX(0);
+		if (this.getPositionX() > sizePongX - this.getWidth())
+			this.setPositionX(sizePongX - this.getWidth());
 		if (this.getPositionY() < 0)
 			this.setPositionY(0);
 		if (this.getPositionY() > sizePongY - this.getHeight())
@@ -54,7 +73,7 @@ public class Racket extends PongItem {
 			case KeyEvent.VK_UP:
 			case KeyEvent.VK_KP_UP:
 				if(this.getNumber() < 3)
-					this.setSpeedX( -RACKET_SPEED);
+					this.setSpeedX(-RACKET_SPEED);
 				break;
 			case KeyEvent.VK_DOWN:
 			case KeyEvent.VK_KP_DOWN:
