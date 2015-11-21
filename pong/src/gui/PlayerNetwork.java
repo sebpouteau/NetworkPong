@@ -1,7 +1,6 @@
 package src.gui;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
-import src.util.VariableStatic;
+
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -11,23 +10,23 @@ import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 
 /**
- * Created by sebpouteau on 18/11/15.
+ * PlayerNetwork
  */
 public class PlayerNetwork {
     private ServerSocketChannel server;
     private ArrayList<SocketPlayer> tabSocket;
     private int port;
 
+    public PlayerNetwork(){
+        tabSocket = new ArrayList<>();
+    }
+
+    /* =================================================
+                      Getter and Setter
+     ================================================= */
+
     public ServerSocketChannel getServer(){
         return server;
-    }
-
-    public int listSocketSize(){
-        return this.tabSocket.size();
-    }
-
-    public PlayerNetwork(){
-        tabSocket = new ArrayList<SocketPlayer>();
     }
 
     public Socket getSocket(int pos) {
@@ -38,13 +37,29 @@ public class PlayerNetwork {
         return this.tabSocket.get(pos);
     }
 
-
     public int getPort() {
         return port;
     }
 
-    public void setPort(int port) {
+    public int listSocketSize(){
+        return this.tabSocket.size();
+    }
+
+
+     /* =================================================
+                         Fonctions
+     ================================================= */
+
+    /**
+     * Initialise le serveur du joueur
+     * @param port port d'écoute du serveur
+     * @throws IOException
+     */
+    public void initServeur(int port) throws IOException {
         this.port = port;
+        this.server = ServerSocketChannel.open();
+        this.server.socket().bind(new InetSocketAddress(this.port));
+        this.server.configureBlocking(false);
     }
 
     /**
@@ -68,20 +83,6 @@ public class PlayerNetwork {
         PrintStream ps = new PrintStream(os, false, "utf-8");
         ps.println(message);
         ps.flush();
-//        ps.println(Protocol.MESSAGE_END);
-//        ps.flush();
-    }
-
-    /**
-     * Initialise le serveur du joueur
-     * @param port port d'écoute du serveur
-     * @throws IOException
-     */
-    public void initServeur(int port) throws IOException {
-        this.port = port;
-        this.server = ServerSocketChannel.open();
-        this.server.socket().bind(new InetSocketAddress(this.port));
-        this.server.configureBlocking(false);
     }
 
     /**
@@ -93,16 +94,16 @@ public class PlayerNetwork {
     public String read(int idSocket) throws IOException{
         InputStream is = this.getSocket(idSocket).getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
-        String lu = "";
-        //while (true) {
-            String tmp = br.readLine();
-          //  if (tmp.compareTo(Protocol.MESSAGE_END) == 0)
-            //    break;
-            //lu = tmp;
-        //}
-        return tmp;
+       return br.readLine();
     }
 
+    /**
+     * Permet de ce connecter à un serveur
+     * @param adress addresse à se connecter
+     * @param portConnection port de connection
+     * @return retourne la socket connecter
+     * @throws IOException
+     */
     public Socket connection(String adress, int portConnection) throws IOException {
         SocketChannel socket = SocketChannel.open();
         socket.connect(new InetSocketAddress(adress, portConnection));
@@ -116,10 +117,10 @@ public class PlayerNetwork {
      * @param adress addresse à se connecter
      * @param portConnection port de connection
      * @param first Vrai si première connection dans la partie Faux sinon
-     * @return retourne le String contenant la réponse du serveur
+     * @return la position de la nouvelle socket dans la liste des sockets
      * @throws IOException
      */
-    public String[] connectionServer(String adress, int portConnection, boolean first) throws IOException {
+    public int connectionServer(String adress, int portConnection, boolean first) throws IOException {
         Socket s = connection(adress, portConnection);
         SocketPlayer socketPlayer = new SocketPlayer(s, portConnection);
         int position = this.addSocket(socketPlayer);
@@ -127,37 +128,24 @@ public class PlayerNetwork {
         String message = Protocol.identification(this.getPort(),first);
         sendMessage(this.getSocket(position),message);
         /* reception des informations envoyées par le serveur du premier joueur */
-        String[] tabLecture= new String[2];
-        tabLecture[0] = read(position);
-        tabLecture[1] = read(position);
-
-        System.out.println(tabLecture[0]);
-        System.out.println(tabLecture[1]);
-
-        return tabLecture;
+        return position;
     }
 
     /**
      * Fonction permettant d'accepter une connexion d'un joueur
      * @param socket Socket à accepter
-     * @return return si Connection établie et joueur valide retourne EXIT_SUCCESS sinon retourne EXIT_FAILURE
+     * @return true si premiere connection à un joueur, false sinon
      * @throws IOException
      */
-    public int[] connectionAccept(Socket socket) throws IOException {
+    public boolean connectionAccept(Socket socket) throws IOException {
         SocketPlayer socketPlayer = new SocketPlayer(socket, 0);
         int position = this.addSocket(socketPlayer);
         String lu = read(position);
-        System.out.println(lu);
         if (!Protocol.validPlayer(lu))
              position = -1;
         int port = Protocol.decryptPort(lu);
         this.getSocketPlayer(position).setPort(port);
-        int t[] = new int[2];
-        t[0] = position;
-        System.out.println(Protocol.decryptFirst(lu));
-        t[1] = Protocol.decryptFirst(lu)?1:0;
-        System.out.println(t[1]);
-        return t;
+        return Protocol.decryptFirst(lu);
     }
 
 
