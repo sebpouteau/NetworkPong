@@ -1,4 +1,7 @@
-package src.gui;
+package src.Network;
+
+import src.gui.PongItem;
+import src.gui.Racket;
 
 /**
  * Created by sebpouteau on 18/11/15.

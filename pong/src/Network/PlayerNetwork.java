@@ -1,6 +1,4 @@
-package src.gui;
-
-
+package src.Network;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -78,11 +76,9 @@ public class PlayerNetwork {
      * @param message message à envoyer
      * @throws IOException
      */
-    public void sendMessage(Socket socket,String message) throws IOException {
-        OutputStream os = socket.getOutputStream();
-        PrintStream ps = new PrintStream(os, false, "utf-8");
-        ps.println(message);
-        ps.flush();
+    public void sendMessage(SocketPlayer socket,String message) throws IOException {
+        socket.getPrintStream().println(message);
+        socket.getPrintStream().flush();
     }
 
     /**
@@ -92,9 +88,7 @@ public class PlayerNetwork {
      * @throws IOException
      */
     public String read(int idSocket) throws IOException{
-        InputStream is = this.getSocket(idSocket).getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
-       return br.readLine();
+       return this.getSocketPlayer(idSocket).getBufferReader().readLine();
     }
 
     /**
@@ -125,8 +119,8 @@ public class PlayerNetwork {
         SocketPlayer socketPlayer = new SocketPlayer(s, portConnection);
         int position = this.addSocket(socketPlayer);
         /* envoie des informations de reconnaissance */
-        String message = Protocol.identification(this.getPort(),first);
-        sendMessage(this.getSocket(position),message);
+        String message = Protocol.identification(this.getPort(), first);
+        sendMessage(this.getSocketPlayer(position),message);
         /* reception des informations envoyées par le serveur du premier joueur */
         return position;
     }

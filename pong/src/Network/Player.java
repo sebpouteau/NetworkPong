@@ -1,5 +1,6 @@
-package src.gui;
+package src.Network;
 
+import src.gui.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -9,7 +10,7 @@ import java.net.Socket;
 public class Player extends PlayerNetwork {
 
     private static int MYRACKET = 0;
-    private  Pong pong;
+    private Pong pong;
     private int idplayer;
     private int nombrePlayer;
     private int maxPlayer;
@@ -76,7 +77,7 @@ public class Player extends PlayerNetwork {
      */
     private String listItemGame(Racket newRacket) {
         StringBuilder message = new StringBuilder();
-        message.append(Protocol.attributionNewPlayer(this.getNombrePlayer(),this.getMaxPlayer(), newRacket));
+        message.append(Protocol.attributionNewPlayer(this.getNombrePlayer(), this.getMaxPlayer(), newRacket));
         message.append(";");
         for (int i = 0; i < getPong().listItemSize(); i++) {
             message.append(Protocol.informationItem(getPong().getItem(i)));
@@ -188,7 +189,7 @@ public class Player extends PlayerNetwork {
      * @param socket Socket à qui envoyer les information
      * @throws IOException
      */
-    public void addNewClient(Socket socket, int position) throws IOException, InterruptedException {
+    public void addNewClient(SocketPlayer socket, int position) throws IOException, InterruptedException {
         /* envoie tout les objets présent dans le jeu */
         StringBuilder listOtherPlayer = new StringBuilder();
         for (int i = 0; i < position; i++) {
@@ -269,7 +270,7 @@ public class Player extends PlayerNetwork {
         else{
             String myRacket = Protocol.informationItem(getPong().getItem(MYRACKET));
             Thread.sleep(1);
-            sendMessage(getSocket(position), myRacket);
+            sendMessage(getSocketPlayer(position), myRacket);
         }
     }
 
@@ -283,7 +284,7 @@ public class Player extends PlayerNetwork {
         boolean first = super.connectionAccept(socket);
         int pos = listSocketSize()-1;
         if (first)
-            this.addNewClient(this.getSocket(pos),pos);
+            this.addNewClient(this.getSocketPlayer(pos),pos);
         else{
             String lu = read(pos);
             addRacketNewPlayer(lu);
