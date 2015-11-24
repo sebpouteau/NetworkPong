@@ -43,6 +43,10 @@ public class PlayerNetwork {
         return this.tabSocket.size();
     }
 
+    public void removeSocket(int id) throws IOException {
+        getSocket(id).close();
+        tabSocket.remove(id);
+    }
 
      /* =================================================
                          Fonctions
@@ -87,8 +91,8 @@ public class PlayerNetwork {
      * @return Retourne le String lu
      * @throws IOException
      */
-    public String read(int idSocket) throws IOException{
-       return this.getSocketPlayer(idSocket).getBufferReader().readLine();
+    public String read(int idSocket) throws IOException {
+        return this.getSocketPlayer(idSocket).getBufferReader().readLine();
     }
 
     /**

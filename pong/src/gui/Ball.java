@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
 
 public class Ball extends PongItem {
 
-    public static final int BALL_SPEED = 2;
+    public static final int BALL_SPEED = 5;
     private Point speed;
     private String image = "image/ball.png";
 

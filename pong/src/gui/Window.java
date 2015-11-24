@@ -1,6 +1,7 @@
 package src.gui;
 
 import javax.swing.JFrame;
+import java.awt.event.WindowAdapter;
 
 /**
  * A Window is a Java frame containing an Pong
@@ -18,14 +19,9 @@ public class Window extends JFrame {
 	 */
 	public Window(Pong pong) {
 		this.pong = pong;
+		this.addKeyListener(pong.getItem(0));
 
-		//for (int i = 0; i < pong.listItemSize(); i++) {
-		//	if (pong.getItem(i) instanceof Racket) {
-				this.addKeyListener(pong.getItem(0));
 
-	//		}
-
-		//}
 	}
 	/**
 	 * Displays the Window using the defined margins, and call the

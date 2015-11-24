@@ -142,7 +142,6 @@ public class Protocol {
         return Integer.parseInt(message[MAX_PLAYER]);
     }
 
-
     /* =================================================
                     Fonction Utile
        ================================================= */
@@ -208,7 +207,7 @@ public class Protocol {
         StringBuilder m = new StringBuilder();
         m.append("Socket ");
         m.append(socketPlayer.getPort()).append(" ");
-        m.append(socketPlayer.getAdress()).append(";");
+        m.append(socketPlayer.getAdress()).append(" ");
         return m.toString();
     }
 
