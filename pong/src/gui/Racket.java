@@ -1,7 +1,5 @@
 package src.gui;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Racket extends PongItem {
@@ -30,26 +28,6 @@ public class Racket extends PongItem {
 		}
 		this.setNumber(idPlayer);
 	}
-
-	public Racket(int idPlayer,int x, int y){
-		super(x,y);
-		if(idPlayer < 3) {
-			initImage(getImage());
-			if(idPlayer == 1)
-            this.setPosition(10 ,Pong.getSizePongY()/2 - getHeight()/2 );
-			else
-				this.setPosition(Pong.getSizePongX() - getWidth() - 10, Pong.getSizePongY()/2- getHeight()/2);
-		}
-		else {
-			initImage(getImageH());
-			if(idPlayer == 3)
-				this.setPosition( Pong.getSizePongX() / 2 - this.getWidth()/2, 10);
-			else
-				this.setPosition(Pong.getSizePongX() / 2 - this.getWidth()/2, Pong.getSizePongY() - getHeight() - 10);
-		}
-		this.setNumber(idPlayer);
-	}
-
 
 	public void animate(int sizePongX,int sizePongY){
 		/* Update racket position */

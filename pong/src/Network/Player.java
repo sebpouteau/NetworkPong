@@ -14,7 +14,7 @@ public class Player extends PlayerNetwork {
     private int idplayer;
     private int nombrePlayer;
     private int maxPlayer;
-
+    int score;
     public Player(Pong pong) {
         super();
         this.pong = pong;
@@ -54,7 +54,10 @@ public class Player extends PlayerNetwork {
                 Ball b =(Ball) getPong().getItem(i);
                 int player = b.getLosePlayerSize();
                 if(player != 0 && player <= nombrePlayer ){
-                    //tous les autres gagne un point!
+                    if (player!= idplayer) {
+                        score++;
+                        System.out.println(score);
+                    }
                     b.restart();
                 }
             }
@@ -142,9 +145,7 @@ public class Player extends PlayerNetwork {
         for (String aListItem : listItem) {
             item = aListItem.split(" ");
             if (Protocol.decryptClasseItem(item).compareTo("Racket") == 0)
-                getPong().add(new Racket(Protocol.decryptId(item),
-                        Protocol.decryptX(item),
-                        Protocol.decryptY(item)));
+                getPong().add(new Racket(Protocol.decryptId(item)));
             else
                 getPong().add(new Ball(Protocol.decryptId(item),
                         Protocol.decryptX(item),
@@ -173,7 +174,7 @@ public class Player extends PlayerNetwork {
 
     }
 
-    /**e
+    /**
      * Ajoute la raquette d'un nouveau joueur qui c'est déjà connecté à un autre joueur avant lui
      * @param message String contenant les informations de la raqket du nouveau joueur
      */
@@ -214,19 +215,31 @@ public class Player extends PlayerNetwork {
      * @throws IOException
      */
     public void update(int idSocket) throws IOException {
-        InputStream is = this.getSocket(idSocket).getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
-        String message = br.readLine();
-        if (message != null) {
-            String[] item = message.split(";");
-            for (String anItem : item) {
-                String[] info = anItem.split(" ");
-                if (idPlayerControlBall(info) != idplayer)
-                    updateItem(info, "Ball");
-                updateItem(info, "Racket");
+
+                String message = null;
+                try {
+                    message = read(idSocket);
+                } catch (IOException e) {
+                    System.out.println("destruction");
+                    removeSocket(idSocket);
+                    for (int i= 0; i < getPong().listItemSize();i++) {
+                        if (getPong().getItem(i).getClass().getSimpleName().equals("Racket")
+                                && getPong().getItem(i).getNumber() == idSocket+1) {
+                            getPong().remove(idSocket+1);
+                            break;
+                        }
+                    }
+                }
+                if (message != null) {
+                    String[] item = message.split(";");
+                    for (String anItem : item) {
+                        String[] info = anItem.split(" ");
+                        if (idPlayerControlBall(info) != idplayer)
+                            updateItem(info, "Ball");
+                        updateItem(info, "Racket");
+                    }
+                }
             }
-        }
-    }
 
     /**
      * Fonction permettant de mettre à jour un item grace à un message contenant ses information

@@ -1,8 +1,11 @@
 all:
 	javac $(shell find . -name \*.java)
 
-run: all
-	java src.Main
+run1: all
+	java src.Main 7777 2
+run2: all
+	java src.Main 7778 10.0.8.22 7777
+
 
 clean:
 	rm $(shell find . -name \*.class)

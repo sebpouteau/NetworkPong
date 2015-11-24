@@ -7,6 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.io.*;
 import java.nio.channels.SocketChannel;
 
+import static com.sun.javaws.ui.SplashScreen.hide;
 
 /**
  * Nous passerons pour le premier: 1 port

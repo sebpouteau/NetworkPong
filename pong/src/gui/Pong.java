@@ -68,6 +68,9 @@ public class Pong extends JPanel {
 		}
 		this.pongList.add(item);
 	}
+	public void removeItem(int id){
+		pongList.remove(id);
+	}
 
 	public PongItem getItem(int number){
 		return this.pongList.get(number);
