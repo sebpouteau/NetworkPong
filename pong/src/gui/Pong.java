@@ -95,15 +95,15 @@ public class Pong extends JPanel {
 			getItem(i).collision(pongList);
 			getItem(i).animate(SIZE_PONG_X,SIZE_PONG_Y);
 		}
-        if(time + bonusDelay < System.currentTimeMillis() && !bonus.getIsVisible()){
-            System.out.println("coucou");
-            bonus.appearance(SIZE_PONG_X/2, SIZE_PONG_Y/2);
-            time = System.currentTimeMillis();
-        }
-        if(bonus.getIsVisible()) {
-            bonus.animate(getSizePongX(), getSizePongY());
-            bonus.collision(pongList);
-        }
+//        if(time + bonusDelay < System.currentTimeMillis() && !bonus.getIsVisible()){
+//            System.out.println("coucou");
+//            bonus.appearance(SIZE_PONG_X/2, SIZE_PONG_Y/2);
+//            time = System.currentTimeMillis();
+//        }
+//        if(bonus.getIsVisible()) {
+//            bonus.animate(getSizePongX(), getSizePongY());
+//            bonus.collision(pongList);
+//        }
 
 		this.updateScreen();
 	}
@@ -134,10 +134,10 @@ public class Pong extends JPanel {
 					getItem(i).getWidth(), getItem(i).getHeight(),
 					null);
 		}
-        if(bonus.getIsVisible()){
-            graphicContext.drawImage(bonus.getImageItem(),bonus.getPositionX(), bonus.getPositionY(),
-            bonus.getWidth(), bonus.getHeight(),null);
-        }
+//        if(bonus.getIsVisible()){
+//            graphicContext.drawImage(bonus.getImageItem(),bonus.getPositionX(), bonus.getPositionY(),
+//            bonus.getWidth(), bonus.getHeight(),null);
+//        }
 		this.repaint();
 	}
 }

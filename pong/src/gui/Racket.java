@@ -7,8 +7,8 @@ public class Racket extends PongItem {
 	private String image = "image/raquette.png";
 	private String imageH = "image/raquetteH.png";
 
-	private String getImage(){return image;}
-	private String getImageH(){return imageH;}
+	public String getImage(){return image;}
+	public String getImageH(){return imageH;}
 
 	public Racket(int idPlayer){
 		super();

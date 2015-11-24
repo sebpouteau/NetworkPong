@@ -129,11 +129,11 @@ public class PongItem implements KeyListener {
                 b.collision(p.get(i));
                 t = true;
             }
-            if(this instanceof Bonus && p.get(i) instanceof Racket ){
-                Racket r = (Racket) p.get(i);
-                r.collision(this);
-
-            }
+//            if(this instanceof Bonus && p.get(i) instanceof Racket ){
+//                Racket r = (Racket) p.get(i);
+//                r.collision(this);
+//
+//            }
 
         }
         return t;

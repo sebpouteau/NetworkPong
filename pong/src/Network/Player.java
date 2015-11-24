@@ -48,17 +48,20 @@ public class Player extends PlayerNetwork {
 
     public void addPlayer() {this.nombrePlayer++;}
 
-    public void getScore(){
-        for (int i = 0; i < getPong().listItemSize() ; i++) {
-            if(getPong().getItem(i) instanceof Ball){
-                Ball b =(Ball) getPong().getItem(i);
+    public void getScore() {
+        for (int i = 0; i < getPong().listItemSize(); i++) {
+            if (getPong().getItem(i) instanceof Ball) {
+                Ball b = (Ball) getPong().getItem(i);
                 int player = b.getLosePlayerSize();
-                if(player != 0 && player <= nombrePlayer ){
-                    if (player!= idplayer) {
-                        score++;
-                        System.out.println(score);
+                for (int j = 0; j < getPong().listItemSize(); j++) {
+                    if(getPong().getItem(j) instanceof Racket)
+                        if (player != 0 && player == getPong().getItem(j).getNumber()) {
+                            if (player != idplayer) {
+                                score++;
+                                System.out.println(score);
+                            }
+                            b.restart();
                     }
-                    b.restart();
                 }
             }
         }
