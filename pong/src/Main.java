@@ -47,7 +47,13 @@ public class Main{
 		}
 		Window window = new Window(pong);
 		window.displayOnscreen();
+
+		for (int i=0; i< client.listSocketSize();i++){
+			System.out.println(client.getSocketPlayer(i).getPort() + " "+ client.getSocketPlayer(i).getNumeroPlayer());
+		}
 		while (true) {
+			if (client.getNombrePlayer()< 2)
+				return;
 			if (client.getNombrePlayer() > 1) {
 				String info = client.information();
 				for (int i = 0; i < client.listSocketSize(); i++) {
@@ -66,4 +72,6 @@ public class Main{
 			client.getScore();
 		}
 	}
+
+
 }

@@ -6,7 +6,7 @@ import java.awt.Image;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  * An Pong is a Java graphical container that extends the JPanel class in
@@ -39,6 +39,7 @@ public class Pong extends JPanel {
 	 */
 	private static final Color backgroundColor = new Color(209, 209, 206);
 
+
 	/**
 	 * Time step of the simulation (in ms)
 	 */
@@ -59,15 +60,16 @@ public class Pong extends JPanel {
     private Bonus bonus;
 	private ArrayList<PongItem> pongList;
 
+
 	public void add(PongItem item){
 		if (item instanceof Ball) {
-			int compteur=0;
+			int cpt=0;
 			for (int i = 0; i < listItemSize(); i++) {
 				if (getItem(i) instanceof Ball)
-					compteur = Math.max(compteur,getItem(i).getNumber())+1;
+					cpt = Math.max(cpt,getItem(i).getNumber())+1;
 			}
-			item.setNumber(compteur++);
-			System.out.println(compteur);
+			item.setNumber(cpt++);
+			System.out.println(cpt);
 		}
 		this.pongList.add(item);
 	}
@@ -134,6 +136,7 @@ public class Pong extends JPanel {
 					getItem(i).getWidth(), getItem(i).getHeight(),
 					null);
 		}
+		JLabel text = new JLabel("coucou");
 //        if(bonus.getIsVisible()){
 //            graphicContext.drawImage(bonus.getImageItem(),bonus.getPositionX(), bonus.getPositionY(),
 //            bonus.getWidth(), bonus.getHeight(),null);

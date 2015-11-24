@@ -15,6 +15,7 @@ public class Protocol {
     private static int SPEED_Y = 5;
     private static int NUMBER_PLAYER = 6;
     private static int MAX_PLAYER = 7;
+    private static int ID_PLAYER_CONNECTED = 8;
     private static int IDENTIFICATION=0;
     private static int POS_INFORM_IDENTIFICATION = 1;
     private static int PORT = 1;
@@ -142,6 +143,8 @@ public class Protocol {
         return Integer.parseInt(message[MAX_PLAYER]);
     }
 
+    public static int decryptIdPlayerConnected(String[] message){ return Integer.parseInt(message[ID_PLAYER_CONNECTED]);}
+
     /* =================================================
                     Fonction Utile
        ================================================= */
@@ -174,11 +177,12 @@ public class Protocol {
      * @param racket Racket du nouveau joueur
      * @return String contenant les informations
      */
-    public static String attributionNewPlayer(int numberPlayer, int maxPlayer, Racket racket){
+    public static String attributionNewPlayer(int numberPlayer, int maxPlayer, Racket racket, int idPlayerConncted){
         StringBuilder m = new StringBuilder();
         m.append(informationItem(racket)).append(" ");
         m.append(numberPlayer).append(" ");
-        m.append(maxPlayer);
+        m.append(maxPlayer).append(" ");
+        m.append(idPlayerConncted);
         return m.toString();
     }
 

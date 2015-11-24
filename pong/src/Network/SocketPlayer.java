@@ -14,6 +14,16 @@ public class SocketPlayer {
     private InputStream inputStream;
     private BufferedReader bufferReader;
 
+    public int getNumeroPlayer() {
+        return numeroPlayer;
+    }
+
+    public void setNumeroPlayer(int numeroPlayer) {
+        this.numeroPlayer = numeroPlayer;
+    }
+
+    private int numeroPlayer;
+
     public InputStream getInputStream() {
         return inputStream;
     }

@@ -29,12 +29,16 @@ public class Player extends PlayerNetwork {
     public int getNombrePlayer() {
         return nombrePlayer;
     }
+
     public void setNombrePlayer(int nombrePlayer) {
         this.nombrePlayer = nombrePlayer;
     }
 
     public void setIdplayer(int idplayer) {
         this.idplayer = idplayer;
+    }
+    public int getIdplayer() {
+        return this.idplayer;
     }
 
     public int getMaxPlayer() {
@@ -83,7 +87,7 @@ public class Player extends PlayerNetwork {
      */
     private String listItemGame(Racket newRacket) {
         StringBuilder message = new StringBuilder();
-        message.append(Protocol.attributionNewPlayer(this.getNombrePlayer(), this.getMaxPlayer(), newRacket));
+        message.append(Protocol.attributionNewPlayer(this.getNombrePlayer(), this.getMaxPlayer(), newRacket, this.getIdplayer()));
         message.append(";");
         for (int i = 0; i < getPong().listItemSize(); i++) {
             message.append(Protocol.informationItem(getPong().getItem(i)));
@@ -138,13 +142,14 @@ public class Player extends PlayerNetwork {
      *
      * @param message String contenant tout les objets du jeu
      */
-    public void initialisationItem(String message) {
+    public void initialisationItem(String message,SocketPlayer s) {
         String[] listItem = message.split(";");
         System.out.println(listItem[0]);
         String[] item = listItem[MYRACKET].split(" ");
         this.setNombrePlayer(Protocol.decryptNumberPlayer(item));
         this.setIdplayer(Protocol.decryptId(item));
         this.setMaxPlayer(Protocol.decryptMaxPlayer(item));
+        s.setNumeroPlayer(Protocol.decryptIdPlayerConnected(item));
         for (String aListItem : listItem) {
             item = aListItem.split(" ");
             if (Protocol.decryptClasseItem(item).compareTo("Racket") == 0)
@@ -181,9 +186,10 @@ public class Player extends PlayerNetwork {
      * Ajoute la raquette d'un nouveau joueur qui c'est déjà connecté à un autre joueur avant lui
      * @param message String contenant les informations de la raqket du nouveau joueur
      */
-    public void addRacketNewPlayer(String message){
+    public void addRacketNewPlayer(String message, SocketPlayer s){
         String[] item = message.split(" ");
         Racket newRacket = new Racket(Protocol.decryptId(item));
+        s.setNumeroPlayer(Protocol.decryptId(item));
         getPong().add(newRacket);
     }
 
@@ -202,12 +208,27 @@ public class Player extends PlayerNetwork {
         /* envoie de la liste des connexions */
         sendMessage(socket, listOtherPlayer.toString());
         this.addPlayer();
+        socket.setNumeroPlayer(this.nombrePlayer);
         /* creation nouvelle racket et envoie des items du jeu au nouveau joueur */
         Racket newRacket = new Racket(this.getNombrePlayer());
         String item = listItemGame(newRacket);
         this.getPong().add(newRacket);
         Thread.sleep(1);
         sendMessage(socket, item);
+    }
+
+
+    public void removePlayer(int idSocket) throws IOException {
+        for (int i= 0; i < getPong().listItemSize();i++) {
+            if (getPong().getItem(i).getClass().getSimpleName().equals("Racket")
+                    && getPong().getItem(i).getNumber() == getSocketPlayer(idSocket).getNumeroPlayer()) {
+                getPong().removeItem(i);
+                this.setNombrePlayer(this.getNombrePlayer() - 1);
+                break;
+            }
+        }
+        removeSocket(idSocket);
+
     }
 
     /**
@@ -223,15 +244,7 @@ public class Player extends PlayerNetwork {
                 try {
                     message = read(idSocket);
                 } catch (IOException e) {
-                    System.out.println("destruction");
-                    removeSocket(idSocket);
-                    for (int i= 0; i < getPong().listItemSize();i++) {
-                        if (getPong().getItem(i).getClass().getSimpleName().equals("Racket")
-                                && getPong().getItem(i).getNumber() == idSocket+1) {
-                            getPong().remove(idSocket+1);
-                            break;
-                        }
-                    }
+                    removePlayer(idSocket);
                 }
                 if (message != null) {
                     String[] item = message.split(";");
@@ -279,7 +292,7 @@ public class Player extends PlayerNetwork {
             String tabSocket = read(position);
             String listItem = read(position);
 
-            this.initialisationItem(listItem);
+            this.initialisationItem(listItem,getSocketPlayer(position));
             if (!tabSocket.isEmpty())
                 this.initialisationSocket(tabSocket);
         }
@@ -287,6 +300,9 @@ public class Player extends PlayerNetwork {
             String myRacket = Protocol.informationItem(getPong().getItem(MYRACKET));
             Thread.sleep(1);
             sendMessage(getSocketPlayer(position), myRacket);
+            String lu = read(position);
+            String[] message = lu.split(" ");
+            getSocketPlayer(position).setNumeroPlayer(Protocol.decryptId(message));
         }
     }
 
@@ -303,7 +319,8 @@ public class Player extends PlayerNetwork {
             this.addNewClient(this.getSocketPlayer(pos),pos);
         else{
             String lu = read(pos);
-            addRacketNewPlayer(lu);
+            addRacketNewPlayer(lu,getSocketPlayer(pos));
+            sendMessage(getSocketPlayer(pos), Protocol.informationItem(getMyRacket()));
             this.addPlayer();
         }
     }

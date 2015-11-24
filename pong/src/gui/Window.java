@@ -1,6 +1,7 @@
 package src.gui;
 
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 
 /**
@@ -18,6 +19,7 @@ public class Window extends JFrame {
 	 /* Constructor
 	 */
 	public Window(Pong pong) {
+		super("Pong");
 		this.pong = pong;
 		this.addKeyListener(pong.getItem(0));
 
