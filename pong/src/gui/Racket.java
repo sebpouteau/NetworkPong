@@ -67,6 +67,16 @@ public class Racket extends PongItem {
 
 	}
 
+	public void collision(PongItem pi){
+		if (this.getSurface().intersects(pi.getSurface())){
+            if(pi instanceof Bonus){
+                Bonus b = (Bonus) pi;
+                b.disappear();
+                b.duration(this);
+            }
+        }
+
+	}
 
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -90,7 +100,7 @@ public class Racket extends PongItem {
 				if(this.getNumber() > 2)
 					this.setSpeedY(RACKET_SPEED);
 			default:
-				System.out.println("got press "+e);
+				//System.out.println("got press "+e);
 		}
 	}
 	public void keyReleased(KeyEvent e) {
@@ -111,7 +121,7 @@ public class Racket extends PongItem {
 			case KeyEvent.VK_KP_RIGHT:
 				this.setSpeedY(0);
 			default:
-				System.out.println("got release "+e);
+				//System.out.println("got release "+e);
 		}
 	}
 	public void keyTyped(KeyEvent e) { }

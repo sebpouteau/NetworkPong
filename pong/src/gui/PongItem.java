@@ -21,18 +21,6 @@ public class PongItem implements KeyListener {
     public void setNumber(int number) {
         this.number = number;
     }
-
-    public PongItem() {
-        this.setPosition(new Point(10, 0));
-        this.speed = new Point(0,0);
-
-    }
-    public PongItem(int x, int y) {
-        this.setPosition(new Point(x, y));
-        this.speed = new Point(0 , 0);
-
-    }
-
     public Point getSpeed() {
         return speed;
     }
@@ -55,20 +43,35 @@ public class PongItem implements KeyListener {
         this.speed = speed;
     }
 
+    public PongItem() {
+        this.setPosition(new Point(10, 0));
+        this.speed = new Point(0,0);
+
+    }
+
+    public PongItem(int x, int y) {
+        this.setPosition(new Point(x, y));
+        this.speed = new Point(0 , 0);
+    }
+
     public void initImage(String chemin){
-        ImageIcon icon;
         this.setImageItem(Toolkit.getDefaultToolkit().createImage(
                 ClassLoader.getSystemResource(chemin)));
-        icon = new ImageIcon(this.getImageItem());
-        this.setWidth(icon.getIconWidth());
-        this.setHeight(icon.getIconHeight());
         this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
-
     }
 
     public void animate(int sizePongX,int sizePongY){
     }
 
+    public Image getImageItem() {
+        return imageItem;
+    }
+    public void setImageItem(Image imageItem) {
+        this.imageItem = imageItem;
+        ImageIcon icon = new ImageIcon(imageItem);
+        this.setWidth(icon.getIconWidth());
+        this.setHeight(icon.getIconHeight());
+    }
     public void setSurface(int x, int y, int width, int height){
         this.surface = new Rectangle(x, y,width,height);
     }
@@ -77,12 +80,6 @@ public class PongItem implements KeyListener {
     }
     public Rectangle setPositionRectangle (int x, int y){
         return this.surface = new Rectangle(x, y, this.getWidth(), this.getHeight());
-    }
-    public Image getImageItem() {
-        return imageItem;
-    }
-    public void setImageItem(Image imageItem) {
-        this.imageItem = imageItem;
     }
     public int getWidth() {
         return width;
@@ -131,6 +128,11 @@ public class PongItem implements KeyListener {
                 Ball b = (Ball) this;
                 b.collision(p.get(i));
                 t = true;
+            }
+            if(this instanceof Bonus && p.get(i) instanceof Racket ){
+                Racket r = (Racket) p.get(i);
+                r.collision(this);
+
             }
 
         }

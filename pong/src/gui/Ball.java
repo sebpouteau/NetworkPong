@@ -1,6 +1,7 @@
 package src.gui;
 
 import org.w3c.dom.css.Rect;
+import src.util.RandomNumber;
 
 import javax.swing.*;
 import java.awt.*;
@@ -88,9 +89,22 @@ public class Ball extends PongItem {
         return 0;
     }
 
-
     public void restart(){
-        //à completer si l'on souhaite changer position /vitesse
+        int a = RandomNumber.randomValue(1,4);
+        switch(a){
+            case 1:
+                this.setSpeed(BALL_SPEED, BALL_SPEED);
+                break;
+            case 2:
+                this.setSpeed(BALL_SPEED, -BALL_SPEED);
+                break;
+            case 3:
+                this.setSpeed(-BALL_SPEED, BALL_SPEED);
+                break;
+            case 4:
+                this.setSpeed(-BALL_SPEED, -BALL_SPEED);
+                break;
+        }
         this.setPosition(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
     }
 
@@ -108,37 +122,53 @@ public class Ball extends PongItem {
             return false;
         }
         else {
-            if(pi instanceof Ball)
-                doCollisionBall(pi);
-            else
+            if(pi instanceof Racket)
                 doCollision(pi);
+            else
+                doCollisionBall(pi);
             return true;
         }
     }
 
     public void doCollision(PongItem pi) {
 
-        if(this.getPositionY() <= 0 ){
+        if (this.getPositionY() <= 0) {
             pi.setPosition(pi.getPositionX(), this.getPositionY() + this.getHeight() + pi.getSpeedX());
+        } else if (this.getPositionY() + this.getHeight() >= Pong.getSizePongY()) {
+            pi.setPosition(pi.getPositionX(), this.getPositionY() - pi.getHeight() - pi.getSpeedX());
         }
-        else if(this.getPositionY() + this.getHeight() >= Pong.getSizePongY()){
-            pi.setPosition(pi.getPositionX() , this.getPositionY() - pi.getHeight() - pi.getSpeedX());
-        }
-        if (this.getSurface().getX() >= pi.getSurface().getX() + pi.getSurface().getWidth() || this.getSurface().getX() + this.getSurface().getWidth() <= pi.getSurface().getX()) {
+        if (pi instanceof Racket) {
+            Racket r = (Racket) pi;
+            if (r.getNumber() < 3) {
+                if (this.getSurface().getX() >= pi.getSurface().getX() + pi.getSurface().getWidth() ||
+                        this.getSurface().getX() + this.getSurface().getWidth() <= pi.getSurface().getX()) {
 
-            this.setSpeedX(-this.getSpeedX());
-            this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY()+ this.getSpeedY() );
-        }
-        else{
-            this.setSpeedY(-this.getSpeedY());
-            int s = pi.getSpeedX();
-            this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY() + s);
+                    this.setSpeedX(-this.getSpeedX());
+                    this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY());
+                } else {
+                    this.setSpeedX(-this.getSpeedX());
+                    this.setSpeedY(-this.getSpeedY());
+                    int s = pi.getSpeedX();
+                    this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY() + s);
 
+                }
+            }
+            else{
+                if(this.getSurface().getY() >= pi.getSurface().getY() + pi.getSurface().getHeight() ||
+                        this.getSurface().getY() + this.getSurface().getHeight() <= pi.getSurface().getY() ){
+                    this.setSpeedY(-this.getSpeedY());
+                    this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY());
+                }
+                else{
+                    this.setSpeed(-this.getSpeedX(), -this.getSpeedY());
+                    int s = pi.getSpeedY();
+                    this.setPosition(this.getPositionX() + this.getSpeedX() + s, this.getPositionY() + this.getSpeedY());
+                }
+            }
         }
     }
 
     public void doCollisionBall(PongItem pi){
-
         this.setSpeed(this.getSpeedX(), -this.getSpeedY());
         pi.setSpeed(pi.getSpeedX(), -pi.getSpeedY());
     }

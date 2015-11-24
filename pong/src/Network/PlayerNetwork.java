@@ -16,7 +16,7 @@ public class PlayerNetwork {
     private int port;
 
     public PlayerNetwork(){
-        tabSocket = new ArrayList<>();
+        tabSocket = new ArrayList();
     }
 
     /* =================================================

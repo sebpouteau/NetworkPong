@@ -39,11 +39,15 @@ public class Pong extends JPanel {
 	 */
 	private static final Color backgroundColor = new Color(209, 209, 206);
 
-
 	/**
 	 * Time step of the simulation (in ms)
 	 */
 	public static final int timestep = 10;
+    /**
+     * 15 secondes en millisecondes
+     */
+	private int bonusDelay = 30 * 1000;
+    private long time;
 	/**
 	 * Pixel data buffer for the Pong rendering
 	 */
@@ -52,9 +56,8 @@ public class Pong extends JPanel {
 	 * Graphic component context derived from buffer Image
 	 */
 	private Graphics graphicContext = null;
-
+    private Bonus bonus;
 	private ArrayList<PongItem> pongList;
-
 
 	public void add(PongItem item){
 		if (item instanceof Ball) {
@@ -79,6 +82,8 @@ public class Pong extends JPanel {
 
 	public Pong() {
 		pongList = new ArrayList<PongItem>();
+        bonus = new Bonus();
+        time = System.currentTimeMillis();
         this.setPreferredSize(new Dimension(SIZE_PONG_X, SIZE_PONG_Y));
 	}
 
@@ -87,6 +92,16 @@ public class Pong extends JPanel {
 			getItem(i).collision(pongList);
 			getItem(i).animate(SIZE_PONG_X,SIZE_PONG_Y);
 		}
+        if(time + bonusDelay < System.currentTimeMillis() && !bonus.getIsVisible()){
+            System.out.println("coucou");
+            bonus.appearance(SIZE_PONG_X/2, SIZE_PONG_Y/2);
+            time = System.currentTimeMillis();
+        }
+        if(bonus.getIsVisible()) {
+            bonus.animate(getSizePongX(), getSizePongY());
+            bonus.collision(pongList);
+        }
+
 		this.updateScreen();
 	}
 
@@ -116,6 +131,10 @@ public class Pong extends JPanel {
 					getItem(i).getWidth(), getItem(i).getHeight(),
 					null);
 		}
+        if(bonus.getIsVisible()){
+            graphicContext.drawImage(bonus.getImageItem(),bonus.getPositionX(), bonus.getPositionY(),
+            bonus.getWidth(), bonus.getHeight(),null);
+        }
 		this.repaint();
 	}
 }
