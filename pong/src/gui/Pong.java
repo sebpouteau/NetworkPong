@@ -127,8 +127,9 @@ public class Pong extends JPanel {
                 if(b.isVisible())
                     draw(b);
                 else if(b.isActive() && b.getNumber() == 3){
+					Rock r = (Rock) b;
                     graphicContext.setColor(Color.DARK_GRAY);
-                    graphicContext.fillOval((int) b.getRock().getX(),(int) b.getRock().getY(), (int) b.getRock().getWidth(),(int) b.getRock().getHeight());
+                    graphicContext.fillOval((int) r.getRock().getX(),(int) r.getRock().getY(), (int) r.getRock().getWidth(),(int) r.getRock().getHeight());
                     graphicContext.setColor(backgroundColor);
                 }
             }

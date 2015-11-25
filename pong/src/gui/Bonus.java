@@ -13,21 +13,15 @@ public class Bonus extends PongItem {
     private static int BIGRACKET = 1;
     private static int SMALLRACKET = 2;
     private static int ROCK = 3;
-    private static int DUOBALL = 4;
     private long time;
     private long delay;
     private String image = "image/bonus.png";
     private int numberBonus;
     private boolean visible;
     private boolean active;
-    private PongItem oldPongItem;
-    private Rectangle oldPIRect;
-    private Rectangle bigRect = new Rectangle(15,100);
-    private Rectangle bigRectH = new Rectangle(100, 15);
-    private Rectangle smallRect = new Rectangle(15,60);
-    private Rectangle smallRectH = new Rectangle(60,15);
-    private int lifePointRock;
-    private Rectangle rock = new Rectangle(3,3);
+    private Bonus bonus;
+
+
 
     public Bonus(){}
 
@@ -39,6 +33,7 @@ public class Bonus extends PongItem {
         visible = false;
         numberBonus = nBonus;
     }
+
     public void animate(int sizePongX, int sizePongY){
         if(this.visible) {
             this.setPosition((this.getPositionX() + this.getSpeedX()),(this.getPositionY() + this.getSpeedY()));
@@ -75,9 +70,8 @@ public class Bonus extends PongItem {
     public boolean isVisible(){return visible;}
     public void setActive(Boolean b){ active = b;}
     public void setVisible(Boolean b){visible = b;}
-    public Rectangle getRock(){return rock;}
-    public int getLifePointRock(){return lifePointRock;}
-    public void setLifePointRock(int p){lifePointRock = p;}
+    public Bonus getBonus(){return bonus;}
+
 
     public void duration(){
         if(numberBonus == BIGRACKET || numberBonus == SMALLRACKET)
@@ -90,9 +84,6 @@ public class Bonus extends PongItem {
         this.setSpeed(sX, sY);
         numberBonus = nBonus;
         visible = true;
-        if (nBonus == 3){
-            rock.setLocation(x, y);
-        }
     }
 
     public void disappear(){
@@ -116,78 +107,43 @@ public class Bonus extends PongItem {
     }
 
     public void startBonus(PongItem pi){
+        setTime();
+        setDelay(10);
         active = true;
         switch (numberBonus){
             case 1:
-                startBigRacket(pi);
+                bonus = new ChangeRacketSize(pi, 1);
                 break;
             case 2:
-                startSmallRacket(pi);
+                bonus = new ChangeRacketSize(pi, -1);
                 break;
+
             case 3:
-                startRock();
+                bonus = new Rock();
                 break;
         }
     }
+
     public void stopBonus(){
         active = false;
         switch (numberBonus){
             case 1:
-                stopRacketChange();
+                ChangeRacketSize c = (ChangeRacketSize) bonus;
+                c.stopChangeRacketSize();
                 break;
             case 2:
-                stopRacketChange();
+                ChangeRacketSize s = (ChangeRacketSize) bonus;
+                s.stopChangeRacketSize();
                 break;
             case 3:
-                stopRock();
+
+                Rock r = (Rock) bonus;
+                r.stopRock();
                 break;
 
         }
         numberBonus = 0;
     }
 
-    public void startBigRacket(PongItem pi){
-        time = System.currentTimeMillis();
-        setDelay(10);
-        oldPongItem = pi;
-        oldPIRect = new Rectangle(pi.getWidth(), pi.getHeight());
-        if(pi.getNumber() < 3){
-            pi.setWidth((int) bigRect.getWidth());
-            pi.setHeight((int) bigRect.getHeight());
-        }
-        else{
-            pi.setWidth((int) bigRectH.getWidth());
-            pi.setHeight((int) bigRectH.getHeight());
-        }
-    }
-
-    public void startSmallRacket(PongItem pi){
-        time = System.currentTimeMillis();
-        setDelay(10);
-        oldPongItem = pi;
-        oldPIRect = new Rectangle(pi.getWidth(), pi.getHeight());
-        if(pi.getNumber() < 3){
-            pi.setWidth((int) smallRect.getWidth());
-            pi.setHeight((int) smallRect.getHeight());
-        }
-        else{
-            pi.setWidth((int) smallRectH.getWidth());
-            pi.setHeight((int) smallRectH.getHeight());
-        }
-    }
-
-    public void stopRacketChange(){
-        oldPongItem.setHeight((int)oldPIRect.getHeight());
-        oldPongItem.setWidth((int) oldPIRect.getWidth());
-        numberBonus = 0;
-    }
-
-    public void startRock(){
-        lifePointRock = 3;
-    }
-
-    public void stopRock(){
-
-    }
 
 }
