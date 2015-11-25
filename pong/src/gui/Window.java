@@ -25,11 +25,11 @@ public class Window extends JFrame {
 
 
 	}
+
 	/**
 	 * Displays the Window using the defined margins, and call the
-	 * {@link Pong#()} method of the {@link Pong} every 100ms
+	 * {@link Pong} method of the {@link Pong} every 100ms
 	 */
-
 	public void displayOnscreen() {
 		add(pong);
 		pack();

@@ -20,7 +20,7 @@ public class RandomNumber {
 	 * @param max_x
 	 * @param min_y
 	 * @param max_y
-	 * @return a random Point (x,y) where min_x <= x <= max_x and min_y <= y <=
+	 * @return a random Point (x,y) where min_x inf x inf max_x and min_y inf y inf
 	 *         max_y
 	 */
 	public static Point randomPoint(int min_x, int max_x, int min_y, int max_y) {

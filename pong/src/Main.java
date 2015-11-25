@@ -41,6 +41,7 @@ public class Main{
 				SocketChannel sc = client.getServer().accept();
 				if (sc != null) {
 					sc.socket().setTcpNoDelay(true);
+					System.out.println("accepte");
 					client.connectionAcceptPlayer(sc.socket());
 				}
 			}
@@ -54,22 +55,21 @@ public class Main{
 		while (true) {
 			if (client.getNombrePlayer()< 2)
 				return;
-			if (client.getNombrePlayer() > 1) {
-				String info = client.information();
-				for (int i = 0; i < client.listSocketSize(); i++) {
-					client.sendMessage(client.getSocketPlayer(i), info);
-					try {
-						Thread.sleep(Pong.timestep);
-					} catch (InterruptedException ignored) {
-					}
+			String info = client.information();
+			for (int i = 0; i < client.listSocketSize(); i++) {
+				client.sendMessage(client.getSocketPlayer(i), info);
+				try {
+					Thread.sleep(Pong.timestep);
+				} catch (InterruptedException ignored) {
 				}
-				for (int i = 0; i < client.listSocketSize(); i++) {
-						client.update(i);
-				}
-				client.getPong().animateItem();
-
 			}
-			client.getScore();
+			for (int i = 0; i < client.listSocketSize(); i++) {
+				client.update(i);
+			}
+			client.getPong().animateItem();
+
+
+			client.attributionScore();
 		}
 	}
 

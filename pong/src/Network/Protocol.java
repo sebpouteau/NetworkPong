@@ -14,6 +14,7 @@ public class Protocol {
     private static int SPEED_X = 4;
     private static int SPEED_Y = 5;
     private static int NUMBER_PLAYER = 6;
+    private static int SET_POSSIBILITY_BONUS = 6;
     private static int MAX_PLAYER = 7;
     private static int ID_PLAYER_CONNECTED = 8;
     private static int IDENTIFICATION=0;
@@ -134,6 +135,7 @@ public class Protocol {
         return Integer.parseInt(message[NUMBER_PLAYER]);
     }
 
+    public static boolean decryptSetPossibilityBonus(String[] message) { return Boolean.parseBoolean(message[SET_POSSIBILITY_BONUS]);}
     /**i
      * Permet de recupérer le nombre de joueur valable que pour la phase d'initialisation d'un objet
      * @param message String contenant L'initialisaton d'un joueur
@@ -202,6 +204,13 @@ public class Protocol {
         return m.toString();
     }
 
+    public static String informationbonus(PongItem item,boolean setPossible,int nombrePlayer){
+        StringBuilder m = new StringBuilder();
+        m.append(informationItem(item)).append(" ");
+        m.append(setPossible).append(nombrePlayer).append(";");
+        return m.toString();
+    }
+
     /**
      * Génère les informations sur une socketPlayer
      * @param socketPlayer SocketPlayer contenant une connection vers un autre joueur
@@ -211,7 +220,7 @@ public class Protocol {
         StringBuilder m = new StringBuilder();
         m.append("Socket ");
         m.append(socketPlayer.getPort()).append(" ");
-        m.append(socketPlayer.getAdress()).append(" ");
+        m.append(socketPlayer.getAdress()).append(";");
         return m.toString();
     }
 
