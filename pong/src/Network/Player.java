@@ -21,7 +21,6 @@ public class Player extends PlayerNetwork {
         idplayer = 1;
     }
 
-
 /* =================================================
                       Getter and Setter
      ================================================= */

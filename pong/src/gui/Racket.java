@@ -1,30 +1,28 @@
 package src.gui;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Racket extends PongItem {
 	private static final int RACKET_SPEED = 4;
-	private String image = "image/raquette.png";
-	private String imageH = "image/raquetteH.png";
-
-	public String getImage(){return image;}
-	public String getImageH(){return imageH;}
+	private static int HEIGHT = 80 ;
+	private static int WIDTH = 15;
 
 	public Racket(int idPlayer){
 		super();
 		if(idPlayer < 3) {
-			initImage(getImage());
-			if(idPlayer == 1)
-				this.setPosition(10 ,Pong.getSizePongY()/2 - getHeight()/2 );
+
+			if(idPlayer == 1) {
+				this.setSurface(10, Pong.getSizePongY() / 2 - HEIGHT / 2, WIDTH, HEIGHT);
+			}
 			else
-				this.setPosition(Pong.getSizePongX() - getWidth() - 10, Pong.getSizePongY()/2- getHeight()/2);
+				this.setSurface(Pong.getSizePongX() - WIDTH - 10, Pong.getSizePongY()/2- HEIGHT/2, WIDTH, HEIGHT);
 		}
 		else {
-			initImage(getImageH());
 			if(idPlayer == 3)
-				this.setPosition( Pong.getSizePongX() / 2 - this.getWidth()/2, 10);
+				this.setSurface( Pong.getSizePongX() / 2 - HEIGHT/2, 10, HEIGHT, WIDTH);
 			else
-				this.setPosition(Pong.getSizePongX() / 2 - this.getWidth()/2, Pong.getSizePongY() - getHeight() - 10);
+				this.setSurface(Pong.getSizePongX() / 2 - HEIGHT/2, Pong.getSizePongY() - WIDTH - 10, HEIGHT,WIDTH);
 		}
 		this.setNumber(idPlayer);
 	}
@@ -49,8 +47,10 @@ public class Racket extends PongItem {
 		if (this.getSurface().intersects(pi.getSurface())){
             if(pi instanceof Bonus){
                 Bonus b = (Bonus) pi;
-                b.disappear();
-                b.duration(this);
+                if(b.isVisible()) {
+                    b.disappear();
+                    b.startBonus(this);
+                }
             }
         }
 

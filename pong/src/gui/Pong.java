@@ -6,7 +6,7 @@ import java.awt.Image;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 /**
  * An Pong is a Java graphical container that extends the JPanel class in
@@ -39,16 +39,11 @@ public class Pong extends JPanel {
 	 */
 	private static final Color backgroundColor = new Color(209, 209, 206);
 
-
 	/**
 	 * Time step of the simulation (in ms)
 	 */
 	public static final int timestep = 10;
-    /**
-     * 15 secondes en millisecondes
-     */
-	private int bonusDelay = 30 * 1000;
-    private long time;
+
 	/**
 	 * Pixel data buffer for the Pong rendering
 	 */
@@ -57,19 +52,17 @@ public class Pong extends JPanel {
 	 * Graphic component context derived from buffer Image
 	 */
 	private Graphics graphicContext = null;
-    private Bonus bonus;
 	private ArrayList<PongItem> pongList;
-
 
 	public void add(PongItem item){
 		if (item instanceof Ball) {
-			int cpt=0;
+			int compteur=0;
 			for (int i = 0; i < listItemSize(); i++) {
 				if (getItem(i) instanceof Ball)
-					cpt = Math.max(cpt,getItem(i).getNumber())+1;
+					compteur = Math.max(compteur,getItem(i).getNumber())+1;
 			}
-			item.setNumber(cpt++);
-			System.out.println(cpt);
+			item.setNumber(compteur++);
+			System.out.println(compteur);
 		}
 		this.pongList.add(item);
 	}
@@ -87,34 +80,27 @@ public class Pong extends JPanel {
 
 	public Pong() {
 		pongList = new ArrayList<PongItem>();
-        bonus = new Bonus();
-        time = System.currentTimeMillis();
         this.setPreferredSize(new Dimension(SIZE_PONG_X, SIZE_PONG_Y));
 	}
 
 	public void animateItem() {
 		for (int i = 0; i < listItemSize(); i++) {
-			getItem(i).collision(pongList);
+            getItem(i).collision(pongList);
 			getItem(i).animate(SIZE_PONG_X,SIZE_PONG_Y);
 		}
-//        if(time + bonusDelay < System.currentTimeMillis() && !bonus.getIsVisible()){
-//            System.out.println("coucou");
-//            bonus.appearance(SIZE_PONG_X/2, SIZE_PONG_Y/2);
-//            time = System.currentTimeMillis();
-//        }
-//        if(bonus.getIsVisible()) {
-//            bonus.animate(getSizePongX(), getSizePongY());
-//            bonus.collision(pongList);
-//        }
-
 		this.updateScreen();
 	}
-
 
 	public void paint(Graphics g) {
 		g.drawImage(buffer, 0, 0, this);
 	}
 
+    public void draw(PongItem pi){
+        graphicContext.drawImage(pi.getImageItem(),
+                pi.getPositionX(), pi.getPositionY(),
+                pi.getWidth(), pi.getHeight(),
+                null);
+    }
 	public void updateScreen() {
 		if (buffer == null) {
 			/* First time we get called with all windows initialized */
@@ -131,16 +117,25 @@ public class Pong extends JPanel {
 
 		/* Draw items */
 		for (int i = 0; i < listItemSize(); i++) {
-			graphicContext.drawImage(getItem(i).getImageItem(),
-					getItem(i).getPositionX(), getItem(i).getPositionY(),
-					getItem(i).getWidth(), getItem(i).getHeight(),
-					null);
+			if(getItem(i) instanceof Racket){
+                graphicContext.setColor(new Color(163,73,162));
+				graphicContext.fillRect(getItem(i).getPositionX(), getItem(i).getPositionY(), getItem(i).getWidth(), getItem(i).getHeight());
+                graphicContext.setColor(backgroundColor);
+			}
+			else if (getItem(i) instanceof Bonus) {
+                Bonus b =(Bonus) getItem(i);
+                if(b.isVisible())
+                    draw(b);
+                else if(b.isActive() && b.getNumber() == 3){
+                    graphicContext.setColor(Color.DARK_GRAY);
+                    graphicContext.fillOval((int) b.getRock().getX(),(int) b.getRock().getY(), (int) b.getRock().getWidth(),(int) b.getRock().getHeight());
+                    graphicContext.setColor(backgroundColor);
+                }
+            }
+            else{
+				draw(getItem(i));
+			}
 		}
-		JLabel text = new JLabel("coucou");
-//        if(bonus.getIsVisible()){
-//            graphicContext.drawImage(bonus.getImageItem(),bonus.getPositionX(), bonus.getPositionY(),
-//            bonus.getWidth(), bonus.getHeight(),null);
-//        }
 		this.repaint();
 	}
 }

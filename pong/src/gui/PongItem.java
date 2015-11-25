@@ -74,6 +74,9 @@ public class PongItem implements KeyListener {
     }
     public void setSurface(int x, int y, int width, int height){
         this.surface = new Rectangle(x, y,width,height);
+        this.setPosition(x, y);
+        this.setWidth(width);
+        this.setHeight(height);
     }
     public Rectangle getSurface(){
         return this.surface;
@@ -129,11 +132,11 @@ public class PongItem implements KeyListener {
                 b.collision(p.get(i));
                 t = true;
             }
-//            if(this instanceof Bonus && p.get(i) instanceof Racket ){
-//                Racket r = (Racket) p.get(i);
-//                r.collision(this);
-//
-//            }
+            if(this instanceof Bonus && p.get(i) instanceof Racket ){
+                Racket r = (Racket) p.get(i);
+                r.collision(this);
+
+            }
 
         }
         return t;
