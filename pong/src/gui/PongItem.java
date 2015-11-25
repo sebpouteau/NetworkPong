@@ -42,27 +42,6 @@ public class PongItem implements KeyListener {
     public void setSpeed(Point speed) {
         this.speed = speed;
     }
-
-    public PongItem() {
-        this.setPosition(new Point(10, 0));
-        this.speed = new Point(0,0);
-
-    }
-
-    public PongItem(int x, int y) {
-        this.setPosition(new Point(x, y));
-        this.speed = new Point(0 , 0);
-    }
-
-    public void initImage(String chemin){
-        this.setImageItem(Toolkit.getDefaultToolkit().createImage(
-                ClassLoader.getSystemResource(chemin)));
-        this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
-    }
-
-    public void animate(int sizePongX,int sizePongY){
-    }
-
     public Image getImageItem() {
         return imageItem;
     }
@@ -72,14 +51,14 @@ public class PongItem implements KeyListener {
         this.setWidth(icon.getIconWidth());
         this.setHeight(icon.getIconHeight());
     }
+    public Rectangle getSurface(){
+        return this.surface;
+    }
     public void setSurface(int x, int y, int width, int height){
         this.surface = new Rectangle(x, y,width,height);
         this.setPosition(x, y);
         this.setWidth(width);
         this.setHeight(height);
-    }
-    public Rectangle getSurface(){
-        return this.surface;
     }
     public Rectangle setPositionRectangle (int x, int y){
         return this.surface = new Rectangle(x, y, this.getWidth(), this.getHeight());
@@ -117,12 +96,39 @@ public class PongItem implements KeyListener {
         this.position = position;
     }
 
-    public void keyPressed(KeyEvent e) {
+    public PongItem() {
+        this.setPosition(new Point(10, 0));
+        this.speed = new Point(0,0);
     }
-    public void keyReleased(KeyEvent e) {
-    }
-    public void keyTyped(KeyEvent e) { }
 
+    public PongItem(int x, int y) {
+        this.setPosition(new Point(x, y));
+        this.speed = new Point(0 , 0);
+    }
+
+    /**
+     * Charge l'image qui se trouve en "chemin" et initialise sa surface et position
+     * @param chemin le chemin permettant d'accéder à l'image
+     */
+    public void initImage(String chemin){
+        this.setImageItem(Toolkit.getDefaultToolkit().createImage(
+                ClassLoader.getSystemResource(chemin)));
+        this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
+    }
+
+    /**
+     * Appelle animate plus précisement pour chaque type réel des objets
+     * @param sizePongX longueur de la fenêtre
+     * @param sizePongY largueur de la fenêtre
+     */
+    public void animate(int sizePongX,int sizePongY){
+    }
+
+    /**
+     * Test si l'objet appelant cette fonction est d'un type ou d'un autre et lance plus précisement la recherche et gestion des collisions
+     * @param p liste des PongItem composants le pong
+     * @return vrai si une collision a eu lieu et faux sinon
+     */
     public boolean collision (ArrayList<PongItem> p){
         boolean t = false;
         for (int i = 0; i < p.size() ; i++) {
@@ -141,5 +147,12 @@ public class PongItem implements KeyListener {
         }
         return t;
     }
+
+    public void keyPressed(KeyEvent e) {
+    }
+    public void keyReleased(KeyEvent e) {
+    }
+
+    public void keyTyped(KeyEvent e) { }
 
 }

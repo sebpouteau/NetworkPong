@@ -19,9 +19,24 @@ public class Bonus extends PongItem {
     private int numberBonus;
     private boolean visible;
     private boolean active;
+    private int playerMax = 0;
+
+    public long getTime(){return this.time;}
+    public void setTime(){this.time = System.currentTimeMillis();}
+    public boolean isActive() {return active;}
+    public boolean isVisible(){return visible;}
+    public void setActive(Boolean b){ active = b;}
+    public void setVisible(Boolean b){visible = b;}
+    public long getDelay(){
+        return delay;
+    }
+    public Bonus getBonus(){return bonus;}
+    public int getPlayerMax(){
+        return playerMax;
+    }
+    public void setPlayerMax(int newMaxPlayer){playerMax = newMaxPlayer; }
+
     private Bonus bonus;
-
-
 
     public Bonus(){}
 
@@ -33,7 +48,11 @@ public class Bonus extends PongItem {
         visible = false;
         numberBonus = nBonus;
     }
-
+    /**
+     * Déplace le cadeaux représentant le bonus et le fais rebondir sur les côtés de l'écran
+     * @param sizePongX longueur de la fenêtre
+     * @param sizePongY largeur de la fenêtre
+     */
     public void animate(int sizePongX, int sizePongY){
         if(this.visible) {
             this.setPosition((this.getPositionX() + this.getSpeedX()),(this.getPositionY() + this.getSpeedY()));
@@ -57,28 +76,27 @@ public class Bonus extends PongItem {
         }
         duration();
     }
-
-    public long getDelay(){
-        return delay;
-    }
     public void setDelay(int x){
         delay = x * 100;
     }
-    public long getTime(){return this.time;}
-    public void setTime(){this.time = System.currentTimeMillis();}
-    public boolean isActive() {return active;}
-    public boolean isVisible(){return visible;}
-    public void setActive(Boolean b){ active = b;}
-    public void setVisible(Boolean b){visible = b;}
-    public Bonus getBonus(){return bonus;}
 
-
+    /**
+     * Si le delai du bonus de changement de taille de raquette est passé on arrête le bonus.
+     */
     public void duration(){
         if(numberBonus == BIGRACKET || numberBonus == SMALLRACKET)
             if(time + delay < System.currentTimeMillis())
                 stopBonus();
     }
 
+    /**
+     * Initialise et fais apparaître un cadeau bonus.
+     * @param nBonus le nombre qui définit le type de Bonus.
+     * @param x la position x où apparaîtra le Bonus.
+     * @param y la position y où apparaîtra le Bonus.
+     * @param sX la vitesse en x qu'aura le Bonus.
+     * @param sY la vitesse en yqu'aura le Bonus.
+     */
     public void appearance(int nBonus, int x, int y, int sX, int sY){
         this.setPosition(x, y);
         this.setSpeed(sX, sY);
@@ -86,10 +104,17 @@ public class Bonus extends PongItem {
         visible = true;
     }
 
+    /**
+     * Fais "disparaître" le cadeau de l'écran lors d'un collision avec une raquette
+     */
     public void disappear(){
         visible = false;
     }
 
+    /**
+     * Renvoi le numéro du joueur du côté ou il va disparaître s'il atteint les bords de l'écran sans toucher de raquettes.
+     * @return numéro du joueur qui a raté le cadeau
+     */
     public int willDisappear(){
         if (this.getPositionX() < 0) {
             return 1;
@@ -106,6 +131,10 @@ public class Bonus extends PongItem {
         return 0;
     }
 
+    /**
+     * Active le bonus suivant son numéro et l'item (pour le changement de taille de la raquette).
+     * @param pi le PongItem qui peut être influencée par les bonus.
+     */
     public void startBonus(PongItem pi){
         setTime();
         setDelay(10);
@@ -124,6 +153,9 @@ public class Bonus extends PongItem {
         }
     }
 
+    /**
+     * Désactive le Bonus et se remet à l'état initiale les changement effectués par le Bonus.
+     */
     public void stopBonus(){
         active = false;
         switch (numberBonus){

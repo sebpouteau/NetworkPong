@@ -17,8 +17,8 @@ public class ChangeRacketSize extends Bonus {
     }
 
     /**
-     *
-     * @param pi La raquette que l'on agrandit ou retrécie.
+     *Change la taille de la raquette en gardant ses anciennes dimensions
+     * @param pi la raquette que l'on agrandit ou retrécie.
      * @param i vaut +1 ou -1 suivant si l'on souhaite agrandir la raquette ou la retrécir.
      */
     public void startChangeRacketSize(PongItem pi, int i){
@@ -32,6 +32,9 @@ public class ChangeRacketSize extends Bonus {
         }
     }
 
+    /**
+     * Rend la taille d'origine de la raquette
+     */
     public void stopChangeRacketSize(){
         oldPongItem.setHeight((int)oldPIRect.getHeight());
         oldPongItem.setWidth((int) oldPIRect.getWidth());

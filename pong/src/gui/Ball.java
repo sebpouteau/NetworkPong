@@ -50,6 +50,11 @@ public class Ball extends PongItem {
         this.setSpeed(new Point(BALL_SPEED, BALL_SPEED));
     }
 
+    /**
+     * Déplace le balle suivant sa vitesse et la fait rebondir si elle touche un des côté de la fenêtre
+     * @param sizePongX longueur de la fenêtre
+     * @param sizePongY largueur de la fenêtre
+     */
     public void animate(int sizePongX,int sizePongY){
         this.setPosition((this.getPositionX() + this.getSpeedX()),(this.getPositionY() + this.getSpeedY()));
 		/* Update ball position */

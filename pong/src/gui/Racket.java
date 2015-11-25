@@ -27,6 +27,11 @@ public class Racket extends PongItem {
 		this.setNumber(idPlayer);
 	}
 
+	/**
+	 * Déplace la raquette suivant sa vitesse
+	 * @param sizePongX longuer de la fenêtre
+	 * @param sizePongY largeur de la fenêtre
+	 */
 	public void animate(int sizePongX,int sizePongY){
 		/* Update racket position */
 		this.setPositionX(this.getPositionX()+this.getSpeedY());
@@ -43,6 +48,10 @@ public class Racket extends PongItem {
 
 	}
 
+	/**
+	 * Pour vérifier si une collision a lieu avec un Bonus de manière à lancer le Bonus sur cette raquette
+	 * @param pi le Bonus
+	 */
 	public void collision(PongItem pi){
 		if (this.getSurface().intersects(pi.getSurface())){
             if(pi instanceof Bonus){
@@ -56,6 +65,10 @@ public class Racket extends PongItem {
 
 	}
 
+	/**
+	 * Change la vitesse de la raquette suivant le type de raquette (verticale ou horizontale) et la touche appuchée
+	 * @param e événement créer lorsque qu'une touche et enfoncé permet de changer la vitesse de la raquette suivant la touche enfoncée
+	 */
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_UP:
