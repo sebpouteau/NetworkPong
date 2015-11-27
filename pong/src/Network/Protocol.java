@@ -204,10 +204,10 @@ public class Protocol {
         return m.toString();
     }
 
-    public static String informationbonus(PongItem item,boolean setPossible,int nombrePlayer){
+    public static String informationBonus(PongItem item,boolean setPossible){
         StringBuilder m = new StringBuilder();
         m.append(informationItem(item)).append(" ");
-        m.append(setPossible).append(nombrePlayer).append(";");
+        m.append(setPossible).append(";");
         return m.toString();
     }
 

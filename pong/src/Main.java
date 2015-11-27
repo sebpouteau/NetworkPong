@@ -26,6 +26,8 @@ public class Main{
 		if (args.length == 2){
 			client.getPong().add(new Racket(1));
 			client.getPong().add(new Ball(1, 80, 80));
+			client.getPong().add(new Bonus());
+
 			client.setMaxPlayer(Integer.parseInt(args[1]));
 		}
 		if (args.length > 2) {

@@ -61,7 +61,7 @@ public class Racket extends PongItem {
                     b.startBonus(this);
                 }
             }
-        }
+       }
 
 	}
 

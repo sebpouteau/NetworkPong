@@ -124,10 +124,11 @@ public class Pong extends JPanel {
 			}
 			else if (getItem(i) instanceof Bonus) {
                 Bonus b =(Bonus) getItem(i);
-                if(b.isVisible())
-                    draw(b);
-                else if(b.isActive() && b.getNumber() == 3){
-					Rock r = (Rock) b;
+				if(b.isVisible()){
+				System.out.println(b.isVisible());
+				draw(getItem(i));}
+                 if(b.isActive() && b.getNumber() == 3){
+					Rock r = (Rock)b.getBonus();
                     graphicContext.setColor(Color.DARK_GRAY);
                     graphicContext.fillOval((int) r.getRock().getX(),(int) r.getRock().getY(), (int) r.getRock().getWidth(),(int) r.getRock().getHeight());
                     graphicContext.setColor(backgroundColor);

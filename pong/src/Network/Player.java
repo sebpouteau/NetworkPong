@@ -14,6 +14,8 @@ public class Player extends PlayerNetwork {
     private int idplayer;
     private int nombrePlayer;
     private int maxPlayer;
+    private boolean activateBonus = false;
+
 
     private int[] score = new int[4];
     public Player(Pong pong) {
@@ -60,26 +62,50 @@ public class Player extends PlayerNetwork {
     }
 
     public int sommeScore(){
-        return getScore(0)+getScore(1)+getScore(2)+getScore(3);
+        return getScore(0)+getScore(1);
     }
+
+
     public void attributionScore() {
         for (int i = 0; i < getPong().listItemSize(); i++) {
             if (getPong().getItem(i) instanceof Ball) {
                 Ball ball = (Ball) getPong().getItem(i);
-                int player = ball.getLosePlayerSize();
-                for (int j = 0; j < getPong().listItemSize(); j++) {
-                    if(getPong().getItem(j) instanceof Racket)
-                        if (player != 0 && player == getPong().getItem(j).getNumber()) {
-                            if (player != idplayer) {
-                                setScore(player-1, getScore(player-1)+1);
-                                System.out.println(score);
-                            }
-                            ball.restart();
+                int playerLose = ball.getLosePlayerSize();
+//                for (int j = 0; j < getPong().listItemSize(); j++) {
+//                    if(getPong().getItem(j) instanceof Racket)
+//                        if (playerLose != 0 && playerLose == getPong().getItem(j).getNumber()) {
+//                            if (playerLose != idplayer) {
+//                                setScore(playerLose-1, getScore(playerLose-1)+1);
+//                                System.out.println(getScore(playerLose-1));
+//                            }
+//                            else if (sommeScore() %(SCORE_FOR_BONUS * getNombrePlayer())==0 && sommeScore()!=0){
+//                                activateBonus=true;
+//                            }
+//                            ball.restart();
+//                    }
+//                }
+                int somme = sommeScore();
+                if (playerLose != 0 && playerLose <= getNombrePlayer()) {
+                    System.out.println(sommeScore());
+
+                    if (idplayer==playerLose && somme % (SCORE_FOR_BONUS * getNombrePlayer()) == 0 && sommeScore() != 0)
+                        activateBonus = true;
+                    for (int j = 0; j < getNombrePlayer(); j++) {
+
+                        if (j != playerLose -1 )
+                            setScore(j, getScore(j) + 1);
+
+                        System.out.println("le score de" + j+ " est "+getScore(j));
+
                     }
+                    ball.restart();
+
+
                 }
             }
         }
     }
+
 
     public PongItem getMyRacket(){
         return getPong().getItem(MYRACKET);
@@ -105,6 +131,7 @@ public class Player extends PlayerNetwork {
         return message.toString();
     }
 
+
     /**
      * Permet de creer une chaine de caractère contenant les position de la raquette d'un joueur
      * ainsi que tout les positions des balles
@@ -117,15 +144,18 @@ public class Player extends PlayerNetwork {
             if (getPong().getItem(i) instanceof Ball ) {
                 message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
             }
-            if (getPong().getItem(i) instanceof Bonus) {
-                boolean setPossibility = false;
-                if ((((Bonus) getPong().getItem(i)).isVisible() ||
-                        ((Bonus) getPong().getItem(i)).isActive()) &&
-                        (sommeScore() % (SCORE_FOR_BONUS * (getNombrePlayer() - 1)) == 0)) {
-                    setPossibility = true;
+            if (activateBonus){
+                if (getPong().getItem(i) instanceof Bonus){
+                    //if (! ((Bonus) getPong().getItem(i)).isActive()) {
+                        ((Bonus) getPong().getItem(i)).bonusAléatoire();
+                        ((Bonus) getPong().getItem(i)).setVisible(true);
+                        message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
+                        System.out.println(message.toString());
+                        activateBonus = false;
+                    //}
                 }
-                message.append(Protocol.informationbonus(getPong().getItem(i), setPossibility, getNombrePlayer())).append(";");
             }
+
         }
         return message.toString();
     }
@@ -274,22 +304,18 @@ public class Player extends PlayerNetwork {
                 else if (Protocol.decryptClasseItem(info).equals("Ball") && idPlayerControlBall(info) != idplayer)
                     updateItem(info, "Ball");
                 else if (Protocol.decryptClasseItem(info).equals("Bonus")) {
-                    if (Protocol.decryptSetPossibilityBonus(item)) {
-                        int idP = Protocol.decryptId(item);
-                        int x = Protocol.decryptX(item);
-                        int y = Protocol.decryptY(item);
+
+
                         for (int k = 0; k < getPong().listItemSize(); k++) {
-                            if (getPong().getItem(k).getClass().getSimpleName().equals("Bonus")
-                                    && getPong().getItem(k).getNumber() == idP) {
-                                getPong().getItem(k).setNumber( getPong().getItem(k).getPositionX() + Protocol.decryptId(item));
-                                getPong().getItem(k).setPosition( getPong().getItem(k).getPositionX() + x,
-                                        getPong().getItem(k).getPositionX() + y);
-                                getPong().getItem(k).setSpeed(Protocol.decryptSpeedX(item),
-                                        Protocol.decryptSpeedY(item));
-                                //((Bonus)getPong().getItem(k)).
+                            if (getPong().getItem(k).getClass().getSimpleName().equals("Bonus")) {
+                                getPong().getItem(k).setNumber(Protocol.decryptId(info));
+                                System.out.println(info);
+                                ((Bonus)getPong().getItem(k)).setVisible(true);
                             }
                         }
-                    }
+                        updateItem(info, "Bonus");
+
+
 
                 }
                 else {
