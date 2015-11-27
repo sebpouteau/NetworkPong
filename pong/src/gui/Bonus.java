@@ -1,10 +1,8 @@
 package src.gui;
 
-import javafx.scene.shape.Circle;
 import src.util.RandomNumber;
 
-import java.awt.*;
-import java.util.ArrayList;
+
 
 /**
  * Created by Se Easy on 23/11/2015.
@@ -25,8 +23,7 @@ public class Bonus extends PongItem {
     public boolean isActive() {return active;}
     public boolean isVisible(){return visible;}
     public void setActive(Boolean b){ active = b;}
-    public void setVisible(Boolean b){visible = b;
-        System.out.println("bonus "+visible);}
+    public void setVisible(Boolean b){visible = b;}
     public long getDelay(){
         return delay;
     }
@@ -46,7 +43,7 @@ public class Bonus extends PongItem {
     }
 
     public void bonusAleatoire(){
-        setPosition(500,500);
+        setPosition(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
         int a = RandomNumber.randomValue(1,4);
         switch(a){
             case 1:
@@ -67,14 +64,7 @@ public class Bonus extends PongItem {
         setVisible(true);
 
     }
-    public Bonus(int nBonus, int x, int y, int sX, int sY){
-        super(x,y);
-        this.setSpeed(sX,sY);
-        initImage(image);
-        active = false;
-        visible = false;
-        setNumber(nBonus);
-    }
+
     /**
      * Déplace le cadeaux représentant le bonus et le fais rebondir sur les côtés de l'écran
      * @param sizePongX longueur de la fenêtre
@@ -133,21 +123,13 @@ public class Bonus extends PongItem {
     public void startBonus(PongItem pi){
         setTime();
         setDelay(5);
-        System.out.println("je rentre dans start bonus");
         active = true;
-        System.out.println(getNumber());
         switch (getNumber()){
             case 1:
-                System.out.println("je grossi");
                 bonus = new ChangeRacketSize(pi, 1);
                 break;
             case 2:
-                System.out.println("je retreci");
                 bonus = new ChangeRacketSize(pi, -1);
-                break;
-
-            case 3:
-                bonus = new Rock();
                 break;
         }
     }
@@ -159,7 +141,6 @@ public class Bonus extends PongItem {
         if (active && !isVisible()) {
             active = false;
             visible=false;
-            System.out.println("fin du bonus /////////////////////////////////////////////////////////");
             switch (getNumber()) {
                 case 1:
                     ChangeRacketSize c = (ChangeRacketSize) bonus;
@@ -176,7 +157,6 @@ public class Bonus extends PongItem {
 
             }
         }
-        System.out.println("fin");
         setNumber(0);
     }
 

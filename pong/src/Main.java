@@ -35,7 +35,7 @@ public class Main{
 		/* comportement du premier joueur */
 		if (args.length == 1){
 			client.getPong().add(new Racket(1));
-			client.getPong().add(new Ball(1, 80, 80));
+			client.getPong().add(new Ball(1));
 			client.getPong().add(new Bonus());
 			client.setMaxPlayer(Integer.parseInt(args[0]));
 		}
@@ -55,7 +55,6 @@ public class Main{
 				SocketChannel sc = client.getServer().accept();
 				if (sc != null) {
 					sc.socket().setTcpNoDelay(true);
-					System.out.println("accepte");
 					client.connectionAcceptPlayer(sc.socket());
 				}
 			}

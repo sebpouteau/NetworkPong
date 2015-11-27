@@ -1,27 +1,30 @@
 package src.Network;
 
 import src.gui.*;
+
 import java.io.*;
 import java.net.Socket;
 
 /**
- *  Player
+ *  Classe contenant tout les informations d'un joueur
+ *  ainsi que son serveur, et les connections avec les autres joueurs
  */
 public class Player extends PlayerNetwork {
+    private static int MAX_PLAYER = 4;
     private static int SCORE_FOR_BONUS = 5;
     private static int MYRACKET = 0;
     private Pong pong;
-    private int idplayer;
+    private int idPlayer;
     private int nombrePlayer;
     private int maxPlayer;
     private boolean activateBonus = false;
+    private int[] score;
 
-
-    private int[] score = new int[4];
     public Player(Pong pong) {
         super();
+        this.score = new int[MAX_PLAYER];
         this.pong = pong;
-        idplayer = 1;
+        idPlayer = 1;
     }
 
 /* =================================================
@@ -36,16 +39,18 @@ public class Player extends PlayerNetwork {
         this.nombrePlayer = nombrePlayer;
     }
 
-    public void setIdplayer(int idplayer) {
-        this.idplayer = idplayer;
+    public void setIdPlayer(int idPlayer) {
+        this.idPlayer = idPlayer;
     }
-    public int getIdplayer() {
-        return this.idplayer;
+
+    public int getIdPlayer() {
+        return this.idPlayer;
     }
 
     public int getMaxPlayer() {
         return maxPlayer;
     }
+
     public void setMaxPlayer(int maxPlayer) {
         this.maxPlayer = maxPlayer;
     }
@@ -53,6 +58,7 @@ public class Player extends PlayerNetwork {
     public Pong getPong() {return pong;}
 
     public void addPlayer() {this.nombrePlayer++;}
+
     public int getScore(int i) {
         return score[i];
     }
@@ -61,6 +67,20 @@ public class Player extends PlayerNetwork {
         this.score[pos] = score;
     }
 
+    public PongItem getMyRacket(){
+        return getPong().getItem(MYRACKET);
+    }
+
+
+
+     /* =================================================
+                         Fonctions
+     ================================================= */
+
+    /**
+     * Calcul la somme de tout les score
+     * @return la somme
+     */
     public int sommeScore(){
         int somme=0;
         for (int i = 0; i < getNombrePlayer(); i++) {
@@ -69,7 +89,9 @@ public class Player extends PlayerNetwork {
         return somme;
     }
 
-
+    /**
+     * Met à jour les scores et permet d'activé le bonus
+     */
     public void attributionScore() {
         for (int i = 0; i < getPong().listItemSize(); i++) {
             if (getPong().getItem(i) instanceof Ball) {
@@ -78,33 +100,21 @@ public class Player extends PlayerNetwork {
                 if(playerLose != 0){
                     int somme = sommeScore();
                     for (int k = 0; k < getPong().listItemSize() ; k++) {
-                        /* Si l'item est une racket et que le numero player lose est bien un joueur alors */
+                        /* Si l'item est une racket et que le numero player lose est un joueur présent */
                         if (getPong().getItem(k) instanceof  Racket && getPong().getItem(k).getNumber() == playerLose ){
-                            if (idplayer==playerLose && somme % (SCORE_FOR_BONUS * (getNombrePlayer()-1)) == 0 && sommeScore() != 0)
+                            if (idPlayer ==playerLose && somme % (SCORE_FOR_BONUS * (getNombrePlayer()-1)) == 0 && sommeScore() != 0)
                                 activateBonus = true;
                             for (int j = 0; j < getNombrePlayer(); j++) {
                                 if (j != playerLose - 1)
                                     setScore(j, getScore(j) + 1);
-                                System.out.println("le score de" + j + " est " + getScore(j));
-
                             }
                             ball.restart();
                         }
-                }
+                    }
                 }
             }
         }
     }
-
-
-    public PongItem getMyRacket(){
-        return getPong().getItem(MYRACKET);
-    }
-
-
-     /* =================================================
-                         Fonctions
-     ================================================= */
 
     /**
      * Permet de lister tout les items du jeu
@@ -112,7 +122,7 @@ public class Player extends PlayerNetwork {
      */
     private String listItemGame(Racket newRacket) {
         StringBuilder message = new StringBuilder();
-        message.append(Protocol.attributionNewPlayer(this.getNombrePlayer(), this.getMaxPlayer(), newRacket, this.getIdplayer()));
+        message.append(Protocol.attributionNewPlayer(this.getNombrePlayer(), this.getMaxPlayer(), newRacket, this.getIdPlayer()));
         message.append(";");
         for (int i = 0; i < getPong().listItemSize(); i++) {
             message.append(Protocol.informationItem(getPong().getItem(i)));
@@ -131,29 +141,23 @@ public class Player extends PlayerNetwork {
         StringBuilder message = new StringBuilder();
         message.append(Protocol.informationItem(this.getPong().getItem(MYRACKET))).append(";");
         for (int i = 0; i < getPong().listItemSize(); i++) {
-            if (getPong().getItem(i) instanceof Ball ) {
+            if (getPong().getItem(i) instanceof Ball) {
                 message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
             }
-            if (activateBonus){
-                if (getPong().getItem(i) instanceof Bonus){
-                    if (! ((Bonus) getPong().getItem(i)).isActive() &&
-                            !((Bonus)getPong().getItem(i)).isVisible()) {
-                        ((Bonus) getPong().getItem(i)).bonusAleatoire();
-                        message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
-                        System.out.println(message.toString());
-                    }
-                    activateBonus = false;
-
+            if (activateBonus && getPong().getItem(i) instanceof Bonus) {
+                if (!((Bonus) getPong().getItem(i)).isActive() &&
+                        !((Bonus) getPong().getItem(i)).isVisible()) {
+                    ((Bonus) getPong().getItem(i)).bonusAleatoire();
+                    message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
                 }
+                activateBonus = false;
             }
-
         }
         return message.toString();
     }
 
     /**
      * Permet de connaitre l'id du joueur contolant la balle
-     *
      * @param message String contenant les information d'une balle normalisé selon le protocole
      * @return retourne le numero du joueur controlant la balle
      */
@@ -182,45 +186,26 @@ public class Player extends PlayerNetwork {
      */
     public void initialisationItem(String message,SocketPlayer s) {
         String[] listItem = message.split(";");
-        System.out.println(listItem[0]);
         String[] item = listItem[MYRACKET].split(" ");
         this.setNombrePlayer(Protocol.decryptNumberPlayer(item));
-        this.setIdplayer(Protocol.decryptId(item));
+        this.setIdPlayer(Protocol.decryptId(item));
         this.setMaxPlayer(Protocol.decryptMaxPlayer(item));
         s.setNumeroPlayer(Protocol.decryptIdPlayerConnected(item));
         for (String aListItem : listItem) {
             item = aListItem.split(" ");
-            if (Protocol.decryptClasseItem(item).equals("Racket"))
-                getPong().add(new Racket(Protocol.decryptId(item)));
-            else if (Protocol.decryptClasseItem(item).equals("Bonus"))
-                getPong().add(new Bonus());
-            else
-                getPong().add(new Ball(Protocol.decryptId(item),
-                        Protocol.decryptX(item),
-                        Protocol.decryptY(item)));
+            switch (Protocol.decryptClasseItem(item)) {
+                case "Racket":
+                    getPong().add(new Racket(Protocol.decryptId(item)));
+                    break;
+                case "Bonus":
+                    getPong().add(new Bonus());
+                    break;
+                case "Ball":
+                    getPong().add(new Ball(Protocol.decryptId(item)));
+                    break;
+            }
         }
-        getPong().addKeyListener(getPong().getItem(0));
-
-
-    }
-
-    /**
-     * Permet d'initialisé les connexion d'un nouveau joueur par rapport à une liste reçu
-     * @param message String contenant les information sur les connexion du jeu
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public void initialisationSocket(String message) throws IOException, InterruptedException {
-        String[] socketList = message.split(";");
-        System.out.println(message);
-        for (String aSocketList : socketList) {
-            String[] socket = aSocketList.split(" ");
-            connectionServerInit(
-                    Protocol.decryptAdress(socket),
-                    Protocol.decryptPortSocket(socket),
-                    false);
-        }
-
+        getPong().addKeyListener(getPong().getItem(MYRACKET));
     }
 
     /**
@@ -254,11 +239,14 @@ public class Player extends PlayerNetwork {
         Racket newRacket = new Racket(this.getNombrePlayer());
         String item = listItemGame(newRacket);
         this.getPong().add(newRacket);
-        Thread.sleep(1);
         sendMessage(socket, item);
     }
 
-
+    /**
+     * suppromer un joueur qui n'est plus connecter grace à son numero de socket
+     * @param idSocket numero de socket du joueur deconnecté
+     * @throws IOException
+     */
     public void removePlayer(int idSocket) throws IOException {
         for (int i= 0; i < getPong().listItemSize();i++) {
             if (getPong().getItem(i).getClass().getSimpleName().equals("Racket")
@@ -279,7 +267,6 @@ public class Player extends PlayerNetwork {
      * @throws IOException
      */
     public void update(int idSocket) throws IOException {
-
         String message = null;
         try {
             message = read(idSocket);
@@ -292,30 +279,20 @@ public class Player extends PlayerNetwork {
                 String[] info = anItem.split(" ");
                 if (Protocol.decryptClasseItem(info).equals("Racket"))
                     updateItem(info, "Racket");
-                else if (Protocol.decryptClasseItem(info).equals("Ball") && idPlayerControlBall(info) != idplayer)
+                else if (Protocol.decryptClasseItem(info).equals("Ball") && idPlayerControlBall(info) != idPlayer)
                     updateItem(info, "Ball");
                 else if (Protocol.decryptClasseItem(info).equals("Bonus")) {
-
-
-                        for (int k = 0; k < getPong().listItemSize(); k++) {
-                            if (getPong().getItem(k).getClass().getSimpleName().equals("Bonus")) {
-                                getPong().getItem(k).setNumber(Protocol.decryptId(info));
-                                System.out.println(info);
-                                ((Bonus)getPong().getItem(k)).setVisible(true);
-                            }
+                    for (int k = 0; k < getPong().listItemSize(); k++) {
+                        if (getPong().getItem(k).getClass().getSimpleName().equals("Bonus")) {
+                            getPong().getItem(k).setNumber(Protocol.decryptId(info));
+                            ((Bonus)getPong().getItem(k)).setVisible(true);
                         }
-                        updateItem(info, "Bonus");
-
-
-
-                }
-                else {
-                    //score
+                    }
+                    updateItem(info, "Bonus");
                 }
             }
         }
     }
-
 
     /**
      * Fonction permettant de mettre à jour un item grace à un message contenant ses information
@@ -334,6 +311,23 @@ public class Player extends PlayerNetwork {
                         Protocol.decryptSpeedY(message));
 
             }
+        }
+    }
+
+    /**
+     * Permet d'initialisé les connexion d'un nouveau joueur par rapport à une liste reçu
+     * @param message String contenant les information sur les connexion du jeu
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public void initialisationSocket(String message) throws IOException, InterruptedException {
+        String[] socketList = message.split(";");
+        for (String aSocketList : socketList) {
+            String[] socket = aSocketList.split(" ");
+            connectionServerInit(
+                    Protocol.decryptAdress(socket),
+                    Protocol.decryptPortSocket(socket),
+                    false);
         }
     }
 
@@ -363,8 +357,6 @@ public class Player extends PlayerNetwork {
             String[] message = lu.split(" ");
             getSocketPlayer(position).setNumeroPlayer(Protocol.decryptId(message));
         }
-        System.out.println("fin a" + portConnection);
-
     }
 
     /**
@@ -385,7 +377,6 @@ public class Player extends PlayerNetwork {
             this.addPlayer();
         }
     }
-
 
 }
 

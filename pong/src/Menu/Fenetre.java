@@ -28,7 +28,7 @@ public class Fenetre extends JFrame{
             CreatePongDialog cpd = new CreatePongDialog(null, "Créons un nouveau Pong", true);
             CreatePongDialogInfo cpdInfo = cpd.showcpDialog();
             JOptionPane jop = new JOptionPane();
-            jop.showMessageDialog(null, cpdInfo.toString(), "Nombre de Joueurs", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, cpdInfo.toString(), "Nombre de Joueurs", JOptionPane.INFORMATION_MESSAGE);
         }
 
     });
@@ -39,7 +39,7 @@ public class Fenetre extends JFrame{
               JoinPongDialog jpd = new JoinPongDialog(null, "rejoignons la partie existante", true);
               JoinPongDialogInfo jpdInfo = jpd.showjpDialog();
               JOptionPane jop = new JOptionPane();
-              jop.showMessageDialog(null, jpdInfo.toString(), "Nombre de Joueurs", JOptionPane.INFORMATION_MESSAGE);
+              JOptionPane.showMessageDialog(null, jpdInfo.toString(), "Nombre de Joueurs", JOptionPane.INFORMATION_MESSAGE);
           }
       });
 

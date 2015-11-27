@@ -4,7 +4,8 @@ import src.gui.PongItem;
 import src.gui.Racket;
 
 /**
- * Created by sebpouteau on 18/11/15.
+ * Protocol de communication
+ * Permet de générer les méssages et de les décryter
  */
 public class Protocol {
     private static int CLASSE_ITEM = 0;
@@ -14,7 +15,6 @@ public class Protocol {
     private static int SPEED_X = 4;
     private static int SPEED_Y = 5;
     private static int NUMBER_PLAYER = 6;
-    private static int SET_POSSIBILITY_BONUS = 6;
     private static int MAX_PLAYER = 7;
     private static int ID_PLAYER_CONNECTED = 8;
     private static int IDENTIFICATION=0;
@@ -29,7 +29,7 @@ public class Protocol {
       ================================================= */
 
     /**
-     * Permet de recupérer l'adresse de connection d'une socket contenu dans le String
+     * Permet de récupérer l'adresse de connection d'une socket contenu dans le String
      * @param message String contenant un Item
      * @return Adresse de connection
      */
@@ -38,7 +38,7 @@ public class Protocol {
     }
 
     /**
-     * Permet de recupérer le port de connection d'une socket contenu dans le String
+     * Permet de récupérer le port de connection d'une socket contenu dans le String
      * @param message String contenant un Item
      * @return Port de connection
      */
@@ -47,7 +47,7 @@ public class Protocol {
     }
 
     /**
-     * Permet de recupérer le port de connection d'une socket contenu dans le String de connection
+     * Permet de récupérer le port de connection d'une socket contenu dans le String de connection
      * @param message String contenant un Item
      * @return Port de connection
      */
@@ -58,10 +58,10 @@ public class Protocol {
     }
 
     /**
-     * Permet de recupérer le boolean permetant de savoir si c'est la premiere connection avec
+     * Permet de récupérer le boolean permettant de savoir si c'est la première connection avec
      * un joueur du jeu ou non
      * @param message String contenant un Item
-     * @return true si premiere connexion, false sinon
+     * @return true si première connexion, false sinon
      */
     public static boolean decryptFirst(String message){
         String[] tabMessage = message.split(";");
@@ -79,7 +79,7 @@ public class Protocol {
     }
 
     /**
-     * Permet de recupérer l'ID de l'item contenu dans le String
+     * Permet de récupérer l'ID de l'item contenu dans le String
      * @param message String contenant un Item
      * @return ID de l'item
      */
@@ -88,7 +88,7 @@ public class Protocol {
     }
 
     /**
-     * Permet de recupérer la position X de l'item contenu dans le String
+     * Permet de récupérer la position X de l'item contenu dans le String
      * @param message String contenant un Item
      * @return Position X de l'item
      */
@@ -97,7 +97,7 @@ public class Protocol {
     }
 
     /**
-     * Permet de recupérer la position Y de l'item contenu dans le String
+     * Permet de récupérer la position Y de l'item contenu dans le String
      * @param message String contenant un Item
      * @return Position Y de l'item
      */
@@ -107,7 +107,7 @@ public class Protocol {
     }
 
     /**
-     * Permet de recupérer la vitesse en X de l'item contenu dans le String
+     * Permet de récupérer la vitesse en X de l'item contenu dans le String
      * @param message String contenant un Item
      * @return la vitesse en X de l'item
      */
@@ -117,7 +117,7 @@ public class Protocol {
     }
 
     /**
-     * Permet de recupérer la vitesse en Y de l'item contenu dans le String
+     * Permet de récupérer la vitesse en Y de l'item contenu dans le String
      * @param message String contenant un Item
      * @return la vitesse en Y de l'item
      */
@@ -127,7 +127,7 @@ public class Protocol {
     }
 
     /**i
-     * Permet de recupérer le nombre de joueur valable que pour la phase d'initialisation d'un objet
+     * Permet de récupérer le nombre de joueur valable que pour la phase d'initialisation d'un objet
      * @param message String contenant L'initialisaton d'un joueur
      * @return le nombre de joueur
      */
@@ -135,16 +135,20 @@ public class Protocol {
         return Integer.parseInt(message[NUMBER_PLAYER]);
     }
 
-    public static boolean decryptSetPossibilityBonus(String[] message) { return Boolean.parseBoolean(message[SET_POSSIBILITY_BONUS]);}
     /**i
-     * Permet de recupérer le nombre de joueur valable que pour la phase d'initialisation d'un objet
-     * @param message String contenant L'initialisaton d'un joueur
+     * Permet de récupérer le nombre de joueur valable que pour la phase d'initialisation d'un objet
+     * @param message String contenant l'initialisaton d'un joueur
      * @return le nombre de joueur
      */
     public static int decryptMaxPlayer(String[] message){
         return Integer.parseInt(message[MAX_PLAYER]);
     }
 
+    /**
+     * Permet de récupérer le nméro du joueur qui c'est connecté
+     * @param message String contenant l'initialisation du joueur
+     * @return le numéro du joueur qui se connecte
+     */
     public static int decryptIdPlayerConnected(String[] message){ return Integer.parseInt(message[ID_PLAYER_CONNECTED]);}
 
     /* =================================================
@@ -152,7 +156,7 @@ public class Protocol {
        ================================================= */
 
     /**
-     * Permet de verifier que le joueur est valide
+     * Permet de vérifier que le joueur est valide
      * @param message String contenant le message de connection.
      * @return true si joueur valide, false sinon
      */
@@ -201,13 +205,6 @@ public class Protocol {
         m.append(item.getPositionY()).append(" ");
         m.append(item.getSpeedX()).append(" ");
         m.append(item.getSpeedY());
-        return m.toString();
-    }
-
-    public static String informationBonus(PongItem item,boolean setPossible){
-        StringBuilder m = new StringBuilder();
-        m.append(informationItem(item)).append(" ");
-        m.append(setPossible).append(";");
         return m.toString();
     }
 

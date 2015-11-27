@@ -75,7 +75,6 @@ public class PongItem implements KeyListener {
     public void setHeight(int height) {
         this.height = height;
     }
-    public Point getPosition() {return (Point)position.clone();}
     public int getPositionX() {
         return (int)position.getX();
     }
@@ -143,13 +142,13 @@ public class PongItem implements KeyListener {
                 r.collision(this);
 
             }
-
         }
         return t;
     }
 
     public void keyPressed(KeyEvent e) {
     }
+
     public void keyReleased(KeyEvent e) {
     }
 

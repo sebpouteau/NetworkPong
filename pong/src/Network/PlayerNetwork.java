@@ -120,7 +120,6 @@ public class PlayerNetwork {
      */
     public int connectionServer(String adress, int portConnection, boolean first) throws IOException {
         Socket s = connection(adress, portConnection);
-        System.out.println("connection a" + portConnection);
         SocketPlayer socketPlayer = new SocketPlayer(s, portConnection);
         int position = this.addSocket(socketPlayer);
         /* envoie des informations de reconnaissance */

@@ -1,55 +1,28 @@
 package src.gui;
 
-import org.w3c.dom.css.Rect;
 import src.util.RandomNumber;
-
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+
 
 public class Ball extends PongItem {
 
-    public static final int BALL_SPEED = 5;
-    private Point speed;
+    public static final int BALL_SPEED = 4;
     private String image = "image/ball.png";
 
-    public Point getSpeed() {
-        return speed;
-    }
-    public int getSpeedX() {
-        return (int)speed.getX();
-    }
-    public int getSpeedY() {
-        return (int)speed.getY();
-    }
-    public void setSpeed(int x, int y) {
-        this.speed.setLocation(x, y);
-    }
-    public void setSpeedX(int x) {
-        this.getSpeed().setLocation(x, this.getSpeed().getY());
-    }
-    public void setSpeedY(int y) {
-        this.getSpeed().setLocation(this.getSpeed().getX(), y);
-    }
-    public void setSpeed(Point speed) {
-        this.speed = speed;
-    }
-    public String getImage(){return image;}
-
-    public Ball() {
-        super(40,40);
-        initImage(getImage());
-        this.setSpeed(new Point(BALL_SPEED, BALL_SPEED));
-    }
-
-    public Ball(int id, int x, int y) {
-        super(x,y);
+    public Ball(int id) {
+        super(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
         this.setNumber(id);
-        initImage(getImage());
+        initImage(image);
         this.setSpeed(new Point(BALL_SPEED, BALL_SPEED));
     }
-
+    private void animateX(int setPos, int setSpeed){
+        this.setPositionX(setPos);
+        this.setSpeedX(setSpeed);
+    }
+    private void animateY(int setPos, int setSpeed){
+        this.setPositionY(setPos);
+        this.setSpeedY(setSpeed);
+    }
     /**
      * Déplace le balle suivant sa vitesse et la fait rebondir si elle touche un des côté de la fenêtre
      * @param sizePongX longueur de la fenêtre
@@ -59,20 +32,16 @@ public class Ball extends PongItem {
         this.setPosition((this.getPositionX() + this.getSpeedX()),(this.getPositionY() + this.getSpeedY()));
 		/* Update ball position */
         if (this.getPositionX() < 0) {
-            this.setPositionX(0);
-            this.setSpeedX(-this.getSpeedX());
+            animateX(0,-this.getSpeedX());
         }
         if (this.getPositionY()< 0) {
-            this.setPositionY(0);
-            this.setSpeedY(-this.getSpeedY());
+            animateY(0,-this.getSpeedY());
         }
         if (this.getPositionX() > (sizePongX - this.getWidth())) {
-            this.setPositionX(sizePongX - this.getWidth());
-            this.setSpeedX(-this.getSpeedX());
+            animateX(sizePongX - this.getWidth(),-this.getSpeedX());
         }
         if (this.getPositionY() > (sizePongY - this.getHeight())) {
-            this.setPositionY(sizePongY - this.getHeight());
-            this.setSpeedY(-this.getSpeedY());
+            animateY(sizePongY - this.getHeight(),-this.getSpeedY());
         }
         this.setPositionRectangle(this.getPositionX(), this.getPositionY());
 
@@ -95,7 +64,6 @@ public class Ball extends PongItem {
     }
 
     public void restart(){
-
         int a = RandomNumber.randomValue(1,4);
         switch(a){
             case 1:
@@ -112,7 +80,6 @@ public class Ball extends PongItem {
                 break;
         }
         this.setPosition(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
-        System.out.println("nouvelle position ball : " + this.getPosition());
     }
 
     public boolean collision(PongItem pi){
@@ -144,14 +111,11 @@ public class Ball extends PongItem {
                     || (ball.getY() >= pi.getSurface().getY() + pi.getSurface().getHeight()) // trop en bas
                     || (ball.getY() + ball.getHeight() <= pi.getSurface().getY())) { // trop en haut
                 return false;
-
             } else {
-
                 if (pi instanceof Racket)
                     doCollision(pi);
                 else
                     doCollisionBall(pi);
-
                 return true;
             }
         }
@@ -159,7 +123,6 @@ public class Ball extends PongItem {
     }
 
     public void doCollision(PongItem pi) {
-
         if (this.getPositionY() <= 0) {
             pi.setPosition(pi.getPositionX(), this.getPositionY() + this.getHeight() + pi.getSpeedX());
         } else if (this.getPositionY() + this.getHeight() >= Pong.getSizePongY()) {

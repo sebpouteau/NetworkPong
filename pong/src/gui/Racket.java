@@ -1,6 +1,5 @@
 package src.gui;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Racket extends PongItem {
@@ -10,14 +9,12 @@ public class Racket extends PongItem {
 
 	public Racket(int idPlayer){
 		super();
-		if(idPlayer < 3) {
-
-			if(idPlayer == 1) {
+		if(idPlayer < 3)
+			if (idPlayer == 1) {
 				this.setSurface(10, Pong.getSizePongY() / 2 - HEIGHT / 2, WIDTH, HEIGHT);
+			} else {
+				this.setSurface(Pong.getSizePongX() - WIDTH - 10, Pong.getSizePongY() / 2 - HEIGHT / 2, WIDTH, HEIGHT);
 			}
-			else
-				this.setSurface(Pong.getSizePongX() - WIDTH - 10, Pong.getSizePongY()/2- HEIGHT/2, WIDTH, HEIGHT);
-		}
 		else {
 			if(idPlayer == 3)
 				this.setSurface( Pong.getSizePongX() / 2 - HEIGHT/2, 10, HEIGHT, WIDTH);
@@ -62,7 +59,6 @@ public class Racket extends PongItem {
                 }
             }
        }
-
 	}
 
 	/**
@@ -90,8 +86,7 @@ public class Racket extends PongItem {
 			case KeyEvent.VK_KP_RIGHT:
 				if(this.getNumber() > 2)
 					this.setSpeedY(RACKET_SPEED);
-			default:
-				//System.out.println("got press "+e);
+				break;
 		}
 	}
 	public void keyReleased(KeyEvent e) {
@@ -111,10 +106,10 @@ public class Racket extends PongItem {
 			case KeyEvent.VK_RIGHT:
 			case KeyEvent.VK_KP_RIGHT:
 				this.setSpeedY(0);
-			default:
-				//System.out.println("got release "+e);
+			    break;
 		}
 	}
+
 	public void keyTyped(KeyEvent e) { }
 
 
