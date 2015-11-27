@@ -146,13 +146,13 @@ public class Player extends PlayerNetwork {
             }
             if (activateBonus){
                 if (getPong().getItem(i) instanceof Bonus){
-                    //if (! ((Bonus) getPong().getItem(i)).isActive()) {
-                        ((Bonus) getPong().getItem(i)).bonusAléatoire();
-                        ((Bonus) getPong().getItem(i)).setVisible(true);
+                    if (! ((Bonus) getPong().getItem(i)).isActive()) {
+                        ((Bonus) getPong().getItem(i)).bonusAleatoire();
+                       // ((Bonus) getPong().getItem(i)).setVisible(true);
                         message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
                         System.out.println(message.toString());
                         activateBonus = false;
-                    //}
+                    }
                 }
             }
 

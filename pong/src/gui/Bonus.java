@@ -45,7 +45,7 @@ public class Bonus extends PongItem {
         visible = false;
     }
 
-    public void bonusAléatoire(){
+    public void bonusAleatoire(){
         setPosition(500,500);
         int a = RandomNumber.randomValue(1,4);
         switch(a){
@@ -82,7 +82,6 @@ public class Bonus extends PongItem {
      */
     public void animate(int sizePongX, int sizePongY){
         if(this.visible) {
-            System.out.println("je bouge");
             this.setPosition((this.getPositionX() + this.getSpeedX()),(this.getPositionY() + this.getSpeedY()));
             if (this.getPositionX() < 0) {
                 this.setPositionX(0);
@@ -106,16 +105,17 @@ public class Bonus extends PongItem {
     }
 
     public void setDelay(int x){
-        delay = x * 10;
+        delay = x * 1000;
     }
 
     /**
      * Si le delai du bonus de changement de taille de raquette est passé on arrête le bonus.
      */
     public void duration(){
-        if(getNumber() == BIGRACKET || getNumber() == SMALLRACKET)
-            if(time + delay < System.currentTimeMillis())
-                stopBonus();
+        if(isActive())
+            if(getNumber() == BIGRACKET || getNumber() == SMALLRACKET)
+                if(time + delay < System.currentTimeMillis())
+                    stopBonus();
     }
 
     /**
@@ -166,13 +166,17 @@ public class Bonus extends PongItem {
      */
     public void startBonus(PongItem pi){
         setTime();
-        setDelay(100);
+        setDelay(10);
+        System.out.println("je rentre dans start bonus");
         active = true;
+        System.out.println(getNumber());
         switch (getNumber()){
             case 1:
+                System.out.println("je grossi");
                 bonus = new ChangeRacketSize(pi, 1);
                 break;
             case 2:
+                System.out.println("je retreci");
                 bonus = new ChangeRacketSize(pi, -1);
                 break;
 
@@ -188,6 +192,7 @@ public class Bonus extends PongItem {
     public void stopBonus(){
         if (active && !isVisible()) {
             active = false;
+            visible=false;
 
             switch (getNumber()) {
                 case 1:
@@ -206,6 +211,7 @@ public class Bonus extends PongItem {
 
             }
         }
+        System.out.println("fin");
         setNumber(0);
     }
 

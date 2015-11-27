@@ -12,7 +12,7 @@ public class ChangeRacketSize extends Bonus {
 
 
     public ChangeRacketSize(PongItem pi, int i){
-
+        System.out.println("je lance le bonus");
         startChangeRacketSize(pi, i);
     }
 
@@ -30,6 +30,7 @@ public class ChangeRacketSize extends Bonus {
         else{
             pi.setWidth((int) pi.getWidth() + i * sizeChange);
         }
+        System.out.println("je change de taille");
     }
 
     /**
