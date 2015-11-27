@@ -62,7 +62,11 @@ public class Player extends PlayerNetwork {
     }
 
     public int sommeScore(){
-        return getScore(0)+getScore(1);
+        int somme=0;
+        for (int i = 0; i < getNombrePlayer(); i++) {
+            somme += getScore(i);
+        }
+        return somme;
     }
 
 
@@ -71,32 +75,16 @@ public class Player extends PlayerNetwork {
             if (getPong().getItem(i) instanceof Ball) {
                 Ball ball = (Ball) getPong().getItem(i);
                 int playerLose = ball.getLosePlayerSize();
-//                for (int j = 0; j < getPong().listItemSize(); j++) {
-//                    if(getPong().getItem(j) instanceof Racket)
-//                        if (playerLose != 0 && playerLose == getPong().getItem(j).getNumber()) {
-//                            if (playerLose != idplayer) {
-//                                setScore(playerLose-1, getScore(playerLose-1)+1);
-//                                System.out.println(getScore(playerLose-1));
-//                            }
-//                            else if (sommeScore() %(SCORE_FOR_BONUS * getNombrePlayer())==0 && sommeScore()!=0){
-//                                activateBonus=true;
-//                            }
-//                            ball.restart();
-//                    }
-//                }
                 if(playerLose != 0){
                     int somme = sommeScore();
                     for (int k = 0; k < getPong().listItemSize() ; k++) {
+                        /* Si l'item est une racket et que le numero player lose est bien un joueur alors */
                         if (getPong().getItem(k) instanceof  Racket && getPong().getItem(k).getNumber() == playerLose ){
-                            System.out.println(sommeScore());
-
-                            if (idplayer == playerLose && somme % (SCORE_FOR_BONUS * getNombrePlayer()) == 0 && sommeScore() != 0)
+                            if (idplayer==playerLose && somme % (SCORE_FOR_BONUS * (getNombrePlayer()-1)) == 0 && sommeScore() != 0)
                                 activateBonus = true;
                             for (int j = 0; j < getNombrePlayer(); j++) {
-
                                 if (j != playerLose - 1)
                                     setScore(j, getScore(j) + 1);
-
                                 System.out.println("le score de" + j + " est " + getScore(j));
 
                             }
@@ -148,13 +136,14 @@ public class Player extends PlayerNetwork {
             }
             if (activateBonus){
                 if (getPong().getItem(i) instanceof Bonus){
-                    if (! ((Bonus) getPong().getItem(i)).isActive()) {
+                    if (! ((Bonus) getPong().getItem(i)).isActive() &&
+                            !((Bonus)getPong().getItem(i)).isVisible()) {
                         ((Bonus) getPong().getItem(i)).bonusAleatoire();
-                       // ((Bonus) getPong().getItem(i)).setVisible(true);
                         message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
                         System.out.println(message.toString());
-                        activateBonus = false;
                     }
+                    activateBonus = false;
+
                 }
             }
 

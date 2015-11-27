@@ -111,7 +111,7 @@ public class PlayerNetwork {
     }
 
     /**
-     * Fonction permettant de ce connecter à un serveur
+     * Fonction permettant de ce connecter à un serveur avec procedure d'identification
      * @param adress addresse à se connecter
      * @param portConnection port de connection
      * @param first Vrai si première connection dans la partie Faux sinon

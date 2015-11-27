@@ -3,41 +3,53 @@ package src;
 import src.Network.*;
 import src.gui.*;
 
-import java.awt.event.WindowAdapter;
 import java.io.*;
 import java.nio.channels.SocketChannel;
 
-
 /**
- * Nous passerons pour le premier: 1 port
- *                                2 nombre joueur
- * deuxieme :  1 port du client
- *             2 adresse de l'autre joueur
- *             3 port de l'autre joueur
+ * Nous passerons pour le premier:
+ *                                1 nombre joueur
+ * deuxieme :
+ *             1 adresse de l'autre joueur
+ *             2 port de l'autre joueur
  */
 public class Main{
+	private static int PORT = 7777;
+
 	public static void main(String[] args) throws IOException, InterruptedException {
-		int port = Integer.parseInt(args[0]);
+		int port = PORT;
 		Pong pong = new Pong();
 		Player client = new Player(pong);
-		client.initServeur(port);
 		client.addPlayer();
 
-		if (args.length == 2){
+		/* Initialisation du Serveur avec une port */
+		boolean serverOK = false;
+		while (!serverOK) {
+			try {
+				client.initServeur(port);
+				serverOK=true;
+			} catch (IOException e) {
+				port++;
+			}
+		}
+		/* comportement du premier joueur */
+		if (args.length == 1){
 			client.getPong().add(new Racket(1));
 			client.getPong().add(new Ball(1, 80, 80));
 			client.getPong().add(new Bonus());
-
-			client.setMaxPlayer(Integer.parseInt(args[1]));
+			client.setMaxPlayer(Integer.parseInt(args[0]));
 		}
-		if (args.length > 2) {
-			String adresse = args[1];
-			int portConnection = Integer.parseInt(args[2]);
+
+		/* comportement des autres joueur */
+		if (args.length > 1) {
+			String adresse = args[0];
+			int portConnection = Integer.parseInt(args[1]);
 			client.setNombrePlayer(1);
 			client.connectionServerInit(adresse, portConnection, true);
 			client.getPong().addKeyListener(client.getMyRacket());
 		}
 
+		/* Boucle de connection entre tout les joueurs */
 		while (client.getNombrePlayer() != client.getMaxPlayer() ) {
 			if (client.getServer() != null) {
 				SocketChannel sc = client.getServer().accept();
@@ -48,15 +60,15 @@ public class Main{
 				}
 			}
 		}
+
 		Window window = new Window(pong);
 		window.displayOnscreen();
 
-		for (int i=0; i< client.listSocketSize();i++){
-			System.out.println(client.getSocketPlayer(i).getPort() + " "+ client.getSocketPlayer(i).getNumeroPlayer());
-		}
+		/* Boucle de jeu une fois que tout les joueur sont connecté */
 		while (true) {
 			if (client.getNombrePlayer()< 2)
 				return;
+			/* Envoie des information au autres joueurs */
 			String info = client.information();
 			for (int i = 0; i < client.listSocketSize(); i++) {
 				client.sendMessage(client.getSocketPlayer(i), info);
@@ -65,9 +77,12 @@ public class Main{
 				} catch (InterruptedException ignored) {
 				}
 			}
+			/* Reception des information des autres joueurs */
 			for (int i = 0; i < client.listSocketSize(); i++) {
 				client.update(i);
 			}
+
+			/* animation du jeu */
 			client.getPong().animateItem();
 
 
