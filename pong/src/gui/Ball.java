@@ -95,6 +95,7 @@ public class Ball extends PongItem {
     }
 
     public void restart(){
+
         int a = RandomNumber.randomValue(1,4);
         switch(a){
             case 1:
@@ -111,6 +112,7 @@ public class Ball extends PongItem {
                 break;
         }
         this.setPosition(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
+        System.out.println("nouvelle position ball : " + this.getPosition());
     }
 
     public boolean collision(PongItem pi){

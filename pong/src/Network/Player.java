@@ -84,23 +84,25 @@ public class Player extends PlayerNetwork {
 //                            ball.restart();
 //                    }
 //                }
-                int somme = sommeScore();
-                if (playerLose != 0 && playerLose <= getNombrePlayer()) {
-                    System.out.println(sommeScore());
+                if(playerLose != 0){
+                    int somme = sommeScore();
+                    for (int k = 0; k < getPong().listItemSize() ; k++) {
+                        if (getPong().getItem(k) instanceof  Racket && getPong().getItem(k).getNumber() == playerLose ){
+                            System.out.println(sommeScore());
 
-                    if (idplayer==playerLose && somme % (SCORE_FOR_BONUS * getNombrePlayer()) == 0 && sommeScore() != 0)
-                        activateBonus = true;
-                    for (int j = 0; j < getNombrePlayer(); j++) {
+                            if (idplayer == playerLose && somme % (SCORE_FOR_BONUS * getNombrePlayer()) == 0 && sommeScore() != 0)
+                                activateBonus = true;
+                            for (int j = 0; j < getNombrePlayer(); j++) {
 
-                        if (j != playerLose -1 )
-                            setScore(j, getScore(j) + 1);
+                                if (j != playerLose - 1)
+                                    setScore(j, getScore(j) + 1);
 
-                        System.out.println("le score de" + j+ " est "+getScore(j));
+                                System.out.println("le score de" + j + " est " + getScore(j));
 
-                    }
-                    ball.restart();
-
-
+                            }
+                            ball.restart();
+                        }
+                }
                 }
             }
         }
