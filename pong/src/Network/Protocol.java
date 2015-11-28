@@ -29,7 +29,7 @@ public class Protocol {
       ================================================= */
 
     /**
-     * Permet de recupérer l'adresse de connection d'une socket contenu dans le String
+     * Permet de recupérer l'adresse de connection d'une socket contenue dans le String
      * @param message String contenant un Item
      * @return Adresse de connection
      */

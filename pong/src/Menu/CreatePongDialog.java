@@ -38,7 +38,7 @@ public CreatePongDialog(JFrame parent, String title, boolean modal){
 
         JPanel panNumberPlayer = new JPanel();
         panNumberPlayer.setBackground(Color.white);
-        panNumberPlayer.setPreferredSize(new Dimension(200,60));
+        panNumberPlayer.setPreferredSize(new Dimension(250,80));
         numberPlayerTextField = new JTextField();
         numberPlayerTextField.setPreferredSize(new Dimension(50,25));
         panNumberPlayer.setBorder(BorderFactory.createTitledBorder("Nombre de joueurs"));

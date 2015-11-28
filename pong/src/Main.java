@@ -32,22 +32,30 @@ public class Main{
 				port++;
 			}
 		}
-		/* comportement du premier joueur */
-		if (args.length == 1){
-			client.getPong().add(new Racket(1));
-			client.getPong().add(new Ball(1, 80, 80));
-			client.getPong().add(new Bonus());
-			client.setMaxPlayer(Integer.parseInt(args[0]));
-		}
+		Menu menu = new Menu(client);
+        //while(!menu.getCreateGame() || !menu.getJoinGame())
+        /* comportement du premier joueur */
+//            if (menu.getCreateGame()) {
+//                System.out.println("je créer un pong");
+//                System.out.println(menu.getCreateGame());
+//                client.getPong().add(new Racket(1));
+//                client.getPong().add(new Ball(1, 80, 80));
+//                client.getPong().add(new Bonus());
+//                client.setMaxPlayer(Integer.parseInt(menu.getInfoCreate()));
+//                //client.setMaxPlayer(Integer.parseInt(args[0]));
+//            }
 
 		/* comportement des autres joueur */
-		if (args.length > 1) {
-			String adresse = args[0];
-			int portConnection = Integer.parseInt(args[1]);
-			client.setNombrePlayer(1);
-			client.connectionServerInit(adresse, portConnection, true);
-			client.getPong().addKeyListener(client.getMyRacket());
-		}
+//            if (menu.getJoinGame()) {
+//                System.out.println("je rejoins un pong");
+//                //	String adress = args[0];
+//                String adress = menu.getInfoJoin()[0];
+//                int portConnection = Integer.parseInt(menu.getInfoJoin()[1]);
+//                client.setNombrePlayer(1);
+//                client.connectionServerInit(adress, portConnection, true);
+//                client.getPong().addKeyListener(client.getMyRacket());
+//            }
+
 
 		/* Boucle de connection entre tout les joueurs */
 		while (client.getNombrePlayer() != client.getMaxPlayer() ) {
@@ -60,7 +68,7 @@ public class Main{
 				}
 			}
 		}
-
+		menu.endMenu();
 		Window window = new Window(pong);
 		window.displayOnscreen();
 

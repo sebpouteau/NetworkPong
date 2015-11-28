@@ -1,12 +1,18 @@
 package src.gui;
 
+import src.util.RandomNumber;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Racket extends PongItem {
 	private static final int RACKET_SPEED = 4;
+	private int speedRacket;
 	private static int HEIGHT = 80 ;
 	private static int WIDTH = 15;
+
+	public int getSpeedRacket(){return speedRacket;}
+	public void setSpeedRacket(int speed){speedRacket = speed;}
 
 	public Racket(int idPlayer){
 		super();
@@ -25,6 +31,7 @@ public class Racket extends PongItem {
 				this.setSurface(Pong.getSizePongX() / 2 - HEIGHT/2, Pong.getSizePongY() - WIDTH - 10, HEIGHT,WIDTH);
 		}
 		this.setNumber(idPlayer);
+		this.speedRacket = RACKET_SPEED;
 	}
 
 	/**
@@ -74,22 +81,22 @@ public class Racket extends PongItem {
 			case KeyEvent.VK_UP:
 			case KeyEvent.VK_KP_UP:
 				if(this.getNumber() < 3)
-					this.setSpeedX(-RACKET_SPEED);
+					this.setSpeedX(-getSpeedRacket());
 				break;
 			case KeyEvent.VK_DOWN:
 			case KeyEvent.VK_KP_DOWN:
 				if(this.getNumber() < 3)
-					this.setSpeedX(RACKET_SPEED);
+					this.setSpeedX(getSpeedRacket());
 				break;
 			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_KP_LEFT:
 				if(this.getNumber() > 2)
-					this.setSpeedY(-RACKET_SPEED);
+					this.setSpeedY(-getSpeedRacket());
 				break;
 			case KeyEvent.VK_RIGHT:
 			case KeyEvent.VK_KP_RIGHT:
 				if(this.getNumber() > 2)
-					this.setSpeedY(RACKET_SPEED);
+					this.setSpeedY(getSpeedRacket());
 			default:
 				//System.out.println("got press "+e);
 		}

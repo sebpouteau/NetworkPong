@@ -16,8 +16,8 @@ public class CreatePongDialogInfo {
     public String toString(){
         String str;
         if(this.numberPlayer != null) {
-            str = "Nombre de joueurs :";
-            str += numberPlayer;
+         //   str = "Nombre de joueurs :";
+            str = numberPlayer;
         }
         else
             str = "Aucune Information !";

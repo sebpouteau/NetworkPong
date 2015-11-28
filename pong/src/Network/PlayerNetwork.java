@@ -99,7 +99,7 @@ public class PlayerNetwork {
      * Permet de ce connecter à un serveur
      * @param adress addresse à se connecter
      * @param portConnection port de connection
-     * @return retourne la socket connecter
+     * @return retourne la socket connectée
      * @throws IOException
      */
     public Socket connection(String adress, int portConnection) throws IOException {
@@ -120,7 +120,7 @@ public class PlayerNetwork {
      */
     public int connectionServer(String adress, int portConnection, boolean first) throws IOException {
         Socket s = connection(adress, portConnection);
-        System.out.println("connection a" + portConnection);
+        System.out.println("connection a " + portConnection);
         SocketPlayer socketPlayer = new SocketPlayer(s, portConnection);
         int position = this.addSocket(socketPlayer);
         /* envoie des informations de reconnaissance */
@@ -131,7 +131,7 @@ public class PlayerNetwork {
     }
 
     /**
-     * Fonction permettant d'accepter une connexion d'un joueur
+     * Fonction permettant d'accepter la connexion d'un joueur
      * @param socket Socket à accepter
      * @return true si premiere connection à un joueur, false sinon
      * @throws IOException
@@ -145,6 +145,7 @@ public class PlayerNetwork {
         int port = Protocol.decryptPort(lu);
         this.getSocketPlayer(position).setPort(port);
         return Protocol.decryptFirst(lu);
+
     }
 
 

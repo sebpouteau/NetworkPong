@@ -17,13 +17,13 @@ public class JoinPongDialogInfo  {
     public String toString(){
         String str;
         if(this.adress != null && this.port != null) {
-            str = "Adresse : ";
-            str += adress;
-            str += " , port : ";
+
+            str = adress;
+            str += ";";
             str += port;
         }
         else
-            str = "Aucune Information !";
+            str =null;
         return str;
     }
 }
