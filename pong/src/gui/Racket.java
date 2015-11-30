@@ -3,7 +3,7 @@ package src.gui;
 import java.awt.event.KeyEvent;
 
 public class Racket extends PongItem {
-	private static final int RACKET_SPEED = 4;
+	private static final int RACKET_SPEED = 6;
 	private static int HEIGHT = 80 ;
 	private static int WIDTH = 15;
 
@@ -24,11 +24,7 @@ public class Racket extends PongItem {
 		this.setNumber(idPlayer);
 	}
 
-	/**
-	 * Déplace la raquette suivant sa vitesse
-	 * @param sizePongX longuer de la fenêtre
-	 * @param sizePongY largeur de la fenêtre
-	 */
+	@Override
 	public void animate(int sizePongX,int sizePongY){
 		/* Update racket position */
 		this.setPositionX(this.getPositionX()+this.getSpeedY());
@@ -43,6 +39,15 @@ public class Racket extends PongItem {
 			this.setPositionY(sizePongY - this.getHeight());
 		this.setPositionRectangle(this.getPositionX(), this.getPositionY());
 
+	}
+
+
+	@Override
+	public boolean notCheating(int x, int y, int speedX,int speedY){
+		return Math.abs(this.getPositionX() - x) <=RACKET_SPEED &&
+				Math.abs(this.getPositionY() - y) <=RACKET_SPEED &&
+				Math.abs(this.getSpeedX() - speedX) <=RACKET_SPEED &&
+				Math.abs(this.getSpeedY() - speedY) <=RACKET_SPEED;
 	}
 
 	/**
@@ -61,10 +66,7 @@ public class Racket extends PongItem {
        }
 	}
 
-	/**
-	 * Change la vitesse de la raquette suivant le type de raquette (verticale ou horizontale) et la touche appuchée
-	 * @param e événement créer lorsque qu'une touche et enfoncé permet de changer la vitesse de la raquette suivant la touche enfoncée
-	 */
+	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_UP:
@@ -89,6 +91,8 @@ public class Racket extends PongItem {
 				break;
 		}
 	}
+
+	@Override
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_UP:
@@ -110,6 +114,7 @@ public class Racket extends PongItem {
 		}
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) { }
 
 

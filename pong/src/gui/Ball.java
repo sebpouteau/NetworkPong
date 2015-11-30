@@ -23,11 +23,8 @@ public class Ball extends PongItem {
         this.setPositionY(setPos);
         this.setSpeedY(setSpeed);
     }
-    /**
-     * Déplace le balle suivant sa vitesse et la fait rebondir si elle touche un des côté de la fenêtre
-     * @param sizePongX longueur de la fenêtre
-     * @param sizePongY largueur de la fenêtre
-     */
+
+    @Override
     public void animate(int sizePongX,int sizePongY){
         this.setPosition((this.getPositionX() + this.getSpeedX()),(this.getPositionY() + this.getSpeedY()));
 		/* Update ball position */
@@ -45,6 +42,14 @@ public class Ball extends PongItem {
         }
         this.setPositionRectangle(this.getPositionX(), this.getPositionY());
 
+    }
+
+    @Override
+    public boolean notCheating(int x, int y, int speedX,int speedY){
+        return Math.abs(this.getPositionX() - x) <=BALL_SPEED*2 &&
+                Math.abs(this.getPositionY() - y) <=BALL_SPEED *2&&
+                Math.abs(this.getSpeedX() - speedX) <=BALL_SPEED*2 &&
+                Math.abs(this.getSpeedY() - speedY) <=BALL_SPEED*2;
     }
 
     public int getLosePlayerSize(){

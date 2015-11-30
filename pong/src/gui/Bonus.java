@@ -17,7 +17,7 @@ public class Bonus extends PongItem {
     private boolean visible;
     private boolean active;
     private int playerMax = 0;
-
+    private int SPEED_BONUS = 3;
     public long getTime(){return this.time;}
     public void setTime(){this.time = System.currentTimeMillis();}
     public boolean isActive() {return active;}
@@ -36,7 +36,7 @@ public class Bonus extends PongItem {
     private Bonus bonus;
 
     public Bonus(){
-        super(0,0);
+        super(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
         initImage(image);
         active = false;
         visible = false;
@@ -65,11 +65,7 @@ public class Bonus extends PongItem {
 
     }
 
-    /**
-     * Déplace le cadeaux représentant le bonus et le fais rebondir sur les côtés de l'écran
-     * @param sizePongX longueur de la fenêtre
-     * @param sizePongY largeur de la fenêtre
-     */
+    @Override
     public void animate(int sizePongX, int sizePongY){
         if(this.visible) {
             this.setPosition((this.getPositionX() + this.getSpeedX()),(this.getPositionY() + this.getSpeedY()));
@@ -92,6 +88,14 @@ public class Bonus extends PongItem {
             this.setPositionRectangle(this.getPositionX(), this.getPositionY());
         }
         duration();
+    }
+
+   @Override
+    public boolean notCheating(int x, int y, int speedX,int speedY){
+        return Math.abs(this.getPositionX() - x) <= SPEED_BONUS*2&&
+                Math.abs(this.getPositionY() - y) <= SPEED_BONUS*2&&
+                Math.abs(this.getSpeedX() - speedX) <= SPEED_BONUS*2&&
+                Math.abs(this.getSpeedY() - speedY) <=SPEED_BONUS*2;
     }
 
     public void setDelay(int x){

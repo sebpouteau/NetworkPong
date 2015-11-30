@@ -69,21 +69,23 @@ public class Main{
 				return;
 			/* Envoie des information au autres joueurs */
 			String info = client.information();
+			System.out.println(info);
 			for (int i = 0; i < client.listSocketSize(); i++) {
 				client.sendMessage(client.getSocketPlayer(i), info);
-				try {
-					Thread.sleep(Pong.timestep);
-				} catch (InterruptedException ignored) {
-				}
+			}
+
+			try {
+				Thread.sleep(Pong.timestep);
+			} catch (InterruptedException ignored) {
 			}
 			/* Reception des information des autres joueurs */
+
 			for (int i = 0; i < client.listSocketSize(); i++) {
 				client.update(i);
 			}
 
 			/* animation du jeu */
 			client.getPong().animateItem();
-
 
 			client.attributionScore();
 		}

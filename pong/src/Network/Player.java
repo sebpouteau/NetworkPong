@@ -71,113 +71,78 @@ public class Player extends PlayerNetwork {
         return getPong().getItem(MYRACKET);
     }
 
-
-
-     /* =================================================
-                         Fonctions
+ /* =================================================
+        Fonctions Lié au réseau Connection & Serveur
      ================================================= */
 
     /**
-     * Calcul la somme de tout les score
-     * @return la somme
+     * Permet d'initialisé les connexion d'un nouveau joueur par rapport à une liste reçu
+     * @param message String contenant les information sur les connexion du jeu
+     * @throws IOException
+     * @throws InterruptedException
      */
-    public int sommeScore(){
-        int somme=0;
-        for (int i = 0; i < getNombrePlayer(); i++) {
-            somme += getScore(i);
-        }
-        return somme;
-    }
-
-    /**
-     * Met à jour les scores et permet d'activé le bonus
-     */
-    public void attributionScore() {
-        for (int i = 0; i < getPong().listItemSize(); i++) {
-            if (getPong().getItem(i) instanceof Ball) {
-                Ball ball = (Ball) getPong().getItem(i);
-                int playerLose = ball.getLosePlayerSize();
-                if(playerLose != 0){
-                    int somme = sommeScore();
-                    for (int k = 0; k < getPong().listItemSize() ; k++) {
-                        /* Si l'item est une racket et que le numero player lose est un joueur présent */
-                        if (getPong().getItem(k) instanceof  Racket && getPong().getItem(k).getNumber() == playerLose ){
-                            if (idPlayer ==playerLose && somme % (SCORE_FOR_BONUS * (getNombrePlayer()-1)) == 0 && sommeScore() != 0)
-                                activateBonus = true;
-                            for (int j = 0; j < getNombrePlayer(); j++) {
-                                if (j != playerLose - 1)
-                                    setScore(j, getScore(j) + 1);
-                            }
-                            ball.restart();
-                        }
-                    }
-                }
-            }
+    public void initialisationSocket(String message) throws IOException, InterruptedException {
+        String[] socketList = message.split(";");
+        for (String aSocketList : socketList) {
+            String[] socket = aSocketList.split(" ");
+            connectionServerInit(
+                    Protocol.decryptAdress(socket),
+                    Protocol.decryptPortSocket(socket),
+                    false);
         }
     }
 
     /**
-     * Permet de lister tout les items du jeu
-     * @return String contenant tout les Items
+     * Fonction permettant de ce connecter à un serveur et d'initialisé le pong
+     * @param adress addresse à se connecter
+     * @param portConnection port de connection
+     * @param first Vrai si première connection dans la partie Faux sinon
+     * @throws IOException
      */
-    private String listItemGame(Racket newRacket) {
-        StringBuilder message = new StringBuilder();
-        message.append(Protocol.attributionNewPlayer(this.getNombrePlayer(), this.getMaxPlayer(), newRacket, this.getIdPlayer()));
-        message.append(";");
-        for (int i = 0; i < getPong().listItemSize(); i++) {
-            message.append(Protocol.informationItem(getPong().getItem(i)));
-            message.append(";");
-        }
-        return message.toString();
-    }
+    public void connectionServerInit(String adress, int portConnection, boolean first) throws IOException, InterruptedException {
+        int position = super.connectionServer(adress, portConnection, first);
+        /* initialisation de tout les objets grâce à l'information reçu */
+        if (first) {
+            String tabSocket = read(position);
+            String listItem = read(position);
 
-
-    /**
-     * Permet de creer une chaine de caractère contenant les position de la raquette d'un joueur
-     * ainsi que tout les positions des balles
-     * @return String contenant les positions
-     */
-    public String information() {
-        StringBuilder message = new StringBuilder();
-        message.append(Protocol.informationItem(this.getPong().getItem(MYRACKET))).append(";");
-        for (int i = 0; i < getPong().listItemSize(); i++) {
-            if (getPong().getItem(i) instanceof Ball) {
-                message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
-            }
-            if (activateBonus && getPong().getItem(i) instanceof Bonus) {
-                if (!((Bonus) getPong().getItem(i)).isActive() &&
-                        !((Bonus) getPong().getItem(i)).isVisible()) {
-                    ((Bonus) getPong().getItem(i)).bonusAleatoire();
-                    message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
-                }
-                activateBonus = false;
-            }
+            this.initialisationItem(listItem,getSocketPlayer(position));
+            if (!tabSocket.isEmpty())
+                this.initialisationSocket(tabSocket);
         }
-        return message.toString();
+        else{
+            String myRacket = Protocol.informationItem(getPong().getItem(MYRACKET));
+            Thread.sleep(1);
+            sendMessage(getSocketPlayer(position), myRacket);
+            String lu = read(position);
+            String[] message = lu.split(" ");
+            getSocketPlayer(position).setNumeroPlayer(Protocol.decryptId(message));
+        }
     }
 
     /**
-     * Permet de connaitre l'id du joueur contolant la balle
-     * @param message String contenant les information d'une balle normalisé selon le protocole
-     * @return retourne le numero du joueur controlant la balle
+     * Fonction permettant d'accepter une connexion d'un joueur et
+     * de l'ajouter dans ca liste Item, et lui envoyer la liste des item deja présent dans le jeu
+     * @param socket Socket à accepter
+     * @throws IOException
      */
-    public int idPlayerControlBall(String[] message) {
-        int x = Protocol.decryptX(message);
-        int y = Protocol.decryptY(message);
-        int idPlayer = 0;
-        int distanceMin = -1;
-        for (int k = 0; k < getPong().listItemSize(); k++) {
-            if (getPong().getItem(k) instanceof Racket) {
-                int distance = (int) Math.sqrt(Math.pow((x - getPong().getItem(k).getPositionX()), 2) +
-                        Math.pow((y - getPong().getItem(k).getPositionY()), 2));
-                if (distance < distanceMin || distanceMin < 0) {
-                    idPlayer = getPong().getItem(k).getNumber();
-                    distanceMin = distance;
-                }
-            }
+    public void connectionAcceptPlayer(Socket socket) throws IOException, InterruptedException {
+        boolean first = super.connectionAccept(socket);
+        int pos = listSocketSize()-1;
+        if (first)
+            this.addNewClient(this.getSocketPlayer(pos),pos);
+        else{
+            String lu = read(pos);
+            addRacketNewPlayer(lu,getSocketPlayer(pos));
+            sendMessage(getSocketPlayer(pos), Protocol.informationItem(getMyRacket()));
+            this.addPlayer();
         }
-        return idPlayer;
     }
+
+
+    /* =================================================
+     Fonctions traitement des joueur et item pendant le jeu
+     ================================================= */
 
     /**
      * Permet d'initialiser un joueur en fonction d'un string reçu
@@ -298,85 +263,136 @@ public class Player extends PlayerNetwork {
      * Fonction permettant de mettre à jour un item grace à un message contenant ses information
      * @param message tring contenant les information d'un item normalisé selon le protocole
      * @param type    String permettant de chercher un type spécifique de la liste des item ex: "Raquet"
+     * @return true si changement effectuer et valide, false si changement impossible car Triche
      */
-    public void updateItem(String[] message, String type) {
+    public boolean updateItem(String[] message, String type) {
         int idP = Protocol.decryptId(message);
         int x = Protocol.decryptX(message);
         int y = Protocol.decryptY(message);
+        int speedX= Protocol.decryptSpeedX(message);
+        int speedY= Protocol.decryptSpeedY(message);
+
         for (int k = 0; k < getPong().listItemSize(); k++) {
             if (getPong().getItem(k).getClass().getSimpleName().equals(type)
                     && getPong().getItem(k).getNumber() == idP) {
-                getPong().getItem(k).setPosition(x, y);
-                getPong().getItem(k).setSpeed(Protocol.decryptSpeedX(message),
-                        Protocol.decryptSpeedY(message));
+                if (getPong().getItem(k).notCheating(x,y,speedX,speedY)) {
+                    getPong().getItem(k).setPosition(x, y);
+                    getPong().getItem(k).setSpeed(speedX, speedY);
+                }
+                else{
+                    System.out.println("tu triche");
+                    break;
+                }
+            }
+        }
+        return true;
+    }
 
+    /* =================================================
+                   Fonctions D'information
+     ================================================= */
+
+    /**
+     * Calcul la somme de tout les score
+     * @return la somme
+     */
+    public int sommeScore(){
+        int somme=0;
+        for (int i = 0; i < getNombrePlayer(); i++) {
+            somme += getScore(i);
+        }
+        return somme;
+    }
+
+    /**
+     * Met à jour les scores et permet d'activé le bonus
+     */
+    public void attributionScore() {
+        for (int i = 0; i < getPong().listItemSize(); i++) {
+            if (getPong().getItem(i) instanceof Ball) {
+                Ball ball = (Ball) getPong().getItem(i);
+                int playerLose = ball.getLosePlayerSize();
+                if(playerLose != 0){
+                    int somme = sommeScore();
+                    for (int k = 0; k < getPong().listItemSize() ; k++) {
+                        /* Si l'item est une racket et que le numero player lose est un joueur présent */
+                        if (getPong().getItem(k) instanceof  Racket && getPong().getItem(k).getNumber() == playerLose ){
+                            if (idPlayer ==playerLose && somme % (SCORE_FOR_BONUS * (getNombrePlayer()-1)) == 0 && sommeScore() != 0)
+                                activateBonus = true;
+                            for (int j = 0; j < getNombrePlayer(); j++) {
+                                if (j != playerLose - 1)
+                                    setScore(j, getScore(j) + 1);
+                            }
+                            ball.restart();
+                        }
+                    }
+                }
             }
         }
     }
 
     /**
-     * Permet d'initialisé les connexion d'un nouveau joueur par rapport à une liste reçu
-     * @param message String contenant les information sur les connexion du jeu
-     * @throws IOException
-     * @throws InterruptedException
+     * Permet de lister tout les items du jeu
+     * @return String contenant tout les Items
      */
-    public void initialisationSocket(String message) throws IOException, InterruptedException {
-        String[] socketList = message.split(";");
-        for (String aSocketList : socketList) {
-            String[] socket = aSocketList.split(" ");
-            connectionServerInit(
-                    Protocol.decryptAdress(socket),
-                    Protocol.decryptPortSocket(socket),
-                    false);
+    private String listItemGame(Racket newRacket) {
+        StringBuilder message = new StringBuilder();
+        message.append(Protocol.attributionNewPlayer(this.getNombrePlayer(), this.getMaxPlayer(), newRacket, this.getIdPlayer()));
+        message.append(";");
+        for (int i = 0; i < getPong().listItemSize(); i++) {
+            message.append(Protocol.informationItem(getPong().getItem(i)));
+            message.append(";");
         }
+        return message.toString();
     }
 
     /**
-     * Fonction permettant de ce connecter à un serveur et d'initialisé le pong
-     * @param adress addresse à se connecter
-     * @param portConnection port de connection
-     * @param first Vrai si première connection dans la partie Faux sinon
-     * @throws IOException
+     * Permet de creer une chaine de caractère contenant les position de la raquette d'un joueur
+     * ainsi que tout les positions des balles
+     * @return String contenant les positions
      */
-    public void connectionServerInit(String adress, int portConnection, boolean first) throws IOException, InterruptedException {
-        int position = super.connectionServer(adress, portConnection, first);
-        /* initialisation de tout les objets grâce à l'information reçu */
-        if (first) {
-            String tabSocket = read(position);
-            String listItem = read(position);
-
-            this.initialisationItem(listItem,getSocketPlayer(position));
-            if (!tabSocket.isEmpty())
-                this.initialisationSocket(tabSocket);
+    public String information() {
+        StringBuilder message = new StringBuilder();
+        message.append(Protocol.informationItem(this.getPong().getItem(MYRACKET))).append(";");
+        for (int i = 0; i < getPong().listItemSize(); i++) {
+            if (getPong().getItem(i) instanceof Ball) {
+                message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
+            }
+            if (activateBonus && getPong().getItem(i) instanceof Bonus) {
+                if (!((Bonus) getPong().getItem(i)).isActive() &&
+                        !((Bonus) getPong().getItem(i)).isVisible()) {
+                    ((Bonus) getPong().getItem(i)).bonusAleatoire();
+                    message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
+                }
+                activateBonus = false;
+            }
         }
-        else{
-            String myRacket = Protocol.informationItem(getPong().getItem(MYRACKET));
-            Thread.sleep(1);
-            sendMessage(getSocketPlayer(position), myRacket);
-            String lu = read(position);
-            String[] message = lu.split(" ");
-            getSocketPlayer(position).setNumeroPlayer(Protocol.decryptId(message));
-        }
+        return message.toString();
     }
 
     /**
-     * Fonction permettant d'accepter une connexion d'un joueur et
-     * de l'ajouter dans ca liste Item, et lui envoyer la liste des item deja présent dans le jeu
-     * @param socket Socket à accepter
-     * @throws IOException
+     * Permet de connaitre l'id du joueur contolant la balle
+     * @param message String contenant les information d'une balle normalisé selon le protocole
+     * @return retourne le numero du joueur controlant la balle
      */
-    public void connectionAcceptPlayer(Socket socket) throws IOException, InterruptedException {
-        boolean first = super.connectionAccept(socket);
-        int pos = listSocketSize()-1;
-        if (first)
-            this.addNewClient(this.getSocketPlayer(pos),pos);
-        else{
-            String lu = read(pos);
-            addRacketNewPlayer(lu,getSocketPlayer(pos));
-            sendMessage(getSocketPlayer(pos), Protocol.informationItem(getMyRacket()));
-            this.addPlayer();
+    public int idPlayerControlBall(String[] message) {
+        int x = Protocol.decryptX(message);
+        int y = Protocol.decryptY(message);
+        int idPlayer = 0;
+        int distanceMin = -1;
+        for (int k = 0; k < getPong().listItemSize(); k++) {
+            if (getPong().getItem(k) instanceof Racket) {
+                int distance = (int) Math.sqrt(Math.pow((x - getPong().getItem(k).getPositionX()), 2) +
+                        Math.pow((y - getPong().getItem(k).getPositionY()), 2));
+                if (distance < distanceMin || distanceMin < 0) {
+                    idPlayer = getPong().getItem(k).getNumber();
+                    distanceMin = distance;
+                }
+            }
         }
+        return idPlayer;
     }
+
 
 }
 
