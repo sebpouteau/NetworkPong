@@ -42,7 +42,7 @@ public CreatePongDialog(JFrame parent, String title, boolean modal){
         numberPlayerTextField = new JTextField();
         numberPlayerTextField.setPreferredSize(new Dimension(50,25));
         panNumberPlayer.setBorder(BorderFactory.createTitledBorder("Nombre de joueurs"));
-        numberPlayerLabel = new JLabel("Saisir le nombre de joueurs (max 4 :)");
+        numberPlayerLabel = new JLabel("Saisir le nombre de joueurs (max 4)");
 
         panNumberPlayer.add(numberPlayerLabel);
         panNumberPlayer.add(numberPlayerTextField);

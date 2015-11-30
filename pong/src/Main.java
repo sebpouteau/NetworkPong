@@ -68,7 +68,8 @@ public class Main{
 				}
 			}
 		}
-		menu.endMenu();
+		pong.setTabScore(client.getMaxPlayer());
+		menu.endWait();
 		Window window = new Window(pong);
 		window.displayOnscreen();
 

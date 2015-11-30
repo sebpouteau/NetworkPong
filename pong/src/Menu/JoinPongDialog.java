@@ -39,7 +39,7 @@ public class JoinPongDialog extends JDialog {
         panAdress.setBackground(Color.white);
         panAdress.setPreferredSize(new Dimension(300,60));
         adressJPTextField = new JTextField();
-        adressJPTextField.setPreferredSize(new Dimension(50,25));
+        adressJPTextField.setPreferredSize(new Dimension(100,25));
         panAdress.setBorder(BorderFactory.createTitledBorder("Adresse de connection"));
         adressLabel = new JLabel("Saisir l'adresse de connection");
 
@@ -52,7 +52,7 @@ public class JoinPongDialog extends JDialog {
         portTextField = new JTextField();
         portTextField.setPreferredSize(new Dimension(50,25));
         panPort.setBorder(BorderFactory.createTitledBorder("Port de connection"));
-        portLabel = new JLabel("Saisir le de connection");
+        portLabel = new JLabel("Saisir le port de connection");
 
         panPort.add(portLabel);
         panPort.add(portTextField);

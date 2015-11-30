@@ -112,7 +112,6 @@ public class Ball extends PongItem {
                 break;
         }
         this.setPosition(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
-        System.out.println("nouvelle position ball : " + this.getPosition());
     }
 
     public boolean collision(PongItem pi){
@@ -124,22 +123,22 @@ public class Ball extends PongItem {
 
         Rectangle ball = new Rectangle(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY(), this.getWidth(), this.getHeight());
 
-        if(pi instanceof Bonus){
-            Bonus bonus = (Bonus) pi;
-            if(bonus.getNumber() == 4){
-                Rock r =(Rock) bonus;
-                if (ball.intersects(r.getRock())){
-                    r.setLifePointRock(r.getLifePointRock() - 1);
-                    if(r.getLifePointRock() == 0)
-                        bonus.stopBonus();
-                    doCollisionBall(bonus);
-                    return true;
-                }
-                return false;
-            }
-        }
-        else {
-            if ((ball.getX() >= pi.getSurface().getX() + pi.getSurface().getWidth())      // trop à droite
+//        if(pi instanceof Bonus){
+//            Bonus bonus = (Bonus) pi;
+//            if(bonus.getNumber() == 4){
+//                Rock r =(Rock) bonus;
+//                if (ball.intersects(r.getRock())){
+//                    r.setLifePointRock(r.getLifePointRock() - 1);
+//                    if(r.getLifePointRock() == 0)
+//                        bonus.stopBonus();
+//                    doCollisionBall(bonus);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        }
+//        else {
+           if ((ball.getX() >= pi.getSurface().getX() + pi.getSurface().getWidth())      // trop à droite
                     || (ball.getX() + ball.getWidth() <= pi.getSurface().getX()) // trop à gauche
                     || (ball.getY() >= pi.getSurface().getY() + pi.getSurface().getHeight()) // trop en bas
                     || (ball.getY() + ball.getHeight() <= pi.getSurface().getY())) { // trop en haut
@@ -154,8 +153,8 @@ public class Ball extends PongItem {
 
                 return true;
             }
-        }
-        return false;
+//        }
+//        return false;
     }
 
     public void doCollision(PongItem pi) {

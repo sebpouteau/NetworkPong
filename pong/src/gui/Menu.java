@@ -23,15 +23,16 @@ public class Menu extends JFrame {
     private boolean createGame = false;
     private boolean joinGame = false;
     private Player client;
-    private JOptionPane jop;
+    private JDialog jd;
+    //private JOptionPane jop;
 
     public String getInfoCreate(){return cpdInfo.toString();}
     public String[] getInfoJoin(){return jpdInfo.toString().split(";");}
     public boolean getCreateGame(){return createGame;}
     public boolean getJoinGame(){return joinGame;}
     public Player getClient(){return this.client;}
-    public void setJop(JOptionPane jop){this.jop = jop;}
-    public JOptionPane getJop(){return jop;}
+   // public void setJop(JOptionPane jop){this.jop = jop;}
+   // public JOptionPane getJop(){return jop;}
 
 
     public Menu(Player client){
@@ -42,7 +43,9 @@ public class Menu extends JFrame {
         this.setLocationRelativeTo(null);
         this.getContentPane().setLayout(new FlowLayout());
         this.getContentPane().add(create);
-        this.jop = new JOptionPane();
+       // this.jop = new JOptionPane();
+        this.jd = new JDialog(this,false);
+        jd.setSize(new Dimension(300,100));
 
         create.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -54,7 +57,11 @@ public class Menu extends JFrame {
                 getClient().getPong().add(new Ball(1, 80, 80));
                 getClient().getPong().add(new Bonus());
                 getClient().setMaxPlayer(Integer.parseInt(getInfoCreate()));
-              //  getJop().showMessageDialog(null, "En attente de joueurs");
+                endMenu();
+                JLabel jl = new JLabel("En attente de joueurs");
+                jd.add(jl);
+                jd.setVisible(true);
+             //   getJop().showMessageDialog(null, "En attente de joueurs");
                 System.out.println("je crée une partie");
             }
 
@@ -77,7 +84,12 @@ public class Menu extends JFrame {
                     e1.printStackTrace();
                 }
                 getClient().getPong().addKeyListener(getClient().getMyRacket());
-              //  getJop().showMessageDialog(null, "Connection en cours");
+                endMenu();
+                JLabel jl = new JLabel("Connection en cours");
+                jd.add(jl);
+                jd.setVisible(true);
+
+               //getJop().showMessageDialog(null, "Connection en cours");
             }
         });
 
@@ -86,9 +98,8 @@ public class Menu extends JFrame {
 
     public void endMenu(){
         this.setVisible(false);
-    if(getJop() != null) {
-        System.out.println("qje ferme ma fenêtre");
-        getJop().setVisible(false);
     }
+    public void endWait(){
+        jd.setVisible(false);
     }
 }

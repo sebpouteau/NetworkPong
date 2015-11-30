@@ -17,7 +17,6 @@ public class Player extends PlayerNetwork {
     private boolean activateBonus = false;
 
 
-    private int[] score = new int[4];
     public Player(Pong pong) {
         super();
         this.pong = pong;
@@ -53,22 +52,14 @@ public class Player extends PlayerNetwork {
     public Pong getPong() {return pong;}
 
     public void addPlayer() {this.nombrePlayer++;}
-    public int getScore(int i) {
-        return score[i];
-    }
-
-    public void setScore(int pos,int score) {
-        this.score[pos] = score;
-    }
 
     public int sommeScore(){
         int somme=0;
         for (int i = 0; i < getNombrePlayer(); i++) {
-            somme += getScore(i);
+            somme += this.getPong().getScore(i);
         }
         return somme;
     }
-
 
     public void attributionScore() {
         for (int i = 0; i < getPong().listItemSize(); i++) {
@@ -84,8 +75,8 @@ public class Player extends PlayerNetwork {
                                 activateBonus = true;
                             for (int j = 0; j < getNombrePlayer(); j++) {
                                 if (j != playerLose - 1)
-                                    setScore(j, getScore(j) + 1);
-                                System.out.println("le score de" + j + " est " + getScore(j));
+                                    this.getPong().setScore(j, this.getPong().getScore(j) + 1);
+                                System.out.println("le score de" + j + " est " + this.getPong().getScore(j));
 
                             }
                             ball.restart();
