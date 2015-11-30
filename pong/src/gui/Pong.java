@@ -72,7 +72,6 @@ public class Pong extends JPanel {
 					compteur = Math.max(compteur,getItem(i).getNumber())+1;
 			}
 			item.setNumber(compteur++);
-			System.out.println(compteur);
 		}
 		this.pongList.add(item);
 	}
@@ -111,6 +110,7 @@ public class Pong extends JPanel {
                 pi.getWidth(), pi.getHeight(),
                 null);
     }
+
 	public void updateScreen() {
 		if (buffer == null) {
 			/* First time we get called with all windows initialized */

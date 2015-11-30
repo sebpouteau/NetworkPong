@@ -75,7 +75,6 @@ public class PongItem implements KeyListener {
     public void setHeight(int height) {
         this.height = height;
     }
-    public Point getPosition() {return (Point)position.clone();}
     public int getPositionX() {
         return (int)position.getX();
     }
@@ -125,6 +124,19 @@ public class PongItem implements KeyListener {
     }
 
     /**
+     * fonction verifiant si les donnée sont valide
+     * @param x nouvelle position en X
+     * @param y nouvelle position en Y
+     * @param speedX nouvelle vitesse en X
+     * @param speedY nouvelle vitesse en Y
+     * @return true si valide, false sinon
+     */
+    public boolean notCheating(int x, int y, int speedX,int speedY){
+        System.out.println("j'utilise le cheat de pongItem");
+        return true;
+    }
+
+    /**
      * Test si l'objet appelant cette fonction est d'un type ou d'un autre et lance plus précisement la recherche et gestion des collisions
      * @param p liste des PongItem composants le pong
      * @return vrai si une collision a eu lieu et faux sinon
@@ -143,13 +155,13 @@ public class PongItem implements KeyListener {
                 r.collision(this);
 
             }
-
         }
         return t;
     }
 
     public void keyPressed(KeyEvent e) {
     }
+
     public void keyReleased(KeyEvent e) {
     }
 

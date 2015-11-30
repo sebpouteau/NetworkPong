@@ -5,27 +5,26 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * Created by sebpouteau on 17/11/15.
+ * Classe contenant la socket d'un joueur
+ * ainsi que des informations supplémentaire sur le joueur
  */
 public class SocketPlayer {
     private Socket socket;
     private int port;
-    private String address;
-    private InputStream inputStream;
+    private String adress;
     private BufferedReader bufferReader;
-    private OutputStream outputStream;// = socket.getOutputStream();
-    private PrintStream printStream;// = new PrintStream(os, false, "utf-8");
+    private PrintStream printStream;
     private int numeroPlayer;
 
 
     public SocketPlayer(Socket socket, int port) throws IOException {
         this.socket=socket;
-        this.inputStream= this.getSocket().getInputStream();
-        this.bufferReader = new BufferedReader(new InputStreamReader(this.getInputStream(), "utf-8"));
-        this.outputStream = getSocket().getOutputStream();
-        this.printStream = new PrintStream(this.getOutputStream(), false, "utf-8");
+        InputStream inputStream= this.getSocket().getInputStream();
+        this.bufferReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
+        OutputStream outputStream = getSocket().getOutputStream();
+        this.printStream = new PrintStream(outputStream, false, "utf-8");
         this.port = port;
-        this.address = socket.getInetAddress().getHostAddress();
+        this.adress = socket.getInetAddress().getHostAddress();
     }
 
     public int getNumeroPlayer() {
@@ -36,16 +35,8 @@ public class SocketPlayer {
         this.numeroPlayer = numeroPlayer;
     }
 
-    public InputStream getInputStream() {
-        return inputStream;
-    }
-
     public BufferedReader getBufferReader() {
         return bufferReader;
-    }
-
-    public OutputStream getOutputStream() {
-        return outputStream;
     }
 
     public PrintStream getPrintStream() {
@@ -65,7 +56,7 @@ public class SocketPlayer {
     }
 
     public String getAdress() {
-        return address;
+        return adress;
     }
 
 

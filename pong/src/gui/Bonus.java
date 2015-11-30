@@ -1,11 +1,8 @@
 package src.gui;
 
-import javafx.scene.control.TextFormatter;
-import javafx.scene.shape.Circle;
 import src.util.RandomNumber;
 
-import java.awt.*;
-import java.util.ArrayList;
+
 
 /**
  * Created by Se Easy on 23/11/2015.
@@ -22,14 +19,13 @@ public class Bonus extends PongItem {
     private boolean visible;
     private boolean active;
     private int playerMax = 0;
-
+    private int SPEED_BONUS = 3;
     public long getTime(){return this.time;}
     public void setTime(){this.time = System.currentTimeMillis();}
     public boolean isActive() {return active;}
     public boolean isVisible(){return visible;}
     public void setActive(Boolean b){ active = b;}
-    public void setVisible(Boolean b){visible = b;
-        System.out.println("bonus "+visible);}
+    public void setVisible(Boolean b){visible = b;}
     public long getDelay(){
         return delay;
     }
@@ -42,14 +38,14 @@ public class Bonus extends PongItem {
     private Bonus bonus;
 
     public Bonus(){
-        super(0,0);
+        super(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
         initImage(image);
         active = false;
         visible = false;
     }
 
     public void bonusAleatoire(){
-        setPosition(500,500);
+        setPosition(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
         int a = RandomNumber.randomValue(1,4);
         switch(a){
             case 1:
@@ -68,16 +64,8 @@ public class Bonus extends PongItem {
         a = RandomNumber.randomValue(1,5);
         setNumber(a);
         setVisible(true);
+    }
 
-    }
-    public Bonus(int nBonus, int x, int y, int sX, int sY){
-        super(x,y);
-        this.setSpeed(sX,sY);
-        initImage(image);
-        active = false;
-        visible = false;
-        setNumber(nBonus);
-    }
     /**
      * Déplace le cadeaux représentant le bonus et le fais rebondir sur les côtés de l'écran
      * @param sizePongX longueur de la fenêtre
@@ -107,6 +95,14 @@ public class Bonus extends PongItem {
         duration();
     }
 
+   @Override
+    public boolean notCheating(int x, int y, int speedX,int speedY){
+        return Math.abs(this.getPositionX() - x) <= SPEED_BONUS*2&&
+                Math.abs(this.getPositionY() - y) <= SPEED_BONUS*2&&
+                Math.abs(this.getSpeedX() - speedX) <= SPEED_BONUS*2&&
+                Math.abs(this.getSpeedY() - speedY) <=SPEED_BONUS*2;
+    }
+
     public void setDelay(int x){
         delay = x * 1000;
     }
@@ -116,7 +112,7 @@ public class Bonus extends PongItem {
      */
     public void duration(){
         if(isActive())
-//            if(getNumber() != ROCK)
+            if(getNumber() == BIGRACKET || getNumber() == SMALLRACKET)
                 if(time + delay < System.currentTimeMillis())
                     stopBonus();
     }
@@ -136,9 +132,7 @@ public class Bonus extends PongItem {
     public void startBonus(PongItem pi){
         setTime();
         setDelay(5);
-        System.out.println("je rentre dans start bonus");
         active = true;
-        System.out.println(getNumber());
         switch (getNumber()){
             case 1:
                 bonus = new ChangeRacketSize(pi, 1);
