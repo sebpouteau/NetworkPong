@@ -24,15 +24,13 @@ public class Menu extends JFrame {
     private boolean joinGame = false;
     private Player client;
     private JDialog jd;
-    //private JOptionPane jop;
 
     public String getInfoCreate(){return cpdInfo.toString();}
     public String[] getInfoJoin(){return jpdInfo.toString().split(";");}
     public boolean getCreateGame(){return createGame;}
     public boolean getJoinGame(){return joinGame;}
     public Player getClient(){return this.client;}
-   // public void setJop(JOptionPane jop){this.jop = jop;}
-   // public JOptionPane getJop(){return jop;}
+
 
 
     public Menu(Player client){
@@ -43,26 +41,30 @@ public class Menu extends JFrame {
         this.setLocationRelativeTo(null);
         this.getContentPane().setLayout(new FlowLayout());
         this.getContentPane().add(create);
-       // this.jop = new JOptionPane();
         this.jd = new JDialog(this,false);
-        jd.setSize(new Dimension(300,100));
+        jd.setSize(new Dimension(300,150));
 
         create.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 createGame = true;
-                System.out.println(getCreateGame());
                 CreatePongDialog cpd = new CreatePongDialog(null, "Créons un nouveau Pong", true);
                 cpdInfo = cpd.showcpDialog();
                 getClient().getPong().add(new Racket(1));
-                getClient().getPong().add(new Ball(1, 80, 80));
+                getClient().getPong().add(new Ball(1));
                 getClient().getPong().add(new Bonus());
                 getClient().setMaxPlayer(Integer.parseInt(getInfoCreate()));
                 endMenu();
-                JLabel jl = new JLabel("En attente de joueurs");
+                JLabel jl = null;
+                try {
+                    jl = new JLabel("<html><div style=\"text-align:center;\">" +
+                            "En attente de joueurs<br><br> "+
+                            "Adresse Connection: " +  client.getAdressServeur() + "<br> Port: "+client.getPort() + "</div></html>",JLabel.CENTER);
+                    jl.setSize(new Dimension(300,150));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 jd.add(jl);
                 jd.setVisible(true);
-             //   getJop().showMessageDialog(null, "En attente de joueurs");
-                System.out.println("je crée une partie");
             }
 
         });
@@ -78,9 +80,7 @@ public class Menu extends JFrame {
                 getClient().setNombrePlayer(1);
                 try {
                     getClient().connectionServerInit(adress, portConnection, true);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (InterruptedException e1) {
+                } catch (IOException | InterruptedException e1) {
                     e1.printStackTrace();
                 }
                 getClient().getPong().addKeyListener(getClient().getMyRacket());
@@ -88,8 +88,6 @@ public class Menu extends JFrame {
                 JLabel jl = new JLabel("Connection en cours");
                 jd.add(jl);
                 jd.setVisible(true);
-
-               //getJop().showMessageDialog(null, "Connection en cours");
             }
         });
 

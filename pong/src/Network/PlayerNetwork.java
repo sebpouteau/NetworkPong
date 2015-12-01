@@ -1,11 +1,14 @@
 package src.Network;
 
+import sun.net.NetworkServer;
+
 import java.io.*;
-import java.net.InetSocketAddress;
-import java.net.Socket;
+import java.net.*;
+import java.nio.channels.NetworkChannel;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 /**
  * PlayerNetwork
@@ -37,6 +40,25 @@ public class PlayerNetwork {
 
     public int getPort() {
         return port;
+    }
+    public String getAdressServeur() throws IOException {
+        String ip="";
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface iface = interfaces.nextElement();
+                // filters out 127.0.0.1 and inactive interfaces
+                if (iface.isLoopback() || !iface.isUp())
+                    continue;
+                Enumeration<InetAddress> adress = iface.getInetAddresses();
+
+                while(adress.hasMoreElements()) {
+                    InetAddress addr = adress.nextElement();
+                    ip = addr.getHostAddress();
+                    System.out.println(ip);
+                }
+            }
+
+        return ip;
     }
 
     public int listSocketSize(){

@@ -11,7 +11,6 @@ public class ChangeRacketSpeed extends Bonus{
     private PongItem oldPongItem;
 
     public ChangeRacketSpeed(PongItem pi, int i){
-
         startChangeRacketSpeed(pi, i);
     }
 

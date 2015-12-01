@@ -33,29 +33,6 @@ public class Main{
 			}
 		}
 		Menu menu = new Menu(client);
-        //while(!menu.getCreateGame() || !menu.getJoinGame())
-        /* comportement du premier joueur */
-//            if (menu.getCreateGame()) {
-//                System.out.println("je créer un pong");
-//                System.out.println(menu.getCreateGame());
-//                client.getPong().add(new Racket(1));
-//                client.getPong().add(new Ball(1, 80, 80));
-//                client.getPong().add(new Bonus());
-//                client.setMaxPlayer(Integer.parseInt(menu.getInfoCreate()));
-//                //client.setMaxPlayer(Integer.parseInt(args[0]));
-//            }
-
-		/* comportement des autres joueur */
-//            if (menu.getJoinGame()) {
-//                System.out.println("je rejoins un pong");
-//                //	String adress = args[0];
-//                String adress = menu.getInfoJoin()[0];
-//                int portConnection = Integer.parseInt(menu.getInfoJoin()[1]);
-//                client.setNombrePlayer(1);
-//                client.connectionServerInit(adress, portConnection, true);
-//                client.getPong().addKeyListener(client.getMyRacket());
-//            }
-
 
 		/* Boucle de connection entre tout les joueurs */
 		while (client.getNombrePlayer() != client.getMaxPlayer() ) {
@@ -81,10 +58,10 @@ public class Main{
 			String info = client.information();
 			for (int i = 0; i < client.listSocketSize(); i++) {
 				client.sendMessage(client.getSocketPlayer(i), info);
-				try {
-					Thread.sleep(Pong.timestep);
-				} catch (InterruptedException ignored) {
-				}
+			}
+			try {
+				Thread.sleep(Pong.timestep);
+			} catch (InterruptedException ignored) {
 			}
 			/* Reception des information des autres joueurs */
 			for (int i = 0; i < client.listSocketSize(); i++) {

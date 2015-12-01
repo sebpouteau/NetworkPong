@@ -186,9 +186,7 @@ public class Player extends PlayerNetwork {
             else if (Protocol.decryptClasseItem(item).equals("Bonus"))
                 getPong().add(new Bonus());
             else
-                getPong().add(new Ball(Protocol.decryptId(item),
-                        Protocol.decryptX(item),
-                        Protocol.decryptY(item)));
+                getPong().add(new Ball(Protocol.decryptId(item)));
         }
         getPong().addKeyListener(getPong().getItem(0));
 
