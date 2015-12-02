@@ -47,7 +47,9 @@ public class Main{
 		}
 		pong.setTabScore(client.getMaxPlayer());
 		menu.endWait();
-		Window window = new Window(pong);
+		String namePlayer = "Joueur ";
+		namePlayer += client.getIdplayer();
+		Window window = new Window(pong, namePlayer);
 		window.displayOnscreen();
 
 		/* Boucle de jeu une fois que tout les joueur sont connecté */
@@ -58,6 +60,10 @@ public class Main{
 			String info = client.information();
 			for (int i = 0; i < client.listSocketSize(); i++) {
 				client.sendMessage(client.getSocketPlayer(i), info);
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException ignored) {
+                }
 			}
 			try {
 				Thread.sleep(Pong.timestep);

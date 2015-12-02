@@ -10,9 +10,9 @@ import src.util.RandomNumber;
 public class Bonus extends PongItem {
     private static int BIGRACKET = 1;
     private static int SMALLRACKET = 2;
-    private static int ROCK = 3;
-    private static int QUICKRACKET = 4;
-    private static int SLOWRACKET = 5;
+//    private static int ROCK = 3;
+    private static int QUICKRACKET = 3;
+    private static int SLOWRACKET = 4;
     private long time;
     private long delay;
     private String image = "image/bonus.png";
@@ -61,7 +61,7 @@ public class Bonus extends PongItem {
                 this.setSpeed(-3, -3);
                 break;
         }
-        a = RandomNumber.randomValue(1,5);
+        a = RandomNumber.randomValue(1,4);
         setNumber(a);
         setVisible(true);
     }
@@ -112,9 +112,8 @@ public class Bonus extends PongItem {
      */
     public void duration(){
         if(isActive())
-            if(getNumber() == BIGRACKET || getNumber() == SMALLRACKET)
-                if(time + delay < System.currentTimeMillis())
-                    stopBonus();
+            if(time + delay < System.currentTimeMillis())
+                stopBonus();
     }
 
 
@@ -141,16 +140,14 @@ public class Bonus extends PongItem {
                 bonus = new ChangeRacketSize(pi, -1);
                 break;
 
+//            case 3:
+//                System.out.println("je suis un rocher");
+//                bonus = new Rock();
+//                break;
             case 3:
-                System.out.println("je suis un rocher");
-                bonus = new Rock();
-                break;
-            case 4:
-                System.out.println("j'accèlère");
                 bonus = new ChangeRacketSpeed(pi, 1);
                 break;
-            case 5:
-                System.out.println("je ralentis");
+            case 4:
                 bonus = new ChangeRacketSpeed(pi, -1);
         }
     }
@@ -171,15 +168,15 @@ public class Bonus extends PongItem {
                     ChangeRacketSize s = (ChangeRacketSize) bonus;
                     s.stopChangeRacketSize();
                     break;
+//                case 3:
+//                    Rock r = (Rock) bonus;
+//                    r.stopRock();
+//                    break;
                 case 3:
-                    Rock r = (Rock) bonus;
-                    r.stopRock();
-                    break;
-                case 4:
                     ChangeRacketSpeed crs = (ChangeRacketSpeed) bonus;
                     crs.stopChangeRacketSpeed();
                     break;
-                case 5:
+                case 4:
                     ChangeRacketSpeed cs = (ChangeRacketSpeed) bonus;
                     cs.stopChangeRacketSpeed();
                     break;

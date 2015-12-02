@@ -15,10 +15,12 @@ public class Ball extends PongItem {
         initImage(image);
         this.setSpeed(new Point(BALL_SPEED, BALL_SPEED));
     }
+
     private void animateX(int setPos, int setSpeed){
         this.setPositionX(setPos);
         this.setSpeedX(setSpeed);
     }
+
     private void animateY(int setPos, int setSpeed){
         this.setPositionY(setPos);
         this.setSpeedY(setSpeed);
@@ -26,7 +28,7 @@ public class Ball extends PongItem {
 
     @Override
     public void animate(int sizePongX,int sizePongY){
-        this.setPosition((this.getPositionX() + this.getSpeedX()),(this.getPositionY() + this.getSpeedY()));
+        this.setPosition((this.getPositionX() + this.getSpeedX()), (this.getPositionY() + this.getSpeedY()));
 		/* Update ball position */
         if (this.getPositionX() < 0) {
             animateX(0,-this.getSpeedX());
@@ -84,7 +86,7 @@ public class Ball extends PongItem {
                 this.setSpeed(-BALL_SPEED, -BALL_SPEED);
                 break;
         }
-        this.setPosition(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
+        this.setPosition(Pong.getSizePongX() / 2, Pong.getSizePongY() / 2);
     }
 
     public boolean collision(PongItem pi){
@@ -165,9 +167,10 @@ public class Ball extends PongItem {
     }
 
     public void doCollisionBall(PongItem pi){
-        this.setSpeed(this.getSpeedX(), -this.getSpeedY());
-        if(! (pi instanceof Bonus ))
+        if(! (pi instanceof Bonus )) {
             pi.setSpeed(pi.getSpeedX(), -pi.getSpeedY());
+            this.setSpeed(this.getSpeedX(), -this.getSpeedY());
+        }
     }
 
 

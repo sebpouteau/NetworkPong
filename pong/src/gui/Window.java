@@ -16,8 +16,8 @@ public class Window extends JFrame {
 
 	 /* Constructor
 	 */
-	public Window(Pong pong) {
-		super("Pong");
+	public Window(Pong pong, String namePlayer) {
+		super(namePlayer);
 		this.pong = pong;
 		this.addKeyListener(pong.getItem(0));
 	}

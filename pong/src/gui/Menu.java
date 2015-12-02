@@ -58,7 +58,7 @@ public class Menu extends JFrame {
                 try {
                     jl = new JLabel("<html><div style=\"text-align:center;\">" +
                             "En attente de joueurs<br><br> "+
-                            "Adresse Connection: " +  client.getAdressServeur() + "<br> Port: "+client.getPort() + "</div></html>",JLabel.CENTER);
+                            "Adresse Connection: " +  getClient().getAdressServeur() + "<br> Port: "+ getClient().getPort() + "</div></html>",JLabel.CENTER);
                     jl.setSize(new Dimension(300,150));
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -72,7 +72,7 @@ public class Menu extends JFrame {
         join.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JoinPongDialog jpd = new JoinPongDialog(null, "rejoignons la partie existante", true);
+                JoinPongDialog jpd = new JoinPongDialog(null, " Rejoignons une partie existante ", true);
                 jpdInfo = jpd.showjpDialog();
                 joinGame = true;
                 String adress = getInfoJoin()[0];
@@ -80,7 +80,9 @@ public class Menu extends JFrame {
                 getClient().setNombrePlayer(1);
                 try {
                     getClient().connectionServerInit(adress, portConnection, true);
-                } catch (IOException | InterruptedException e1) {
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
                 getClient().getPong().addKeyListener(getClient().getMyRacket());

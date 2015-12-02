@@ -73,12 +73,21 @@ public class Player extends PlayerNetwork {
                         if (getPong().getItem(k) instanceof  Racket && getPong().getItem(k).getNumber() == playerLose ){
                             if (idplayer==playerLose && somme % (SCORE_FOR_BONUS * (getNombrePlayer()-1)) == 0 && sommeScore() != 0)
                                 activateBonus = true;
-                            for (int j = 0; j < getNombrePlayer(); j++) {
-                                if (j != playerLose - 1)
-                                    this.getPong().setScore(j, this.getPong().getScore(j) + 1);
-                                System.out.println("le score de" + j + " est " + this.getPong().getScore(j));
+//                            for (int j = 0; j < getNombrePlayer(); j++) {
+//                                if (j != playerLose - 1)
+//                                    this.getPong().setScore(j, this.getPong().getScore(j) + 1);
+//                                System.out.println("le score de" + j + " est " + this.getPong().getScore(j));
+                            for (int j = 0; j < getPong().listItemSize(); j++) {
+                                if(getPong().getItem(j) instanceof Racket){
+                                    int numberPlayer = getPong().getItem(j).getNumber();
+                                    if (numberPlayer != playerLose) {
+                                        System.out.println(numberPlayer);
+                                        this.getPong().setScore(numberPlayer - 1, this.getPong().getScore(numberPlayer - 1) + 1);
+                                    }
+                                }
 
                             }
+
                             ball.restart();
                         }
                 }
@@ -112,7 +121,6 @@ public class Player extends PlayerNetwork {
         return message.toString();
     }
 
-
     /**
      * Permet de creer une chaine de caractère contenant les position de la raquette d'un joueur
      * ainsi que tout les positions des balles
@@ -131,7 +139,6 @@ public class Player extends PlayerNetwork {
                             !((Bonus)getPong().getItem(i)).isVisible()) {
                         ((Bonus) getPong().getItem(i)).bonusAleatoire();
                         message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
-                        System.out.println(message.toString());
                     }
                     activateBonus = false;
 
@@ -173,7 +180,6 @@ public class Player extends PlayerNetwork {
      */
     public void initialisationItem(String message,SocketPlayer s) {
         String[] listItem = message.split(";");
-        System.out.println(listItem[0]);
         String[] item = listItem[MYRACKET].split(" ");
         this.setNombrePlayer(Protocol.decryptNumberPlayer(item));
         this.setIdplayer(Protocol.decryptId(item));
@@ -201,7 +207,6 @@ public class Player extends PlayerNetwork {
      */
     public void initialisationSocket(String message) throws IOException, InterruptedException {
         String[] socketList = message.split(";");
-        System.out.println(message);
         for (String aSocketList : socketList) {
             String[] socket = aSocketList.split(" ");
             connectionServerInit(
@@ -247,7 +252,6 @@ public class Player extends PlayerNetwork {
         sendMessage(socket, item);
     }
 
-
     public void removePlayer(int idSocket) throws IOException {
         for (int i= 0; i < getPong().listItemSize();i++) {
             if (getPong().getItem(i).getClass().getSimpleName().equals("Racket")
@@ -289,7 +293,6 @@ public class Player extends PlayerNetwork {
                         for (int k = 0; k < getPong().listItemSize(); k++) {
                             if (getPong().getItem(k).getClass().getSimpleName().equals("Bonus")) {
                                 getPong().getItem(k).setNumber(Protocol.decryptId(info));
-                                System.out.println(info);
                                 ((Bonus)getPong().getItem(k)).setVisible(true);
                             }
                         }
@@ -304,7 +307,6 @@ public class Player extends PlayerNetwork {
             }
         }
     }
-
 
     /**
      * Fonction permettant de mettre à jour un item grace à un message contenant ses information
@@ -352,8 +354,6 @@ public class Player extends PlayerNetwork {
             String[] message = lu.split(" ");
             getSocketPlayer(position).setNumeroPlayer(Protocol.decryptId(message));
         }
-        System.out.println("fin a" + portConnection);
-
     }
 
     /**

@@ -140,20 +140,29 @@ public class Pong extends JPanel {
 				if(b.isVisible()){
 					draw(getItem(i));
 				}
-                 else if(b.isActive() && b.getNumber() == 3){
-					Rock r = (Rock)b.getBonus();
-                    graphicContext.setColor(Color.DARK_GRAY);
-                    graphicContext.fillOval((int) r.getRock().getX(),(int) r.getRock().getY(), (int) r.getRock().getWidth(),(int) r.getRock().getHeight());
-                    graphicContext.setColor(backgroundColor);
-                }
+//                 else if(b.isActive() && b.getNumber() == 3){
+//					Rock r = (Rock)b.getBonus();
+//                    graphicContext.setColor(Color.DARK_GRAY);
+//                    graphicContext.fillOval((int) r.getRock().getX(),(int) r.getRock().getY(), (int) r.getRock().getWidth(),(int) r.getRock().getHeight());
+//                    graphicContext.setColor(backgroundColor);
+//                }
             }
             else{
 				draw(getItem(i));
 			}
 		}
         graphicContext.setColor(Color.BLACK);
-        for (int i = 0; i < score.length ; i++) {
-            graphicContext.drawString("Joueur" + (i+1) + ": " + score[i], 0 + i*100, SIZE_PONG_Y + 10);
+//		for (int i = 0; i < score.length ; i++) {
+//           graphicContext.drawString("Joueur " + (i+1) + " : " + score[i], 0 + i*100, SIZE_PONG_Y + 10);
+//       }
+
+        for (int j = 0; j < listItemSize() ; j++) {
+            if(getItem(j) instanceof Racket){
+                 int idPlayer = getItem(j).getNumber();
+                graphicContext.drawString("Joueur " + (idPlayer) + " : " + score[idPlayer - 1], 0 + (idPlayer - 1)*100 , SIZE_PONG_Y + 10);
+            }
+
+
         }
         this.repaint();
 	}
