@@ -87,7 +87,9 @@ public class Player extends PlayerNetwork {
                                 }
 
                             }
-                            ball.restart();
+
+                            Pong.setWaitPlayer(ball.restart(getPong().getItem(k)));
+
                         }
                 }
                 }

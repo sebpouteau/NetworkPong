@@ -10,9 +10,11 @@ public class Racket extends PongItem {
 	private int speedRacket;
 	private static int HEIGHT = 80 ;
 	private static int WIDTH = 15;
+    public boolean start;
 
 	public int getSpeedRacket(){return speedRacket;}
 	public void setSpeedRacket(int speed){speedRacket = speed;}
+
 
 	public Racket(int idPlayer){
 		super();
@@ -97,6 +99,9 @@ public class Racket extends PongItem {
 			case KeyEvent.VK_KP_RIGHT:
 				if(this.getNumber() > 2)
 					this.setSpeedY(getSpeedRacket());
+				break;
+			case KeyEvent.VK_SPACE:
+
 			default:
 				//System.out.println("got press "+e);
 		}
@@ -118,7 +123,14 @@ public class Racket extends PongItem {
 			case KeyEvent.VK_RIGHT:
 			case KeyEvent.VK_KP_RIGHT:
 				this.setSpeedY(0);
-			default:
+                break;
+            case KeyEvent.VK_SPACE:
+                if(this.start == false && Pong.getIfStart() && Pong.getWaitPlayer() == this.getNumber())
+                    this.start = true;
+                System.out.println("je press space");
+                break;
+
+            default:
 				//System.out.println("got release "+e);
 		}
 	}

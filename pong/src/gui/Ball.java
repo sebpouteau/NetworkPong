@@ -8,6 +8,14 @@ public class Ball extends PongItem {
 
     public static final int BALL_SPEED = 4;
     private String image = "image/ball.png";
+    private boolean isWaiting;
+
+    public boolean getIfIsWaiting(){
+        return isWaiting;
+    }
+    public void setIfIsWaiting(boolean bool){
+        isWaiting = bool;
+    }
 
     public Ball(int id) {
         super(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
@@ -28,22 +36,28 @@ public class Ball extends PongItem {
 
     @Override
     public void animate(int sizePongX,int sizePongY){
-        this.setPosition((this.getPositionX() + this.getSpeedX()), (this.getPositionY() + this.getSpeedY()));
+        System.out.println("je dois déplacer ma balle?? " );
+        if(getIfIsWaiting()) {
+            this.setSpeed(0, 0);
+        }
+        else{
 		/* Update ball position */
-        if (this.getPositionX() < 0) {
-            animateX(0,-this.getSpeedX());
+            if (this.getPositionX() < 0) {
+                animateX(0, -this.getSpeedX());
+            }
+            if (this.getPositionY() < 0) {
+                animateY(0, -this.getSpeedY());
+            }
+            if (this.getPositionX() > (sizePongX - this.getWidth())) {
+                animateX(sizePongX - this.getWidth(), -this.getSpeedX());
+            }
+            if (this.getPositionY() > (sizePongY - this.getHeight())) {
+                animateY(sizePongY - this.getHeight(), -this.getSpeedY());
+            }
         }
-        if (this.getPositionY()< 0) {
-            animateY(0,-this.getSpeedY());
-        }
-        if (this.getPositionX() > (sizePongX - this.getWidth())) {
-            animateX(sizePongX - this.getWidth(),-this.getSpeedX());
-        }
-        if (this.getPositionY() > (sizePongY - this.getHeight())) {
-            animateY(sizePongY - this.getHeight(),-this.getSpeedY());
-        }
-        this.setPositionRectangle(this.getPositionX(), this.getPositionY());
+        this.setPosition((this.getPositionX() + this.getSpeedX()), (this.getPositionY() + this.getSpeedY()));
 
+        this.setPositionRectangle(this.getPositionX(), this.getPositionY());
     }
 
     @Override
@@ -70,23 +84,57 @@ public class Ball extends PongItem {
         return 0;
     }
 
-    public void restart(){
-        int a = RandomNumber.randomValue(1,4);
-        switch(a){
+    public int restart(PongItem loseRacket){
+        //int a = RandomNumber.randomValue(1,4);
+        switch(loseRacket.getNumber()){
             case 1:
-                this.setSpeed(BALL_SPEED , BALL_SPEED);
+                this.setPosition(loseRacket.getPositionX()+loseRacket.getWidth(),
+                        loseRacket.getPositionY() + loseRacket.getHeight()/2);
                 break;
             case 2:
-                this.setSpeed(BALL_SPEED, -BALL_SPEED);
+                this.setPosition(loseRacket.getPositionX() - this.getWidth(),
+                        loseRacket.getPositionY() + loseRacket.getHeight()/2);
                 break;
             case 3:
-                this.setSpeed(-BALL_SPEED, BALL_SPEED);
+                this.setPosition(loseRacket.getPositionX() + this.getWidth(),
+                        loseRacket.getPositionY() + loseRacket.getHeight());
                 break;
             case 4:
-                this.setSpeed(-BALL_SPEED, -BALL_SPEED);
+                this.setPosition(loseRacket.getPositionX() + loseRacket.getWidth() / 2,
+                        loseRacket.getPositionY() - this.getHeight());
                 break;
         }
-        this.setPosition(Pong.getSizePongX() / 2, Pong.getSizePongY() / 2);
+        Pong.setIfStart(true);
+        setIfIsWaiting(true);
+        return loseRacket.getNumber();
+    }
+
+    public void launch(int idRacket){
+        int newSpeedX, newSpeedY;
+        switch (idRacket){
+            case 1:
+                newSpeedX = BALL_SPEED;
+                newSpeedY = RandomNumber.randomValue(-BALL_SPEED, BALL_SPEED);
+                break;
+            case 2:
+                newSpeedX = -BALL_SPEED;
+                newSpeedY = RandomNumber.randomValue(-BALL_SPEED,BALL_SPEED);
+                break;
+            case 3:
+                newSpeedX = RandomNumber.randomValue(-BALL_SPEED, BALL_SPEED);
+                newSpeedY = BALL_SPEED;
+                break;
+            case 4:
+                newSpeedX = RandomNumber.randomValue(-BALL_SPEED,BALL_SPEED);
+                newSpeedY = -BALL_SPEED;
+                break;
+            default:
+                newSpeedX = 0;
+                newSpeedY = 0;
+        }
+        this.setSpeed(newSpeedX, newSpeedY);
+        this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY());
+        this.setIfIsWaiting(false);
     }
 
     public boolean collision(PongItem pi){

@@ -28,6 +28,8 @@ public class Pong extends JPanel {
 	private static final int SIZE_WINDOW_Y = 630;
 
 	private int[] score;
+    private static boolean startGame;
+    private static int waitPlayer;
 
 	public static int getSizePongX() {
 		return SIZE_PONG_X;
@@ -64,6 +66,12 @@ public class Pong extends JPanel {
 	private Graphics graphicContext = null;
 	private ArrayList<PongItem> pongList;
 
+    public static boolean getIfStart(){return startGame;}
+    public static int getWaitPlayer(){return waitPlayer;}
+    public static void  setWaitPlayer(int idPlayer){ waitPlayer = idPlayer;}
+    public static void setIfStart(boolean bool){
+        startGame = bool;
+    }
 	public void add(PongItem item){
 		if (item instanceof Ball) {
 			int compteur=0;
@@ -75,6 +83,30 @@ public class Pong extends JPanel {
 		}
 		this.pongList.add(item);
 	}
+
+    public void startGame(int idRacket) {
+        for (int i = 0; i < listItemSize() ; i++) {
+            if(getItem(i) instanceof Ball)
+            {
+                System.out.println("je relance ma ball");
+                Ball ball = (Ball) getItem(i);
+                if(ball.getIfIsWaiting() == true)
+                    for (int j = 0; j < listItemSize(); j++) {
+                        if(getItem(j) instanceof Racket && getItem(j).getNumber() == idRacket){
+                            Racket racket = (Racket) getItem(j);
+                            System.out.println(racket.start);
+                            if(racket.start == true) {
+                                ball.launch(idRacket);
+                                racket.start = false;
+                                setIfStart(false);
+                            }
+                        }
+                    }
+            }
+
+        }
+    }
+
 	public void removeItem(int id){
 		pongList.remove(id);
 	}
@@ -90,14 +122,29 @@ public class Pong extends JPanel {
 	public Pong() {
 		pongList = new ArrayList<PongItem>();
         this.setPreferredSize(new Dimension(SIZE_WINDOW_X, SIZE_WINDOW_Y));
+        startGame = false;
 	}
 
 	public void animateItem() {
-		for (int i = 0; i < listItemSize(); i++) {
+         if (getIfStart()) {
+            for (int i = 0; i < listItemSize(); i++) {
+                System.out.println(getWaitPlayer());
+                if (getItem(i) instanceof Racket && getItem(i).getNumber() == getWaitPlayer()) {
+                    Racket racket = (Racket) getItem(i);
+                    if (racket.getNumber() == getWaitPlayer() && racket.start) {
+                        System.out.println("je start");
+                        startGame(getWaitPlayer());
+                    }
+                }
+
+            }
+        }
+        for(int i = 0; i < listItemSize(); i++) {
             getItem(i).collision(pongList);
-			getItem(i).animate(SIZE_PONG_X,SIZE_PONG_Y);
-		}
-		this.updateScreen();
+            getItem(i).animate(SIZE_PONG_X, SIZE_PONG_Y);
+        }
+
+            this.updateScreen();
 	}
 
 	public void paint(Graphics g) {
@@ -140,12 +187,12 @@ public class Pong extends JPanel {
 				if(b.isVisible()){
 					draw(getItem(i));
 				}
-                 /*else if(b.isActive() && b.getNumber() == 3){
-					Rock r = (Rock)b.getBonus();
-                    graphicContext.setColor(Color.DARK_GRAY);
-                    graphicContext.fillOval((int) r.getRock().getX(),(int) r.getRock().getY(), (int) r.getRock().getWidth(),(int) r.getRock().getHeight());
-                    graphicContext.setColor(backgroundColor);
-                }*/
+//                 else if(b.isActive() && b.getNumber() == 3){
+//					Rock r = (Rock)b.getBonus();
+//                    graphicContext.setColor(Color.DARK_GRAY);
+//                    graphicContext.fillOval((int) r.getRock().getX(),(int) r.getRock().getY(), (int) r.getRock().getWidth(),(int) r.getRock().getHeight());
+//                    graphicContext.setColor(backgroundColor);
+//                }
             }
             else{
 				draw(getItem(i));
