@@ -36,8 +36,8 @@ public class Pong extends JPanel {
 		return SIZE_PONG_Y;
 	}
 
-	public int getScore(int i){return score[i];}
-	public void setScore(int i, int score){this.score[i] = score;}
+	public int getScore(int i){return score[i-1];}
+	public void setScore(int i, int score){this.score[i-1] = score;}
     public int[] getTabScore(){return score;}
     public void setTabScore(int i){score = new int[i];}
 
@@ -140,12 +140,12 @@ public class Pong extends JPanel {
 				if(b.isVisible()){
 					draw(getItem(i));
 				}
-//                 else if(b.isActive() && b.getNumber() == 3){
-//					Rock r = (Rock)b.getBonus();
-//                    graphicContext.setColor(Color.DARK_GRAY);
-//                    graphicContext.fillOval((int) r.getRock().getX(),(int) r.getRock().getY(), (int) r.getRock().getWidth(),(int) r.getRock().getHeight());
-//                    graphicContext.setColor(backgroundColor);
-//                }
+                 /*else if(b.isActive() && b.getNumber() == 3){
+					Rock r = (Rock)b.getBonus();
+                    graphicContext.setColor(Color.DARK_GRAY);
+                    graphicContext.fillOval((int) r.getRock().getX(),(int) r.getRock().getY(), (int) r.getRock().getWidth(),(int) r.getRock().getHeight());
+                    graphicContext.setColor(backgroundColor);
+                }*/
             }
             else{
 				draw(getItem(i));

@@ -55,7 +55,7 @@ public class Player extends PlayerNetwork {
 
     public int sommeScore(){
         int somme=0;
-        for (int i = 0; i < getNombrePlayer(); i++) {
+        for (int i = 1; i < getNombrePlayer()+1; i++) {
             somme += this.getPong().getScore(i);
         }
         return somme;
@@ -82,12 +82,11 @@ public class Player extends PlayerNetwork {
                                     int numberPlayer = getPong().getItem(j).getNumber();
                                     if (numberPlayer != playerLose) {
                                         System.out.println(numberPlayer);
-                                        this.getPong().setScore(numberPlayer - 1, this.getPong().getScore(numberPlayer - 1) + 1);
+                                        this.getPong().setScore(numberPlayer , this.getPong().getScore(numberPlayer) + 1);
                                     }
                                 }
 
                             }
-
                             ball.restart();
                         }
                 }
@@ -144,8 +143,8 @@ public class Player extends PlayerNetwork {
 
                 }
             }
-
         }
+        message.append(Protocol.informationScore(this));
         return message.toString();
     }
 
@@ -297,12 +296,13 @@ public class Player extends PlayerNetwork {
                             }
                         }
                         updateItem(info, "Bonus");
-
-
-
                 }
-                else {
-                    //score
+                else if (Protocol.decryptClasseItem(info).equals("Score")){
+                    int id = Protocol.decryptId(info);
+                    int newScore = Protocol.decryptScorePlayer(info);
+                    if (newScore != getPong().getScore(id)){
+                        System.out.println(id + " triche");
+                    }
                 }
             }
         }

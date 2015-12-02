@@ -45,6 +45,7 @@ public class Main{
 				}
 			}
 		}
+		System.out.println(client.getIdplayer());
 		pong.setTabScore(client.getMaxPlayer());
 		menu.endWait();
 		String namePlayer = "Joueur ";

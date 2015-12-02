@@ -1,5 +1,7 @@
 package src.Network;
 
+import com.sun.org.apache.xerces.internal.impl.dv.dtd.StringDatatypeValidator;
+import src.gui.Pong;
 import src.gui.PongItem;
 import src.gui.Racket;
 
@@ -14,6 +16,7 @@ public class Protocol {
     private static int POS_Y = 3;
     private static int SPEED_X = 4;
     private static int SPEED_Y = 5;
+    private static int SCORE_PLAYER = 2;
     private static int NUMBER_PLAYER = 6;
     private static int MAX_PLAYER = 7;
     private static int ID_PLAYER_CONNECTED = 8;
@@ -151,8 +154,11 @@ public class Protocol {
      */
     public static int decryptIdPlayerConnected(String[] message){ return Integer.parseInt(message[ID_PLAYER_CONNECTED]);}
 
+    public static int decryptScorePlayer(String[] message){
+        return Integer.parseInt(message[SCORE_PLAYER]);
+    }
     /* =================================================
-                    Fonction Utile
+                    Createur de message
        ================================================= */
 
     /**
@@ -221,4 +227,11 @@ public class Protocol {
         return m.toString();
     }
 
+    public static String informationScore(Player player){
+        StringBuilder message = new StringBuilder();
+        message.append("Score ");
+        message.append(String.valueOf(player.getIdplayer())).append(" ");
+        message.append(String.valueOf(player.getPong().getScore(player.getIdplayer())));
+        return message.toString();
+    }
 }

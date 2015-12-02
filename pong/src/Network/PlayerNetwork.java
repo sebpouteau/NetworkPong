@@ -41,7 +41,14 @@ public class PlayerNetwork {
     public int getPort() {
         return port;
     }
-    public String getAdressServeur() throws IOException {
+
+    /**
+     * Recupere l'adresse du serveur
+     * 
+     * @return
+     * @throws IOException
+     */
+    public static String getAdressServeur() throws IOException {
         String ip="";
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             while (interfaces.hasMoreElements()) {
