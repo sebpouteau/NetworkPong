@@ -300,7 +300,7 @@ public class Player extends PlayerNetwork {
                 else if (Protocol.decryptClasseItem(info).equals("Score")){
                     int id = Protocol.decryptId(info);
                     int newScore = Protocol.decryptScorePlayer(info);
-                    if (newScore != getPong().getScore(id)){
+                    if (newScore > getPong().getScore(id) + 1){
                         System.out.println(id + " triche");
                     }
                 }

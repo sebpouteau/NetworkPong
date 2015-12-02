@@ -5,21 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="005c58b2-9c23-4f95-9e30-af953747a7c7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pong/src/Main.class" afterPath="$PROJECT_DIR$/out/production/pong/src/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pong/src/Network/Player.class" afterPath="$PROJECT_DIR$/out/production/pong/src/Network/Player.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pong/src/Network/PlayerNetwork.class" afterPath="$PROJECT_DIR$/out/production/pong/src/Network/PlayerNetwork.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pong/src/Network/Protocol.class" afterPath="$PROJECT_DIR$/out/production/pong/src/Network/Protocol.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pong/src/gui/Ball.class" afterPath="$PROJECT_DIR$/out/production/pong/src/gui/Ball.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pong/src/gui/Bonus.class" afterPath="$PROJECT_DIR$/out/production/pong/src/gui/Bonus.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pong/src/gui/Pong.class" afterPath="$PROJECT_DIR$/out/production/pong/src/gui/Pong.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pong/src/gui/Window.class" afterPath="$PROJECT_DIR$/out/production/pong/src/gui/Window.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pong/.idea/workspace.xml" afterPath="$PROJECT_DIR$/out/production/pong/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Network/Player.java" afterPath="$PROJECT_DIR$/src/Network/Player.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Network/PlayerNetwork.java" afterPath="$PROJECT_DIR$/src/Network/PlayerNetwork.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Network/Protocol.java" afterPath="$PROJECT_DIR$/src/Network/Protocol.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gui/Pong.java" afterPath="$PROJECT_DIR$/src/gui/Pong.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gui/Ball.java" afterPath="$PROJECT_DIR$/src/gui/Ball.java" />
     </list>
     <ignored path="pong.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,11 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Player.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Network/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33333334">
-              <caret line="84" column="115" selection-start-line="84" selection-start-column="115" selection-end-line="84" selection-end-column="115" />
+            <state vertical-scroll-proportion="-14.272727">
+              <caret line="93" column="13" selection-start-line="93" selection-start-column="13" selection-end-line="93" selection-end-column="13" />
               <folding>
                 <element signature="e#987#988#0" expanded="true" />
                 <element signature="e#1019#1020#0" expanded="true" />
@@ -97,8 +85,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.5">
-              <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+            <state vertical-scroll-proportion="-26.461538">
+              <caret line="78" column="43" selection-start-line="78" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -118,7 +106,7 @@
         <entry file="file://$PROJECT_DIR$/src/gui/Ball.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="67" column="21" selection-start-line="67" selection-start-column="21" selection-end-line="67" selection-end-column="21" />
+              <caret line="97" column="12" selection-start-line="97" selection-start-column="12" selection-end-line="97" selection-end-column="12" />
               <folding>
                 <element signature="method#Ball#0;class#Ball#0" expanded="false" />
               </folding>
@@ -130,7 +118,7 @@
         <entry file="file://$PROJECT_DIR$/src/gui/Pong.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+              <caret line="96" column="43" selection-start-line="96" selection-start-column="12" selection-end-line="96" selection-end-column="43" />
               <folding>
                 <element signature="e#1847#1848#0" expanded="true" />
                 <element signature="e#1873#1874#0" expanded="true" />
@@ -150,16 +138,25 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="178" column="22" selection-start-line="178" selection-start-column="22" selection-end-line="178" selection-end-column="22" />
-              <folding />
+              <folding>
+                <element signature="e#876#877#0" expanded="true" />
+                <element signature="e#904#905#0" expanded="true" />
+                <element signature="e#978#979#0" expanded="true" />
+                <element signature="e#1010#1011#0" expanded="true" />
+                <element signature="e#3495#3496#0" expanded="true" />
+                <element signature="e#3527#3528#0" expanded="true" />
+                <element signature="e#3914#3915#0" expanded="true" />
+                <element signature="e#3945#3946#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PongItem.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PongItem.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/gui/PongItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="159" column="5" selection-start-line="159" selection-start-column="5" selection-end-line="159" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.030487806">
+              <caret line="110" column="7" selection-start-line="110" selection-start-column="7" selection-end-line="110" selection-end-column="7" />
               <folding>
                 <element signature="method#setImageItem#0;class#PongItem#0" expanded="false" />
                 <element signature="method#setSurface#0;class#PongItem#0" expanded="false" />
@@ -167,7 +164,6 @@
                 <element signature="method#setPosition#0;class#PongItem#0" expanded="false" />
                 <element signature="method#PongItem#0;class#PongItem#0" expanded="false" />
                 <element signature="method#PongItem#1;class#PongItem#0" expanded="false" />
-                <element signature="docComment;method#initImage#0;class#PongItem#0" expanded="false" />
                 <element signature="method#initImage#0;class#PongItem#0" expanded="false" />
                 <element signature="docComment;method#animate#0;class#PongItem#0" expanded="false" />
                 <element signature="method#animate#0;class#PongItem#0" expanded="false" />
@@ -234,17 +230,17 @@
         <option value="$PROJECT_DIR$/src/gui/Window.java" />
         <option value="$PROJECT_DIR$/src/Network/SocketPlayer.java" />
         <option value="$PROJECT_DIR$/src/gui/ChangeRacketSize.java" />
-        <option value="$PROJECT_DIR$/src/gui/PongItem.java" />
         <option value="$PROJECT_DIR$/src/gui/Racket.java" />
         <option value="$PROJECT_DIR$/src/gui/ChangeRacketSpeed.java" />
         <option value="$PROJECT_DIR$/src/gui/Menu.java" />
         <option value="$PROJECT_DIR$/src/gui/Bonus.java" />
-        <option value="$PROJECT_DIR$/src/gui/Ball.java" />
         <option value="$PROJECT_DIR$/src/Network/PlayerNetwork.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/gui/Pong.java" />
         <option value="$PROJECT_DIR$/src/Network/Protocol.java" />
         <option value="$PROJECT_DIR$/src/Network/Player.java" />
+        <option value="$PROJECT_DIR$/src/gui/Ball.java" />
+        <option value="$PROJECT_DIR$/src/gui/PongItem.java" />
       </list>
     </option>
   </component>
@@ -261,10 +257,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="153" />
-    <option name="y" value="145" />
-    <option name="width" value="1590" />
-    <option name="height" value="1127" />
+    <option name="y" value="31" />
+    <option name="width" value="1920" />
+    <option name="height" value="1128" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -1236,7 +1231,7 @@
       <workItem from="1448887477591" duration="6200000" />
       <workItem from="1448952919851" duration="8751000" />
       <workItem from="1448972415401" duration="550000" />
-      <workItem from="1449046147358" duration="8929000" />
+      <workItem from="1449046147358" duration="13268000" />
     </task>
     <task id="LOCAL-00001" summary="nouvelle collision!!!">
       <created>1447702137640</created>
@@ -1298,15 +1293,21 @@
       <option name="project" value="LOCAL" />
       <updated>1448963519509</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="reparation beug des score">
+      <created>1449055196773</created>
+      <option name="number" value="00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1449055196773</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75089000" />
+    <option name="totallyTimeSpent" value="79428000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="153" y="145" width="1590" height="1127" extended-state="0" />
-    <editor active="false" />
+    <frame x="0" y="31" width="1920" height="1128" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1314,11 +1315,11 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32665965" sideWeight="0.5046875" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36345968" sideWeight="0.4691824" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36345968" sideWeight="0.5308176" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.018446602" sideWeight="0.46927083" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.018446602" sideWeight="0.5307292" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26918238" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32555878" sideWeight="0.46415094" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1387,7 +1388,8 @@
     <MESSAGE value="Essaye bonus en reseau," />
     <MESSAGE value="Mise en place de la verification. (ajout fonction noCheat dans PongItem,Ball,Bonus et Racket" />
     <MESSAGE value="modifiaction affichage et ajout de la recuperation de l'ip du serveur" />
-    <option name="LAST_COMMIT_MESSAGE" value="modifiaction affichage et ajout de la recuperation de l'ip du serveur" />
+    <MESSAGE value="reparation beug des score" />
+    <option name="LAST_COMMIT_MESSAGE" value="reparation beug des score" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.8449367" />
   </component>
   <component name="XDebuggerManager">
@@ -1774,56 +1776,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gui/Bonus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="178" column="22" selection-start-line="178" selection-start-column="22" selection-end-line="178" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gui/Ball.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="67" column="21" selection-start-line="67" selection-start-column="21" selection-end-line="67" selection-end-column="21" />
-          <folding>
-            <element signature="method#Ball#0;class#Ball#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gui/PongItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="159" column="5" selection-start-line="159" selection-start-column="5" selection-end-line="159" selection-end-column="5" />
-          <folding>
-            <element signature="method#setImageItem#0;class#PongItem#0" expanded="false" />
-            <element signature="method#setSurface#0;class#PongItem#0" expanded="false" />
-            <element signature="method#setPositionRectangle#0;class#PongItem#0" expanded="false" />
-            <element signature="method#setPosition#0;class#PongItem#0" expanded="false" />
-            <element signature="method#PongItem#0;class#PongItem#0" expanded="false" />
-            <element signature="method#PongItem#1;class#PongItem#0" expanded="false" />
-            <element signature="docComment;method#initImage#0;class#PongItem#0" expanded="false" />
-            <element signature="method#initImage#0;class#PongItem#0" expanded="false" />
-            <element signature="docComment;method#animate#0;class#PongItem#0" expanded="false" />
-            <element signature="method#animate#0;class#PongItem#0" expanded="false" />
-            <element signature="docComment;method#collision#0;class#PongItem#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gui/Menu.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="56" column="33" selection-start-line="56" selection-start-column="33" selection-end-line="56" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.5">
-          <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1857,10 +1813,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-26.461538">
+          <caret line="78" column="43" selection-start-line="78" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/gui/Pong.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <caret line="96" column="43" selection-start-line="96" selection-start-column="12" selection-end-line="96" selection-end-column="43" />
           <folding>
             <element signature="e#1847#1848#0" expanded="true" />
             <element signature="e#1873#1874#0" expanded="true" />
@@ -1876,13 +1840,59 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Network/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="84" column="115" selection-start-line="84" selection-start-column="115" selection-end-line="84" selection-end-column="115" />
+        <state vertical-scroll-proportion="-14.272727">
+          <caret line="93" column="13" selection-start-line="93" selection-start-column="13" selection-end-line="93" selection-end-column="13" />
           <folding>
             <element signature="e#987#988#0" expanded="true" />
             <element signature="e#1019#1020#0" expanded="true" />
             <element signature="e#3374#3375#0" expanded="true" />
             <element signature="e#3424#3425#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/Bonus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="178" column="22" selection-start-line="178" selection-start-column="22" selection-end-line="178" selection-end-column="22" />
+          <folding>
+            <element signature="e#876#877#0" expanded="true" />
+            <element signature="e#904#905#0" expanded="true" />
+            <element signature="e#978#979#0" expanded="true" />
+            <element signature="e#1010#1011#0" expanded="true" />
+            <element signature="e#3495#3496#0" expanded="true" />
+            <element signature="e#3527#3528#0" expanded="true" />
+            <element signature="e#3914#3915#0" expanded="true" />
+            <element signature="e#3945#3946#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/Ball.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="97" column="12" selection-start-line="97" selection-start-column="12" selection-end-line="97" selection-end-column="12" />
+          <folding>
+            <element signature="method#Ball#0;class#Ball#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/PongItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.030487806">
+          <caret line="110" column="7" selection-start-line="110" selection-start-column="7" selection-end-line="110" selection-end-column="7" />
+          <folding>
+            <element signature="method#setImageItem#0;class#PongItem#0" expanded="false" />
+            <element signature="method#setSurface#0;class#PongItem#0" expanded="false" />
+            <element signature="method#setPositionRectangle#0;class#PongItem#0" expanded="false" />
+            <element signature="method#setPosition#0;class#PongItem#0" expanded="false" />
+            <element signature="method#PongItem#0;class#PongItem#0" expanded="false" />
+            <element signature="method#PongItem#1;class#PongItem#0" expanded="false" />
+            <element signature="method#initImage#0;class#PongItem#0" expanded="false" />
+            <element signature="docComment;method#animate#0;class#PongItem#0" expanded="false" />
+            <element signature="method#animate#0;class#PongItem#0" expanded="false" />
+            <element signature="docComment;method#collision#0;class#PongItem#0" expanded="false" />
           </folding>
         </state>
       </provider>

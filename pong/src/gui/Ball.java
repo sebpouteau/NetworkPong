@@ -43,7 +43,6 @@ public class Ball extends PongItem {
             animateY(sizePongY - this.getHeight(),-this.getSpeedY());
         }
         this.setPositionRectangle(this.getPositionX(), this.getPositionY());
-
     }
 
     @Override
