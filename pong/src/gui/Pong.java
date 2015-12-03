@@ -28,7 +28,17 @@ public class Pong extends JPanel {
 	private static final int SIZE_WINDOW_Y = 630;
 
 	private int[] score;
+    /**
+     *  Est ce qu'il est arreter
+     */
     private static boolean startGame;
+    /**
+     * Est-ce que l'on peut le relancer
+     */
+    private static boolean go;
+    /**
+     * qui relance la balle
+     */
     private static int waitPlayer;
 
 	public static int getSizePongX() {
@@ -65,13 +75,15 @@ public class Pong extends JPanel {
 	 */
 	private Graphics graphicContext = null;
 	private ArrayList<PongItem> pongList;
-
+    public static boolean getIfGo(){return go;}
+    public static void setIfGo(boolean bool){go = bool;}
     public static boolean getIfStart(){return startGame;}
     public static int getWaitPlayer(){return waitPlayer;}
     public static void  setWaitPlayer(int idPlayer){ waitPlayer = idPlayer;}
     public static void setIfStart(boolean bool){
         startGame = bool;
     }
+
 	public void add(PongItem item){
 		if (item instanceof Ball) {
 			int compteur=0;
@@ -85,26 +97,17 @@ public class Pong extends JPanel {
 	}
 
     public void startGame(int idRacket) {
-        for (int i = 0; i < listItemSize() ; i++) {
-            if(getItem(i) instanceof Ball)
-            {
-                System.out.println("je relance ma ball");
-                Ball ball = (Ball) getItem(i);
-                if(ball.getIfIsWaiting() == true)
-                    for (int j = 0; j < listItemSize(); j++) {
-                        if(getItem(j) instanceof Racket && getItem(j).getNumber() == idRacket){
-                            Racket racket = (Racket) getItem(j);
-                            System.out.println(racket.start);
-                            if(racket.start == true) {
-                                ball.launch(idRacket);
-                                racket.start = false;
-                                setIfStart(false);
-                            }
-                        }
-                    }
-            }
+      if(getIfStart() && getIfGo()) {
+          setIfStart(false);
+          for (int i = 0; i < listItemSize(); i++) {
+              if (getItem(i) instanceof Ball) {
+                  Ball b = (Ball) getItem(i);
+                  b.launch(getWaitPlayer());
+                  setIfGo(false);
+              }
+          }
+      }
 
-        }
     }
 
 	public void removeItem(int id){
@@ -123,26 +126,20 @@ public class Pong extends JPanel {
 		pongList = new ArrayList<PongItem>();
         this.setPreferredSize(new Dimension(SIZE_WINDOW_X, SIZE_WINDOW_Y));
         startGame = false;
+        go = false;
+        waitPlayer = 0;
 	}
 
 	public void animateItem() {
-         if (getIfStart()) {
-            for (int i = 0; i < listItemSize(); i++) {
-                System.out.println(getWaitPlayer());
-                if (getItem(i) instanceof Racket && getItem(i).getNumber() == getWaitPlayer()) {
-                    Racket racket = (Racket) getItem(i);
-                    if (racket.getNumber() == getWaitPlayer() && racket.start) {
-                        System.out.println("je start");
-                        startGame(getWaitPlayer());
-                    }
-                }
+       startGame(getWaitPlayer());
 
-            }
-        }
         for(int i = 0; i < listItemSize(); i++) {
             getItem(i).collision(pongList);
             getItem(i).animate(SIZE_PONG_X, SIZE_PONG_Y);
         }
+        System.out.println("la balle attend d'être lancé?" + getIfStart());
+        System.out.println("la balle peut partir" + getIfGo());
+        System.out.println("le joueur qui doit appuyer sur space est : " + getWaitPlayer());
 
             this.updateScreen();
 	}

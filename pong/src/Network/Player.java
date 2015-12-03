@@ -73,23 +73,18 @@ public class Player extends PlayerNetwork {
                         if (getPong().getItem(k) instanceof  Racket && getPong().getItem(k).getNumber() == playerLose ){
                             if (idplayer==playerLose && somme % (SCORE_FOR_BONUS * (getNombrePlayer()-1)) == 0 && sommeScore() != 0)
                                 activateBonus = true;
-//                            for (int j = 0; j < getNombrePlayer(); j++) {
-//                                if (j != playerLose - 1)
-//                                    this.getPong().setScore(j, this.getPong().getScore(j) + 1);
-//                                System.out.println("le score de" + j + " est " + this.getPong().getScore(j));
                             for (int j = 0; j < getPong().listItemSize(); j++) {
                                 if(getPong().getItem(j) instanceof Racket){
                                     int numberPlayer = getPong().getItem(j).getNumber();
                                     if (numberPlayer != playerLose) {
-                                        System.out.println(numberPlayer);
                                         this.getPong().setScore(numberPlayer , this.getPong().getScore(numberPlayer) + 1);
                                     }
                                 }
 
                             }
-
+                            Pong.setIfStart(true);
                             Pong.setWaitPlayer(ball.restart(getPong().getItem(k)));
-
+                            System.out.println(Pong.getWaitPlayer());
                         }
                 }
                 }
@@ -302,7 +297,7 @@ public class Player extends PlayerNetwork {
                 else if (Protocol.decryptClasseItem(info).equals("Score")){
                     int id = Protocol.decryptId(info);
                     int newScore = Protocol.decryptScorePlayer(info);
-                    if (newScore != getPong().getScore(id)){
+                    if (newScore > getPong().getScore(id) + 1){
                         System.out.println(id + " triche");
                     }
                 }
