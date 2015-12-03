@@ -8,14 +8,7 @@ public class Ball extends PongItem {
 
     public static final int BALL_SPEED = 4;
     private String image = "image/ball.png";
-    private boolean isWaiting;
 
-    public boolean getIfIsWaiting(){
-        return isWaiting;
-    }
-    public void setIfIsWaiting(boolean bool){
-        isWaiting = bool;
-    }
 
     public Ball(int id) {
         super(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
@@ -37,7 +30,7 @@ public class Ball extends PongItem {
     @Override
     public void animate(int sizePongX,int sizePongY){
         System.out.println("je dois déplacer ma balle?? " );
-        if(getIfIsWaiting()) {
+        if(Pong.getIfStart()) {
             this.setSpeed(0, 0);
         }
         else{
@@ -104,8 +97,7 @@ public class Ball extends PongItem {
                         loseRacket.getPositionY() - this.getHeight());
                 break;
         }
-        Pong.setIfStart(true);
-        setIfIsWaiting(true);
+
         return loseRacket.getNumber();
     }
 
@@ -134,7 +126,7 @@ public class Ball extends PongItem {
         }
         this.setSpeed(newSpeedX, newSpeedY);
         this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY());
-        this.setIfIsWaiting(false);
+
     }
 
     public boolean collision(PongItem pi){
