@@ -11,6 +11,7 @@ import src.gui.Racket;
  */
 public class Protocol {
     private static int CLASSE_ITEM = 0;
+
     private static int ID = 1;
     private static int POS_X = 2;
     private static int POS_Y = 3;
@@ -153,6 +154,7 @@ public class Protocol {
      * @return le numéro du joueur qui se connecte
      */
     public static int decryptIdPlayerConnected(String[] message){ return Integer.parseInt(message[ID_PLAYER_CONNECTED]);}
+    public static int decryptIdPlayer(String[] message){ return Integer.parseInt(message[ID]);}
 
     public static int decryptScorePlayer(String[] message){
         return Integer.parseInt(message[SCORE_PLAYER]);
@@ -233,5 +235,8 @@ public class Protocol {
         message.append(String.valueOf(player.getIdplayer())).append(" ");
         message.append(String.valueOf(player.getPong().getScore(player.getIdplayer())));
         return message.toString();
+    }
+    public static String idPlayer(int id){
+        return "IdPlayer "+id+";";
     }
 }

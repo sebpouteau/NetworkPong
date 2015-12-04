@@ -29,7 +29,6 @@ public class Ball extends PongItem {
 
     @Override
     public void animate(int sizePongX,int sizePongY){
-        System.out.println("je dois déplacer ma balle?? " );
         if(Pong.getIfStart()) {
             this.setSpeed(0, 0);
         }

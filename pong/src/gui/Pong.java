@@ -139,9 +139,6 @@ public class Pong extends JPanel {
             getItem(i).collision(pongList);
             getItem(i).animate(SIZE_PONG_X, SIZE_PONG_Y);
         }
-        System.out.println("la balle attend d'être lancé?" + getIfStart());
-        System.out.println("la balle peut partir" + getIfGo());
-        System.out.println("le joueur qui doit appuyer sur space est : " + getWaitPlayer());
 
             this.updateScreen();
 	}

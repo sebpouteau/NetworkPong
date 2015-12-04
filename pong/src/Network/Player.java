@@ -126,6 +126,7 @@ public class Player extends PlayerNetwork {
      */
     public String information() {
         StringBuilder message = new StringBuilder();
+        message.append(Protocol.idPlayer(idplayer));
         message.append(Protocol.informationItem(this.getPong().getItem(MYRACKET))).append(";");
         for (int i = 0; i < getPong().listItemSize(); i++) {
             if (getPong().getItem(i) instanceof Ball ) {
@@ -279,15 +280,15 @@ public class Player extends PlayerNetwork {
         }
         if (message!= null) {
             String[] item = message.split(";");
-            for (String anItem : item) {
-                String[] info = anItem.split(" ");
+            String[] autentification = item[0].split(" ");
+            int idPlayerSent = Protocol.decryptId(autentification);
+            for (int i =1; i< item.length;i++) {
+                String[] info = item[i].split(" ");
                 if (Protocol.decryptClasseItem(info).equals("Racket"))
                     updateItem(info, "Racket");
-                else if (Protocol.decryptClasseItem(info).equals("Ball") && idPlayerControlBall(info) != idplayer)
+                else if (Protocol.decryptClasseItem(info).equals("Ball") && idPlayerControlBall(info) == idPlayerSent)
                     updateItem(info, "Ball");
                 else if (Protocol.decryptClasseItem(info).equals("Bonus")) {
-
-
                         for (int k = 0; k < getPong().listItemSize(); k++) {
                             if (getPong().getItem(k).getClass().getSimpleName().equals("Bonus")) {
                                 getPong().getItem(k).setNumber(Protocol.decryptId(info));
