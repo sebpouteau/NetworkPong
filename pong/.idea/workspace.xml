@@ -4,10 +4,13 @@
     <option name="SCOPE_TYPE" value="10" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="005c58b2-9c23-4f95-9e30-af953747a7c7" name="Default" comment="">
+    <list default="true" id="005c58b2-9c23-4f95-9e30-af953747a7c7" name="Default" comment="repartion">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pong/src/Network/Player.class" afterPath="$PROJECT_DIR$/out/production/pong/src/Network/Player.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pong/src/gui/Ball.class" afterPath="$PROJECT_DIR$/out/production/pong/src/gui/Ball.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pong/.idea/workspace.xml" afterPath="$PROJECT_DIR$/out/production/pong/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Network/Player.java" afterPath="$PROJECT_DIR$/src/Network/Player.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gui/Ball.java" afterPath="$PROJECT_DIR$/src/gui/Ball.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gui/Pong.java" afterPath="$PROJECT_DIR$/src/gui/Pong.java" />
     </list>
     <ignored path="pong.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -53,17 +56,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Player.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Network/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.272727">
-              <caret line="93" column="13" selection-start-line="93" selection-start-column="13" selection-end-line="93" selection-end-column="13" />
-              <folding>
-                <element signature="e#987#988#0" expanded="true" />
-                <element signature="e#1019#1020#0" expanded="true" />
-                <element signature="e#3374#3375#0" expanded="true" />
-                <element signature="e#3424#3425#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.39779875">
+              <caret line="322" column="77" selection-start-line="322" selection-start-column="38" selection-end-line="322" selection-end-column="77" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -85,7 +83,7 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-26.461538">
+            <state vertical-scroll-proportion="0.0">
               <caret line="78" column="43" selection-start-line="78" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
               <folding />
             </state>
@@ -106,10 +104,8 @@
         <entry file="file://$PROJECT_DIR$/src/gui/Ball.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="97" column="12" selection-start-line="97" selection-start-column="12" selection-end-line="97" selection-end-column="12" />
-              <folding>
-                <element signature="method#Ball#0;class#Ball#0" expanded="false" />
-              </folding>
+              <caret line="137" column="0" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -117,17 +113,35 @@
       <file leaf-file-name="Pong.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gui/Pong.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="96" column="43" selection-start-line="96" selection-start-column="12" selection-end-line="96" selection-end-column="43" />
+            <state vertical-scroll-proportion="-7.5384617">
+              <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
               <folding>
-                <element signature="e#1847#1848#0" expanded="true" />
-                <element signature="e#1873#1874#0" expanded="true" />
-                <element signature="e#1912#1913#0" expanded="true" />
-                <element signature="e#1951#1952#0" expanded="true" />
-                <element signature="e#1980#1981#0" expanded="true" />
-                <element signature="e#2009#2010#0" expanded="true" />
-                <element signature="e#2377#2378#0" expanded="true" />
-                <element signature="e#2415#2416#0" expanded="true" />
+                <element signature="docComment;class#Pong#0" expanded="false" />
+                <element signature="docComment;field#SIZE_PONG_X#0;class#Pong#0" expanded="false" />
+                <element signature="docComment;field#SIZE_PONG_Y#0;class#Pong#0" expanded="false" />
+                <element signature="docComment;field#startGame#0;class#Pong#0" expanded="false" />
+                <element signature="docComment;field#go#0;class#Pong#0" expanded="false" />
+                <element signature="docComment;field#waitPlayer#0;class#Pong#0" expanded="false" />
+                <element signature="method#getScore#0;class#Pong#0" expanded="false" />
+                <element signature="method#setScore#0;class#Pong#0" expanded="false" />
+                <element signature="method#getTabScore#0;class#Pong#0" expanded="false" />
+                <element signature="method#setTabScore#0;class#Pong#0" expanded="false" />
+                <element signature="docComment;field#backgroundColor#0;class#Pong#0" expanded="false" />
+                <element signature="docComment;field#timestep#0;class#Pong#0" expanded="false" />
+                <element signature="docComment;field#buffer#0;class#Pong#0" expanded="false" />
+                <element signature="docComment;field#graphicContext#0;class#Pong#0" expanded="false" />
+                <element signature="method#setIfGo#0;class#Pong#0" expanded="false" />
+                <element signature="method#getWaitPlayer#0;class#Pong#0" expanded="false" />
+                <element signature="method#setWaitPlayer#0;class#Pong#0" expanded="false" />
+                <element signature="e#2120#2121#0" expanded="true" />
+                <element signature="e#2152#2153#0" expanded="true" />
+                <element signature="method#add#0;class#Pong#0" expanded="false" />
+                <element signature="method#startGame#0;class#Pong#0" expanded="false" />
+                <element signature="method#animateItem#0;class#Pong#0" expanded="false" />
+                <element signature="method#draw#0;class#Pong#0" expanded="false" />
+                <element signature="method#updateScreen#0;class#Pong#0" expanded="false" />
+                <element signature="e#5087#5150#0" expanded="false" />
+                <element signature="e#5602#5647#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -137,26 +151,17 @@
         <entry file="file://$PROJECT_DIR$/src/gui/Bonus.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="178" column="22" selection-start-line="178" selection-start-column="22" selection-end-line="178" selection-end-column="22" />
-              <folding>
-                <element signature="e#876#877#0" expanded="true" />
-                <element signature="e#904#905#0" expanded="true" />
-                <element signature="e#978#979#0" expanded="true" />
-                <element signature="e#1010#1011#0" expanded="true" />
-                <element signature="e#3495#3496#0" expanded="true" />
-                <element signature="e#3527#3528#0" expanded="true" />
-                <element signature="e#3914#3915#0" expanded="true" />
-                <element signature="e#3945#3946#0" expanded="true" />
-              </folding>
+              <caret line="176" column="48" selection-start-line="176" selection-start-column="48" selection-end-line="176" selection-end-column="48" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PongItem.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PongItem.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gui/PongItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.030487806">
-              <caret line="110" column="7" selection-start-line="110" selection-start-column="7" selection-end-line="110" selection-end-column="7" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="132" column="7" selection-start-line="132" selection-start-column="7" selection-end-line="132" selection-end-column="7" />
               <folding>
                 <element signature="method#setImageItem#0;class#PongItem#0" expanded="false" />
                 <element signature="method#setSurface#0;class#PongItem#0" expanded="false" />
@@ -236,11 +241,11 @@
         <option value="$PROJECT_DIR$/src/gui/Bonus.java" />
         <option value="$PROJECT_DIR$/src/Network/PlayerNetwork.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
-        <option value="$PROJECT_DIR$/src/gui/Pong.java" />
         <option value="$PROJECT_DIR$/src/Network/Protocol.java" />
-        <option value="$PROJECT_DIR$/src/Network/Player.java" />
         <option value="$PROJECT_DIR$/src/gui/Ball.java" />
         <option value="$PROJECT_DIR$/src/gui/PongItem.java" />
+        <option value="$PROJECT_DIR$/src/gui/Pong.java" />
+        <option value="$PROJECT_DIR$/src/Network/Player.java" />
       </list>
     </option>
   </component>
@@ -257,9 +262,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="31" />
-    <option name="width" value="1920" />
-    <option name="height" value="1128" />
+    <option name="x" value="62" />
+    <option name="y" value="181" />
+    <option name="width" value="1910" />
+    <option name="height" value="1127" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -311,72 +317,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pong" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pong" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pong" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pong" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pong" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pong" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="reseau" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pong" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pong" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -497,6 +437,72 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pong" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pong" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pong" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pong" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pong" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pong" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reseau" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pong" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pong" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -556,23 +562,17 @@
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Main.class</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Main.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Menu/CreatePongDialog.java</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Network/Player.class</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Network/Player.java</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Network/PlayerNetwork.class</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Network/Protocol.class</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Network/SocketPlayer.class</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/Ball.class</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/Ball.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/Bonus.class</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/Bonus.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/Menu.java</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/Pong.class</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/Pong.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/PongItem.class</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/Racket.class</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/Window.class</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/Window.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/Racket.java</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -587,7 +587,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="true" />
           <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/util/VariableStatic.class</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Restored" />
@@ -1231,7 +1230,9 @@
       <workItem from="1448887477591" duration="6200000" />
       <workItem from="1448952919851" duration="8751000" />
       <workItem from="1448972415401" duration="550000" />
-      <workItem from="1449046147358" duration="13268000" />
+      <workItem from="1449046147358" duration="13314000" />
+      <workItem from="1449072948853" duration="95000" />
+      <workItem from="1449212915572" duration="1901000" />
     </task>
     <task id="LOCAL-00001" summary="nouvelle collision!!!">
       <created>1447702137640</created>
@@ -1299,14 +1300,20 @@
       <option name="project" value="LOCAL" />
       <updated>1449055196773</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="reparation beug des score">
+      <created>1449061076075</created>
+      <option name="number" value="00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1449061076075</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="79428000" />
+    <option name="totallyTimeSpent" value="81470000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="31" width="1920" height="1128" extended-state="6" />
+    <frame x="62" y="181" width="1910" height="1127" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1315,13 +1322,13 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32665965" sideWeight="0.5046875" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.018446602" sideWeight="0.46927083" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.018446602" sideWeight="0.5307292" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.017475728" sideWeight="0.465625" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32651073" sideWeight="0.54010415" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22291666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32555878" sideWeight="0.46415094" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32524273" sideWeight="0.45989582" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1356,12 +1363,12 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36504856" sideWeight="0.4625" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39831403" sideWeight="0.49791667" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36407766" sideWeight="0.47135416" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32555878" sideWeight="0.53584903" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.017475728" sideWeight="0.465625" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32524273" sideWeight="0.54010415" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32929516" sideWeight="0.49791667" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26918238" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32555878" sideWeight="0.46415094" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22291666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32524273" sideWeight="0.45989582" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -1408,8 +1415,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="73" column="31" selection-start-line="73" selection-start-column="31" selection-end-line="73" selection-end-column="31" />
           <folding>
+            <element signature="e#5280#5281#0" expanded="true" />
+            <element signature="e#5342#5343#0" expanded="true" />
             <element signature="docComment;method#infomationSocket#0;class#Protocol#0" expanded="false" />
-            <element signature="method#infomationSocket#0;class#Protocol#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1419,14 +1427,32 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="131" column="0" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
           <folding>
-            <element signature="e#1847#1848#0" expanded="true" />
-            <element signature="e#1873#1874#0" expanded="true" />
-            <element signature="e#1912#1913#0" expanded="true" />
-            <element signature="e#1951#1952#0" expanded="true" />
-            <element signature="e#1980#1981#0" expanded="true" />
-            <element signature="e#2009#2010#0" expanded="true" />
-            <element signature="e#2377#2378#0" expanded="true" />
-            <element signature="e#2415#2416#0" expanded="true" />
+            <element signature="docComment;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_X#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_Y#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#go#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#waitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#getScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#getTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#backgroundColor#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#timestep#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#buffer#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#graphicContext#0;class#Pong#0" expanded="false" />
+            <element signature="method#setIfGo#0;class#Pong#0" expanded="false" />
+            <element signature="method#getWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#setWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="e#2120#2121#0" expanded="true" />
+            <element signature="e#2152#2153#0" expanded="true" />
+            <element signature="method#add#0;class#Pong#0" expanded="false" />
+            <element signature="method#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="method#animateItem#0;class#Pong#0" expanded="false" />
+            <element signature="method#draw#0;class#Pong#0" expanded="false" />
+            <element signature="method#updateScreen#0;class#Pong#0" expanded="false" />
+            <element signature="e#5087#5150#0" expanded="false" />
+            <element signature="e#5602#5647#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1444,14 +1470,32 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="84" column="28" selection-start-line="84" selection-start-column="28" selection-end-line="84" selection-end-column="28" />
           <folding>
-            <element signature="e#1847#1848#0" expanded="true" />
-            <element signature="e#1873#1874#0" expanded="true" />
-            <element signature="e#1912#1913#0" expanded="true" />
-            <element signature="e#1951#1952#0" expanded="true" />
-            <element signature="e#1980#1981#0" expanded="true" />
-            <element signature="e#2009#2010#0" expanded="true" />
-            <element signature="e#2377#2378#0" expanded="true" />
-            <element signature="e#2415#2416#0" expanded="true" />
+            <element signature="docComment;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_X#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_Y#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#go#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#waitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#getScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#getTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#backgroundColor#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#timestep#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#buffer#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#graphicContext#0;class#Pong#0" expanded="false" />
+            <element signature="method#setIfGo#0;class#Pong#0" expanded="false" />
+            <element signature="method#getWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#setWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="e#2120#2121#0" expanded="true" />
+            <element signature="e#2152#2153#0" expanded="true" />
+            <element signature="method#add#0;class#Pong#0" expanded="false" />
+            <element signature="method#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="method#animateItem#0;class#Pong#0" expanded="false" />
+            <element signature="method#draw#0;class#Pong#0" expanded="false" />
+            <element signature="method#updateScreen#0;class#Pong#0" expanded="false" />
+            <element signature="e#5087#5150#0" expanded="false" />
+            <element signature="e#5602#5647#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1476,14 +1520,32 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="44" column="58" selection-start-line="44" selection-start-column="58" selection-end-line="44" selection-end-column="58" />
           <folding>
-            <element signature="e#1847#1848#0" expanded="true" />
-            <element signature="e#1873#1874#0" expanded="true" />
-            <element signature="e#1912#1913#0" expanded="true" />
-            <element signature="e#1951#1952#0" expanded="true" />
-            <element signature="e#1980#1981#0" expanded="true" />
-            <element signature="e#2009#2010#0" expanded="true" />
-            <element signature="e#2377#2378#0" expanded="true" />
-            <element signature="e#2415#2416#0" expanded="true" />
+            <element signature="docComment;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_X#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_Y#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#go#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#waitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#getScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#getTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#backgroundColor#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#timestep#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#buffer#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#graphicContext#0;class#Pong#0" expanded="false" />
+            <element signature="method#setIfGo#0;class#Pong#0" expanded="false" />
+            <element signature="method#getWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#setWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="e#2120#2121#0" expanded="true" />
+            <element signature="e#2152#2153#0" expanded="true" />
+            <element signature="method#add#0;class#Pong#0" expanded="false" />
+            <element signature="method#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="method#animateItem#0;class#Pong#0" expanded="false" />
+            <element signature="method#draw#0;class#Pong#0" expanded="false" />
+            <element signature="method#updateScreen#0;class#Pong#0" expanded="false" />
+            <element signature="e#5087#5150#0" expanded="false" />
+            <element signature="e#5602#5647#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1514,14 +1576,32 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="75" column="32" selection-start-line="75" selection-start-column="32" selection-end-line="75" selection-end-column="32" />
           <folding>
-            <element signature="e#1847#1848#0" expanded="true" />
-            <element signature="e#1873#1874#0" expanded="true" />
-            <element signature="e#1912#1913#0" expanded="true" />
-            <element signature="e#1951#1952#0" expanded="true" />
-            <element signature="e#1980#1981#0" expanded="true" />
-            <element signature="e#2009#2010#0" expanded="true" />
-            <element signature="e#2377#2378#0" expanded="true" />
-            <element signature="e#2415#2416#0" expanded="true" />
+            <element signature="docComment;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_X#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_Y#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#go#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#waitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#getScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#getTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#backgroundColor#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#timestep#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#buffer#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#graphicContext#0;class#Pong#0" expanded="false" />
+            <element signature="method#setIfGo#0;class#Pong#0" expanded="false" />
+            <element signature="method#getWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#setWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="e#2120#2121#0" expanded="true" />
+            <element signature="e#2152#2153#0" expanded="true" />
+            <element signature="method#add#0;class#Pong#0" expanded="false" />
+            <element signature="method#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="method#animateItem#0;class#Pong#0" expanded="false" />
+            <element signature="method#draw#0;class#Pong#0" expanded="false" />
+            <element signature="method#updateScreen#0;class#Pong#0" expanded="false" />
+            <element signature="e#5087#5150#0" expanded="false" />
+            <element signature="e#5602#5647#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1559,14 +1639,32 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="71" column="32" selection-start-line="71" selection-start-column="32" selection-end-line="71" selection-end-column="32" />
           <folding>
-            <element signature="e#1847#1848#0" expanded="true" />
-            <element signature="e#1873#1874#0" expanded="true" />
-            <element signature="e#1912#1913#0" expanded="true" />
-            <element signature="e#1951#1952#0" expanded="true" />
-            <element signature="e#1980#1981#0" expanded="true" />
-            <element signature="e#2009#2010#0" expanded="true" />
-            <element signature="e#2377#2378#0" expanded="true" />
-            <element signature="e#2415#2416#0" expanded="true" />
+            <element signature="docComment;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_X#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_Y#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#go#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#waitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#getScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#getTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#backgroundColor#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#timestep#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#buffer#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#graphicContext#0;class#Pong#0" expanded="false" />
+            <element signature="method#setIfGo#0;class#Pong#0" expanded="false" />
+            <element signature="method#getWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#setWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="e#2120#2121#0" expanded="true" />
+            <element signature="e#2152#2153#0" expanded="true" />
+            <element signature="method#add#0;class#Pong#0" expanded="false" />
+            <element signature="method#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="method#animateItem#0;class#Pong#0" expanded="false" />
+            <element signature="method#draw#0;class#Pong#0" expanded="false" />
+            <element signature="method#updateScreen#0;class#Pong#0" expanded="false" />
+            <element signature="e#5087#5150#0" expanded="false" />
+            <element signature="e#5602#5647#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1611,14 +1709,32 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="61" column="12" selection-start-line="61" selection-start-column="12" selection-end-line="61" selection-end-column="12" />
           <folding>
-            <element signature="e#1847#1848#0" expanded="true" />
-            <element signature="e#1873#1874#0" expanded="true" />
-            <element signature="e#1912#1913#0" expanded="true" />
-            <element signature="e#1951#1952#0" expanded="true" />
-            <element signature="e#1980#1981#0" expanded="true" />
-            <element signature="e#2009#2010#0" expanded="true" />
-            <element signature="e#2377#2378#0" expanded="true" />
-            <element signature="e#2415#2416#0" expanded="true" />
+            <element signature="docComment;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_X#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_Y#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#go#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#waitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#getScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#getTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#backgroundColor#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#timestep#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#buffer#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#graphicContext#0;class#Pong#0" expanded="false" />
+            <element signature="method#setIfGo#0;class#Pong#0" expanded="false" />
+            <element signature="method#getWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#setWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="e#2120#2121#0" expanded="true" />
+            <element signature="e#2152#2153#0" expanded="true" />
+            <element signature="method#add#0;class#Pong#0" expanded="false" />
+            <element signature="method#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="method#animateItem#0;class#Pong#0" expanded="false" />
+            <element signature="method#draw#0;class#Pong#0" expanded="false" />
+            <element signature="method#updateScreen#0;class#Pong#0" expanded="false" />
+            <element signature="e#5087#5150#0" expanded="false" />
+            <element signature="e#5602#5647#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1656,14 +1772,32 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
           <folding>
-            <element signature="e#1847#1848#0" expanded="true" />
-            <element signature="e#1873#1874#0" expanded="true" />
-            <element signature="e#1912#1913#0" expanded="true" />
-            <element signature="e#1951#1952#0" expanded="true" />
-            <element signature="e#1980#1981#0" expanded="true" />
-            <element signature="e#2009#2010#0" expanded="true" />
-            <element signature="e#2377#2378#0" expanded="true" />
-            <element signature="e#2415#2416#0" expanded="true" />
+            <element signature="docComment;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_X#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_Y#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#go#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#waitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#getScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#getTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#backgroundColor#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#timestep#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#buffer#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#graphicContext#0;class#Pong#0" expanded="false" />
+            <element signature="method#setIfGo#0;class#Pong#0" expanded="false" />
+            <element signature="method#getWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#setWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="e#2120#2121#0" expanded="true" />
+            <element signature="e#2152#2153#0" expanded="true" />
+            <element signature="method#add#0;class#Pong#0" expanded="false" />
+            <element signature="method#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="method#animateItem#0;class#Pong#0" expanded="false" />
+            <element signature="method#draw#0;class#Pong#0" expanded="false" />
+            <element signature="method#updateScreen#0;class#Pong#0" expanded="false" />
+            <element signature="e#5087#5150#0" expanded="false" />
+            <element signature="e#5602#5647#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1813,75 +1947,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-26.461538">
-          <caret line="78" column="43" selection-start-line="78" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gui/Pong.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="96" column="43" selection-start-line="96" selection-start-column="12" selection-end-line="96" selection-end-column="43" />
-          <folding>
-            <element signature="e#1847#1848#0" expanded="true" />
-            <element signature="e#1873#1874#0" expanded="true" />
-            <element signature="e#1912#1913#0" expanded="true" />
-            <element signature="e#1951#1952#0" expanded="true" />
-            <element signature="e#1980#1981#0" expanded="true" />
-            <element signature="e#2009#2010#0" expanded="true" />
-            <element signature="e#2377#2378#0" expanded="true" />
-            <element signature="e#2415#2416#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Network/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.272727">
-          <caret line="93" column="13" selection-start-line="93" selection-start-column="13" selection-end-line="93" selection-end-column="13" />
-          <folding>
-            <element signature="e#987#988#0" expanded="true" />
-            <element signature="e#1019#1020#0" expanded="true" />
-            <element signature="e#3374#3375#0" expanded="true" />
-            <element signature="e#3424#3425#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gui/Bonus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="178" column="22" selection-start-line="178" selection-start-column="22" selection-end-line="178" selection-end-column="22" />
-          <folding>
-            <element signature="e#876#877#0" expanded="true" />
-            <element signature="e#904#905#0" expanded="true" />
-            <element signature="e#978#979#0" expanded="true" />
-            <element signature="e#1010#1011#0" expanded="true" />
-            <element signature="e#3495#3496#0" expanded="true" />
-            <element signature="e#3527#3528#0" expanded="true" />
-            <element signature="e#3914#3915#0" expanded="true" />
-            <element signature="e#3945#3946#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gui/Ball.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="97" column="12" selection-start-line="97" selection-start-column="12" selection-end-line="97" selection-end-column="12" />
-          <folding>
-            <element signature="method#Ball#0;class#Ball#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gui/PongItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.030487806">
-          <caret line="110" column="7" selection-start-line="110" selection-start-column="7" selection-end-line="110" selection-end-column="7" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="132" column="7" selection-start-line="132" selection-start-column="7" selection-end-line="132" selection-end-column="7" />
           <folding>
             <element signature="method#setImageItem#0;class#PongItem#0" expanded="false" />
             <element signature="method#setSurface#0;class#PongItem#0" expanded="false" />
@@ -1894,6 +1963,73 @@
             <element signature="method#animate#0;class#PongItem#0" expanded="false" />
             <element signature="docComment;method#collision#0;class#PongItem#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/Bonus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="176" column="48" selection-start-line="176" selection-start-column="48" selection-end-line="176" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="78" column="43" selection-start-line="78" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/Pong.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.5384617">
+          <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+          <folding>
+            <element signature="docComment;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_X#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#SIZE_PONG_Y#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#go#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#waitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#getScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#getTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="method#setTabScore#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#backgroundColor#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#timestep#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#buffer#0;class#Pong#0" expanded="false" />
+            <element signature="docComment;field#graphicContext#0;class#Pong#0" expanded="false" />
+            <element signature="method#setIfGo#0;class#Pong#0" expanded="false" />
+            <element signature="method#getWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="method#setWaitPlayer#0;class#Pong#0" expanded="false" />
+            <element signature="e#2120#2121#0" expanded="true" />
+            <element signature="e#2152#2153#0" expanded="true" />
+            <element signature="method#add#0;class#Pong#0" expanded="false" />
+            <element signature="method#startGame#0;class#Pong#0" expanded="false" />
+            <element signature="method#animateItem#0;class#Pong#0" expanded="false" />
+            <element signature="method#draw#0;class#Pong#0" expanded="false" />
+            <element signature="method#updateScreen#0;class#Pong#0" expanded="false" />
+            <element signature="e#5087#5150#0" expanded="false" />
+            <element signature="e#5602#5647#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/Ball.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="137" column="0" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Network/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39779875">
+          <caret line="322" column="77" selection-start-line="322" selection-start-column="38" selection-end-line="322" selection-end-column="77" />
+          <folding />
         </state>
       </provider>
     </entry>

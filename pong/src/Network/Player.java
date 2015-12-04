@@ -71,6 +71,9 @@ public class Player extends PlayerNetwork {
                     for (int k = 0; k < getPong().listItemSize() ; k++) {
                         /* Si l'item est une racket et que le numero player lose est bien un joueur alors */
                         if (getPong().getItem(k) instanceof  Racket && getPong().getItem(k).getNumber() == playerLose ){
+                            if (idplayer==playerLose)
+                                Pong.setIfStart(true);
+
                             if (idplayer==playerLose && somme % (SCORE_FOR_BONUS * (getNombrePlayer()-1)) == 0 && sommeScore() != 0)
                                 activateBonus = true;
                             for (int j = 0; j < getPong().listItemSize(); j++) {
@@ -82,7 +85,6 @@ public class Player extends PlayerNetwork {
                                 }
 
                             }
-                            Pong.setIfStart(true);
                             Pong.setWaitPlayer(ball.restart(getPong().getItem(k)));
                             System.out.println(Pong.getWaitPlayer());
                         }
@@ -320,7 +322,6 @@ public class Player extends PlayerNetwork {
                 getPong().getItem(k).setPosition(x, y);
                 getPong().getItem(k).setSpeed(Protocol.decryptSpeedX(message),
                         Protocol.decryptSpeedY(message));
-
             }
         }
     }

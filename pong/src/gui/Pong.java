@@ -36,6 +36,7 @@ public class Pong extends JPanel {
      * Est-ce que l'on peut le relancer
      */
     private static boolean go;
+
     /**
      * qui relance la balle
      */
@@ -80,6 +81,7 @@ public class Pong extends JPanel {
     public static boolean getIfStart(){return startGame;}
     public static int getWaitPlayer(){return waitPlayer;}
     public static void  setWaitPlayer(int idPlayer){ waitPlayer = idPlayer;}
+
     public static void setIfStart(boolean bool){
         startGame = bool;
     }
