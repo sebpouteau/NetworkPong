@@ -139,7 +139,6 @@ public class Pong extends JPanel {
             getItem(i).collision(pongList);
             getItem(i).animate(SIZE_PONG_X, SIZE_PONG_Y);
         }
-
             this.updateScreen();
 	}
 

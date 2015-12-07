@@ -154,8 +154,12 @@ public class Protocol {
      * @return le numéro du joueur qui se connecte
      */
     public static int decryptIdPlayerConnected(String[] message){ return Integer.parseInt(message[ID_PLAYER_CONNECTED]);}
-    public static int decryptIdPlayer(String[] message){ return Integer.parseInt(message[ID]);}
 
+    /**
+     * Permet de decrypter le score d'un message
+     * @param message message contenant le score
+     * @return le score contenu dans le message
+     */
     public static int decryptScorePlayer(String[] message){
         return Integer.parseInt(message[SCORE_PLAYER]);
     }
@@ -229,6 +233,11 @@ public class Protocol {
         return m.toString();
     }
 
+    /**
+     * Permet de générer un message contenant le score
+     * @param player
+     * @return un message contenant le score.
+     */
     public static String informationScore(Player player){
         StringBuilder message = new StringBuilder();
         message.append("Score ");
@@ -236,6 +245,12 @@ public class Protocol {
         message.append(String.valueOf(player.getPong().getScore(player.getIdplayer())));
         return message.toString();
     }
+
+    /**
+     * Permet de génerer le message contenant l'identifiant d'un joueur
+     * @param id numero du joueur
+     * @return Message contenant l'identifiant du joueur
+     */
     public static String idPlayer(int id){
         return "IdPlayer "+id+";";
     }

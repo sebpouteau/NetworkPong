@@ -132,7 +132,6 @@ public class PongItem implements KeyListener {
      * @return true si valide, false sinon
      */
     public boolean notCheating(int x, int y, int speedX,int speedY){
-        System.out.println("j'utilise le cheat de pongItem");
         return true;
     }
 

@@ -56,6 +56,15 @@ public class Racket extends PongItem {
 
 	}
 
+
+	@Override
+	public boolean notCheating(int x, int y, int speedX,int speedY){
+		return Math.abs(this.getPositionX() - x) <= getSpeedRacket()*getSpeedRacket() &&
+				Math.abs(this.getPositionY() - y) <=getSpeedRacket()*getSpeedRacket() &&
+				Math.abs(this.getSpeedX() - speedX) <=getSpeedRacket() &&
+				Math.abs(this.getSpeedY() - speedY) <=getSpeedRacket();
+	}
+
 	/**
 	 * Pour vérifier si une collision a lieu avec un Bonus de manière à lancer le Bonus sur cette raquette
 	 * @param pi le Bonus
@@ -126,7 +135,6 @@ public class Racket extends PongItem {
             case KeyEvent.VK_SPACE:
                 if(Pong.getIfStart() && Pong.getWaitPlayer() == this.getNumber()) {
                     Pong.setIfGo(true);
-                    System.out.println("je press space");
                 }
                 break;
 

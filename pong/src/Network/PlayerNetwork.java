@@ -44,7 +44,6 @@ public class PlayerNetwork {
 
     /**
      * Recupere l'adresse du serveur
-     * 
      * @return
      * @throws IOException
      */
@@ -61,17 +60,24 @@ public class PlayerNetwork {
                 while(adress.hasMoreElements()) {
                     InetAddress addr = adress.nextElement();
                     ip = addr.getHostAddress();
-                    System.out.println(ip);
                 }
             }
-
         return ip;
     }
 
-    public int listSocketSize(){
+    /**
+     * retourne la taille de la liste des sockets
+     * @return tailoe list socket
+     */
+    public int getListSocketSize(){
         return this.tabSocket.size();
     }
 
+    /**
+     * Permet de supprimer un socket player de la liste des sockets
+     * @param id numero de la socket à supprimer
+     * @throws IOException
+     */
     public void removeSocket(int id) throws IOException {
         getSocket(id).close();
         tabSocket.remove(id);
@@ -149,7 +155,6 @@ public class PlayerNetwork {
      */
     public int connectionServer(String adress, int portConnection, boolean first) throws IOException {
         Socket s = connection(adress, portConnection);
-        System.out.println("connection a " + portConnection);
         SocketPlayer socketPlayer = new SocketPlayer(s, portConnection);
         int position = this.addSocket(socketPlayer);
         /* envoie des informations de reconnaissance */

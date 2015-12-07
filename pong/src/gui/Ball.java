@@ -54,10 +54,16 @@ public class Ball extends PongItem {
 
     @Override
     public boolean notCheating(int x, int y, int speedX,int speedY){
-        return Math.abs(this.getPositionX() - x) <=BALL_SPEED*2 &&
-                Math.abs(this.getPositionY() - y) <=BALL_SPEED *2&&
-                Math.abs(this.getSpeedX() - speedX) <=BALL_SPEED*2 &&
+        boolean t=  Math.abs(this.getPositionX() - x) <=BALL_SPEED*BALL_SPEED &&
+                Math.abs(this.getPositionY() - y) <=BALL_SPEED *BALL_SPEED;
+        boolean s = Math.abs(this.getSpeedX() - speedX) <=BALL_SPEED*2 &&
                 Math.abs(this.getSpeedY() - speedY) <=BALL_SPEED*2;
+        if (!t){
+            System.out.println("pos beug" + this.getPositionX() +" "+ x + " " +this.getPositionY() +" "+ y );
+        }
+        if (!s)
+            System.out.println("vitesse beug");
+        return s && t;
     }
 
     public int getLosePlayerSize(){

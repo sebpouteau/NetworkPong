@@ -7,11 +7,7 @@ import java.io.*;
 import java.nio.channels.SocketChannel;
 
 /**
- * Nous passerons pour le premier:
- *                                1 nombre joueur
- * deuxieme :
- *             1 adresse de l'autre joueur
- *             2 port de l'autre joueur
+ * Classe permettant de lancer le jeu.
  */
 public class Main{
 	private static int PORT = 7777;
@@ -40,12 +36,10 @@ public class Main{
 				SocketChannel sc = client.getServer().accept();
 				if (sc != null) {
 					sc.socket().setTcpNoDelay(true);
-					System.out.println("accepte");
 					client.connectionAcceptPlayer(sc.socket());
 				}
 			}
 		}
-		System.out.println(client.getIdplayer());
 		pong.setTabScore(client.getMaxPlayer());
 		menu.endWait();
 		String namePlayer = "Joueur ";
@@ -58,8 +52,9 @@ public class Main{
 			if (client.getNombrePlayer()< 2)
 				return;
 			/* Envoie des information au autres joueurs */
+
 			String info = client.information();
-			for (int i = 0; i < client.listSocketSize(); i++) {
+			for (int i = 0; i < client.getListSocketSize(); i++) {
 				client.sendMessage(client.getSocketPlayer(i), info);
                 try {
                     Thread.sleep(1);
@@ -71,7 +66,7 @@ public class Main{
 			} catch (InterruptedException ignored) {
 			}
 			/* Reception des information des autres joueurs */
-			for (int i = 0; i < client.listSocketSize(); i++) {
+			for (int i = 0; i < client.getListSocketSize(); i++) {
 				client.update(i);
 			}
 
