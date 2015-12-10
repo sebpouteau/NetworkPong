@@ -4,7 +4,7 @@ all:
 run1: all
 	java src.Main 7777 2
 run2: all
-	java src.Main 7778 localhost 7777
+	java src.Main 7778 10.0.8.22 7777
 
 
 clean:

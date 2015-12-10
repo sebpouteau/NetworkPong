@@ -23,25 +23,22 @@ public class Main{
 		while (!serverOK) {
 			try {
 				client.initServeur(port);
-				serverOK=true;
+				serverOK = true;
 			} catch (IOException e) {
 				port++;
 			}
 		}
+		boolean t = true;
 		Menu menu = new Menu(client);
+		menu.displayMenu();
+		while (t){
+			t = menu.isAllPlayerConnect();
+		}
+		menu.endMenu();
 
 		/* Boucle de connection entre tout les joueurs */
-		while (client.getNombrePlayer() != client.getMaxPlayer() ) {
-			if (client.getServer() != null) {
-				SocketChannel sc = client.getServer().accept();
-				if (sc != null) {
-					sc.socket().setTcpNoDelay(true);
-					client.connectionAcceptPlayer(sc.socket());
-				}
-			}
-		}
+
 		pong.setTabScore(client.getMaxPlayer());
-		menu.endWait();
 		String namePlayer = "Joueur ";
 		namePlayer += client.getIdplayer();
 		Window window = new Window(pong, namePlayer);

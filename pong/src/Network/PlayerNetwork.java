@@ -49,7 +49,7 @@ public class PlayerNetwork {
      */
     public static String getAdressServeur() throws IOException {
         String ip="";
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+                Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             while (interfaces.hasMoreElements()) {
                 NetworkInterface iface = interfaces.nextElement();
                 // filters out 127.0.0.1 and inactive interfaces
@@ -60,6 +60,11 @@ public class PlayerNetwork {
                 while(adress.hasMoreElements()) {
                     InetAddress addr = adress.nextElement();
                     ip = addr.getHostAddress();
+                    if (ip.length() < 16){
+                        if (!ip.startsWith("127") || ip.startsWith("0")){
+                            return ip;
+                        }
+                    }
                 }
             }
         return ip;
