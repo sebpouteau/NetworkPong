@@ -15,6 +15,7 @@ import java.nio.channels.SocketChannel;
 public class Menu extends JFrame implements ActionListener {
 
     private JPanel contener = new JPanel();
+    private JPanel text = new JPanel();
 
     private JButton hebergement = new JButton("Héberger un Pong");
     private JButton join = new JButton("Rejoindre Pong");
@@ -29,7 +30,7 @@ public class Menu extends JFrame implements ActionListener {
     private boolean allPlayerConnect = true;
 
     private final Dimension MENU_SIZE = new Dimension(300,250);
-    private static final Color backgroundColor = new Color(128, 114, 201);
+    private static final Color backgroundColor = new Color(144, 148, 201);
 
     /* =================================================
                           Getter and Setter
@@ -55,9 +56,10 @@ public class Menu extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        text.setBackground(backgroundColor);
 
         contener.setBackground(backgroundColor);
+        text.setBackground(backgroundColor);
+
         modificationButton(hebergement,15);
         modificationButton(join,15);
         modificationButton(createGame,15);
@@ -76,11 +78,13 @@ public class Menu extends JFrame implements ActionListener {
 
     private final Font fontTitle = new Font("Arial",Font.BOLD,40);
     private final Font fontText= new Font("Arial",Font.ITALIC,20);
+    private final Font fontConnection= new Font("Arial",Font.BOLD,17);
 
     private final Dimension dimensionButton = new Dimension(200,30);
-    private final Dimension dimensionHebergement = new Dimension(300,200);
+    private final Dimension dimensionAction = new Dimension(300,200);
 
     public void menuMain(){
+
         JLabel titre = new JLabel("PONG");
         text.setPreferredSize(new Dimension((int)MENU_SIZE.getWidth(),70));
         titre.setFont(fontTitle);
@@ -95,15 +99,14 @@ public class Menu extends JFrame implements ActionListener {
 
         this.setVisible(true);
     }
-
     public void endMenu() {
         this.setVisible(false);
     }
 
     private void initHebergement() {
 
-        this.setSize(dimensionHebergement);
-
+        this.setSize(dimensionAction);
+        text.setPreferredSize(new Dimension (250,100));
         numberPlayerTextField.setPreferredSize(new Dimension(50, 25));
         JLabel numberPlayerLabel = new JLabel("<html><div style=\"text-align:center;\"> Saisir le nombre de joueurs<br> (max 4)<br></div></html>");
         numberPlayerLabel.setFont(fontText);
@@ -117,27 +120,28 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     private void initJoin() {
-
-        this.setSize(new Dimension(300, 200));
+        this.setSize(dimensionAction);
         JLabel adressLabel, portLabel;
+
         JPanel panAdress = new JPanel();
-        panAdress.setBackground(Color.white);
+        panAdress.setBackground(backgroundColor);
         adressJPTextField.setPreferredSize(new Dimension(100,25));
         panAdress.setBorder(BorderFactory.createTitledBorder("Adresse de connection"));
         adressLabel = new JLabel("Saisir l'adresse de connection:");
         panAdress.setLayout(new BorderLayout());
-        panAdress.add(adressLabel,BorderLayout.LINE_START);
-        panAdress.add(adressJPTextField,BorderLayout.AFTER_LAST_LINE);
+
 
         JPanel panPort = new JPanel();
-        panPort.setBackground(Color.white);
+        panPort.setBackground(backgroundColor);
         portTextField.setPreferredSize(new Dimension(50,25));
         panPort.setBorder(BorderFactory.createTitledBorder("Port de connection"));
         portLabel = new JLabel("Saisir le port de connection");
 
+        panAdress.add(adressLabel,BorderLayout.LINE_START);
+        panAdress.add(adressJPTextField,BorderLayout.AFTER_LAST_LINE);
         panPort.add(portLabel);
         panPort.add(portTextField);
-        contener.setBackground(Color.white);
+
         contener.add(panAdress);
         contener.add(panPort);
         joinGame.addActionListener(this);
@@ -150,19 +154,23 @@ public class Menu extends JFrame implements ActionListener {
             jl = new JLabel("<html><div style=\"text-align:center;\">" +
                     "En attente de joueurs<br><br> "+
                     "Adresse Connection: " +  getClient().getAdressServeur() + "<br> Port: "+ getClient().getPort() + "</div></html>",JLabel.CENTER);
+            jl.setFont(fontConnection);
             jl.setSize(new Dimension(300,150));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        contener.add(jl);
+        contener.setLayout(new BorderLayout());
+        contener.add(jl,BorderLayout.CENTER);
     }
 
     private void displayWaitPlayerHost(){
         getClient().getPong().add(new Racket(1));
         getClient().getPong().add(new Ball(1));
         getClient().getPong().add(new Bonus());
+
         int numberPlayer = Integer.parseInt(numberPlayerTextField.getText());
         getClient().setMaxPlayer(numberPlayer);
+
         displayInformationConnection();
     }
 
@@ -199,7 +207,6 @@ public class Menu extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         contener.removeAll();
         text.removeAll();
-
         if (e.getSource() == hebergement) {
             initHebergement();
         }
@@ -207,16 +214,22 @@ public class Menu extends JFrame implements ActionListener {
             initJoin();
         }
         if (e.getSource() == createGame) {
-            int numberPlayer = Integer.parseInt(numberPlayerTextField.getText());
-            if (1< numberPlayer && numberPlayer <=4)
-                displayWaitPlayerHost();
-            else
+            if (numberPlayerTextField.getText().length() == 0){
                 initHebergement();
+            }
+            else {
+                int numberPlayer = Integer.parseInt(numberPlayerTextField.getText());
+                if (1 < numberPlayer && numberPlayer <= 4)
+                    displayWaitPlayerHost();
+                else
+                    initHebergement();
+            }
         }
         if (e.getSource() == joinGame) {
             displayWaitPlayerJoin();
         }
         this.repaint();
+        this.validate();
     }
 
     public void displayMenu() throws IOException, InterruptedException {

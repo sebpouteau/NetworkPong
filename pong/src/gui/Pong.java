@@ -1,9 +1,6 @@
 package src.gui;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -59,7 +56,7 @@ public class Pong extends JPanel {
 	 * Constant (c.f. final) common to all Pong instances (c.f. static)
 	 * defining the background color of the Pong
 	 */
-	private static final Color backgroundColor = new Color(86, 208, 209);
+	private static final Color backgroundColor = new Color(0, 0, 0);
 
 
 	/**
@@ -173,7 +170,7 @@ public class Pong extends JPanel {
 		/* Draw items */
 		for (int i = 0; i < listItemSize(); i++) {
 			if(getItem(i) instanceof Racket){
-                graphicContext.setColor(new Color(163,73,162));
+                graphicContext.setColor(new Color(197, 200, 60));
 				graphicContext.fillRect(getItem(i).getPositionX(), getItem(i).getPositionY(), getItem(i).getWidth(), getItem(i).getHeight());
                 graphicContext.setColor(backgroundColor);
 			}
@@ -182,30 +179,25 @@ public class Pong extends JPanel {
 				if(b.isVisible()){
 					draw(getItem(i));
 				}
-//                 else if(b.isActive() && b.getNumber() == 3){
-//					Rock r = (Rock)b.getBonus();
-//                    graphicContext.setColor(Color.DARK_GRAY);
-//                    graphicContext.fillOval((int) r.getRock().getX(),(int) r.getRock().getY(), (int) r.getRock().getWidth(),(int) r.getRock().getHeight());
-//                    graphicContext.setColor(backgroundColor);
-//                }
             }
             else{
 				draw(getItem(i));
 			}
 		}
         graphicContext.setColor(Color.BLACK);
-//		for (int i = 0; i < score.length ; i++) {
-//           graphicContext.drawString("Joueur " + (i+1) + " : " + score[i], 0 + i*100, SIZE_PONG_Y + 10);
-//       }
+
 
         for (int j = 0; j < listItemSize() ; j++) {
             if(getItem(j) instanceof Racket){
                  int idPlayer = getItem(j).getNumber();
-                graphicContext.drawString("Joueur " + (idPlayer) + " : " + score[idPlayer - 1], 0 + (idPlayer - 1)*100 , SIZE_PONG_Y + 10);
-            }
+                graphicContext.drawString("Joueur " + (idPlayer) + " : " + score[idPlayer - 1]+"   ", 0 + (idPlayer - 1)*110 , SIZE_PONG_Y + 20);
+				graphicContext.setFont(new Font("impact", Font.BOLD, 20));
+			}
 
 
         }
         this.repaint();
+
 	}
 }
+
