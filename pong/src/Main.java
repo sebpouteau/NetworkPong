@@ -64,7 +64,7 @@ public class Main{
 				client.update(i);
 			}
 
-			client.getPong().animate();
+			client.getPong().animateItems();
 			client.attributionScore();
 		}
 	}

@@ -14,16 +14,15 @@ public class Player extends PlayerNetwork {
     private int maxPlayer;
     private boolean activateBonus = false;
 
-
     public Player(Pong pong) {
         super();
         this.pong = pong;
         idplayer = 1;
     }
 
-/* =================================================
+    /* =================================================
                       Getter and Setter
-   ================================================= */
+       ================================================= */
 
     public int getNumberPlayer() {
         return NumberPlayer;

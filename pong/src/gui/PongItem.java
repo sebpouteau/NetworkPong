@@ -9,7 +9,7 @@ public class PongItem {
     private int width;
     private int height;
     private int number;
-    private Point position;
+    private Point position = new Point();
     private Image imageItem;
     private Rectangle surface;
     private Point speed;

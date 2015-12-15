@@ -2,9 +2,6 @@ package src.gui;
 
 import java.awt.*;
 
-/**
- * Created by ysaemery on 25/11/15.
- */
 public class ChangeRacketSize extends Bonus {
     private int sizeChange = 20;
     private PongItem oldPongItem;

@@ -37,6 +37,7 @@ public class Racket extends PongItem implements KeyListener{
     /* =================================================
                       Getter and Setter
        ================================================= */
+
     public int getSpeedRacket(){return speedRacket;}
 
 	public void setSpeedRacket(int speed){speedRacket = speed;}

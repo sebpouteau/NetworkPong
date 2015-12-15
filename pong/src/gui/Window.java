@@ -13,7 +13,7 @@ public class Window extends JFrame {
 	public Window(Pong pong, String namePlayer) {
 		super(namePlayer);
 		this.pong = pong;
-		this.addKeyListener(pong.getItem(0));
+		this.addKeyListener((Racket)pong.getItem(0));
 	}
 
 	/**

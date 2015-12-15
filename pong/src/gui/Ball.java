@@ -58,9 +58,7 @@ public class Ball extends PongItem {
             }
         }
         this.setPosition((this.getPositionX() + this.getSpeedX()), (this.getPositionY() + this.getSpeedY()));
-
         this.setPositionRectangle(this.getPositionX(), this.getPositionY());
-        System.out.println(this.getSpeed());
     }
 
     @Override
