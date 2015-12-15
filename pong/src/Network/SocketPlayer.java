@@ -2,20 +2,19 @@ package src.Network;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 
 /**
- * Classe contenant la socket d'un joueur
- * ainsi que des informations supplémentaire sur le joueur
+ * Classe contenant la socket d'un joueur,
+ * ainsi que des informations supplémentaires sur le joueur.
  */
 public class SocketPlayer {
+
     private Socket socket;
     private int port;
     private String adress;
     private BufferedReader bufferReader;
     private PrintStream printStream;
     private int numeroPlayer;
-
 
     public SocketPlayer(Socket socket, int port) throws IOException {
         this.socket=socket;

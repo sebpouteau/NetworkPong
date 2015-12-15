@@ -56,7 +56,7 @@ public class Menu extends JFrame implements ActionListener {
         this.setTitle("Pong");
         this.setSize(MENU_SIZE);
         this.getContentPane().add(contener);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
@@ -202,7 +202,7 @@ public class Menu extends JFrame implements ActionListener {
    private void displayWaitPlayerJoin(){
        String adress = adressJPTextField.getText();
        int portConnection = Integer.parseInt(portTextField.getText());
-       getClient().setNombrePlayer(1);
+       getClient().setNumberPlayer(1);
 
        try {
            getClient().connectionServerInit(adress, portConnection, true);
@@ -222,7 +222,7 @@ public class Menu extends JFrame implements ActionListener {
      * @throws InterruptedException
      */
     private void waitPlayer() throws IOException, InterruptedException {
-        while (client.getNombrePlayer() != client.getMaxPlayer() ) {
+        while (client.getNumberPlayer() != client.getMaxPlayer() ) {
             if (client.getServer() != null) {
                 SocketChannel sc = client.getServer().accept();
                 if (sc != null) {

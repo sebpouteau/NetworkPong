@@ -4,10 +4,8 @@ import src.gui.*;
 import java.io.*;
 import java.net.Socket;
 
-/**
- *  Player
- */
 public class Player extends PlayerNetwork {
+
     private static int SCORE_FOR_BONUS = 5;
     private static int MYRACKET = 0;
     private Pong pong;
@@ -58,8 +56,8 @@ public class Player extends PlayerNetwork {
     public void addPlayer() {this.NumberPlayer++;}
 
     /**
-     * Permet de calculer la somme des scores du jeu
-     * @return Somme des scores
+     * Calcule la somme des scores du jeu.
+     * @return Somme des scores.
      */
     public int sommeScore(){
         int somme=0;
@@ -70,7 +68,7 @@ public class Player extends PlayerNetwork {
     }
 
     /**
-     * Fonction permettant d'attribuer les scores à chaque joueur
+     * Fonction permettant d'attribuer les scores à chaque joueur.
      */
     public void attributionScore() {
         for (int i = 0; i < getPong().listItemSize(); i++) {
@@ -103,16 +101,13 @@ public class Player extends PlayerNetwork {
         }
     }
 
-
-
-
-     /* =================================================
+     /* ================================================
                          Fonctions
-     ================================================= */
+        ================================================ */
 
     /**
-     * Permet de lister tout les items du jeu
-     * @return String contenant tout les Items
+     * Liste tous les items du jeu.
+     * @return String contenant tous les Items.
      */
     private String listItemGame(Racket newRacket) {
         StringBuilder message = new StringBuilder();
@@ -126,9 +121,9 @@ public class Player extends PlayerNetwork {
     }
 
     /**
-     * Permet de creer une chaine de caractère contenant les position de la raquette d'un joueur
-     * ainsi que tout les positions des balles
-     * @return String contenant les positions
+     * Cree une chaine de caractere contenant les positions de la raquette d'un joueur
+     * ainsi que toutes les positions des balles.
+     * @return String contenant les positions.
      */
     public String information() {
         StringBuilder message = new StringBuilder();
@@ -146,7 +141,6 @@ public class Player extends PlayerNetwork {
                         message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
                     }
                     activateBonus = false;
-
                 }
             }
         }
@@ -155,9 +149,9 @@ public class Player extends PlayerNetwork {
     }
 
     /**
-     * Permet de connaitre l'id du joueur contolant la balle
-     * @param message String contenant les information d'une balle normalisé selon le protocole
-     * @return retourne le numero du joueur controlant la balle
+     * Permet de connaitre l'id du joueur controlant la balle.
+     * @param message String contenant les information d'une balle normalisé selon le protocole.
+     * @return Retourne le numero du joueur controlant la balle.
      */
     public int idPlayerControlBall(String[] message) {
         int x = Protocol.decryptX(message);
@@ -178,11 +172,11 @@ public class Player extends PlayerNetwork {
     }
 
     /**
-     * Permet d'initialiser un joueur en fonction d'un string reçu
-     * @param message String contenant tout les objets du jeu
-     * @param s SocketPlayer dont on a besoin pour recevoir les informations
+     * Initialise un joueur en fonction d'un string reçu.
+     * @param message String contenant tous les objets du jeu.
+     * @param s SocketPlayer dont on a besoin pour recevoir les informations.
      */
-    public void initialisationItem(String message,SocketPlayer s) {
+    public void initializationItem(String message,SocketPlayer s) {
         String[] listItem = message.split(";");
         String[] item = listItem[MYRACKET].split(" ");
         this.setNumberPlayer(Protocol.decryptNumberPlayer(item));
@@ -202,12 +196,12 @@ public class Player extends PlayerNetwork {
     }
 
     /**
-     * Permet d'initialisé les connexion d'un nouveau joueur par rapport à une liste reçu
-     * @param message String contenant les information sur les connexion du jeu
+     * Initialise les connexions d'un nouveau joueur par rapport à une liste reçu
+     * @param message String contenant les informations sur les connexions du jeu.
      * @throws IOException
      * @throws InterruptedException
      */
-    public void initialisationSocket(String message) throws IOException, InterruptedException {
+    public void initializationSocket(String message) throws IOException, InterruptedException {
         String[] socketList = message.split(";");
         for (String aSocketList : socketList) {
             String[] socket = aSocketList.split(" ");
@@ -219,8 +213,8 @@ public class Player extends PlayerNetwork {
     }
 
     /**
-     * Ajoute la raquette d'un nouveau joueur qui c'est déjà connecté à un autre joueur avant lui
-     * @param message String contenant les informations de la raqket du nouveau joueur
+     * Ajoute la raquette d'un nouveau joueur deja connecte a un autre joueur avant lui.
+     * @param message String contenant les informations de la raquette du nouveau joueur.
      */
     public void addRacketNewPlayer(String message, SocketPlayer s){
         String[] item = message.split(" ");
@@ -230,22 +224,22 @@ public class Player extends PlayerNetwork {
     }
 
     /**
-     * Permet de lister et envoyer tout les éléments à un joueur
-     * @param socket Socket à qui envoyer les information
-     * @param position position de la socket dans la liste de socket
+     * Liste et envoie tous les elements à un joueur.
+     * @param socket Socket à qui envoyer les informations.
+     * @param position position de la socket dans la liste de socket.
      * @throws IOException
      */
     public void addNewClient(SocketPlayer socket, int position) throws IOException, InterruptedException {
-        /* envoie tout les objets présent dans le jeu */
+        /* Envoie de tous les objets present dans le jeu. */
         StringBuilder listOtherPlayer = new StringBuilder();
         for (int i = 0; i < position; i++) {
             listOtherPlayer.append(Protocol.infomationSocket(getSocketPlayer(i)));
         }
-        /* envoie de la liste des connexions */
+        /* Envoi de la liste des connexions. */
         sendMessage(socket, listOtherPlayer.toString());
         this.addPlayer();
         socket.setNumeroPlayer(this.NumberPlayer);
-        /* creation nouvelle racket et envoie des items du jeu au nouveau joueur */
+        /* Creation d'une nouvelle raquette et envoi des items du jeu au nouveau joueur. */
         Racket newRacket = new Racket(this.getNumberPlayer());
         String item = listItemGame(newRacket);
         this.getPong().add(newRacket);
@@ -254,8 +248,8 @@ public class Player extends PlayerNetwork {
     }
 
     /**
-     * Permet de supprimer un joueur lorsqu'il est deconnecté
-     * @param idSocket numero de la socket du joueur à supprimer
+     * Supprimer un joueur lorsqu'il est deconnecte.
+     * @param idSocket numero de la socket du joueur a supprimer.
      * @throws IOException
      */
     public void removePlayer(int idSocket) throws IOException {
@@ -272,9 +266,9 @@ public class Player extends PlayerNetwork {
     }
 
     /**
-     * Cette fonction permet de mettre à jour la ou les balle
-     * ainsi que la raquette de celui qui à envoyer le message
-     * @param idSocket numero de la socket dans l'arrayList SocketPlayer
+     * Cette fonction permet de mettre a jour la ou les balles
+     * ainsi que la raquette de celui qui a envoye le message.
+     * @param idSocket numero de la socket dans l'ArrayList SocketPlayer.
      * @throws IOException
      */
     public void update(int idSocket) throws IOException {
@@ -316,9 +310,9 @@ public class Player extends PlayerNetwork {
     }
 
     /**
-     * Fonction permettant de mettre à jour un item grace à un message contenant ses information
-     * @param message tring contenant les information d'un item normalisé selon le protocole
-     * @param type    String permettant de chercher un type spécifique de la liste des item ex: "Raquet"
+     * Met a jour un item grace a un message contenant ses informations.
+     * @param message String contenant les informations d'un item normalise selon le protocole.
+     * @param type    String permettant de chercher un type specifique de la liste des items ex: "Racket".
      */
     public void updateItem(String[] message, String type) {
         int idP = Protocol.decryptId(message);
@@ -331,7 +325,6 @@ public class Player extends PlayerNetwork {
                     && getPong().getItem(k).getNumber() == idP) {
                     getPong().getItem(k).setPosition(x, y);
                     getPong().getItem(k).setSpeed(speedX, speedY);
-
                 if (!getPong().getItem(k).notCheating(x,y, speedX,speedY))
                     System.out.println(idP + "triche ");
             }
@@ -339,22 +332,22 @@ public class Player extends PlayerNetwork {
     }
 
     /**
-     * Fonction permettant de ce connecter à un serveur et d'initialisé le pong
-     * @param adress addresse à se connecter
-     * @param portConnection port de connection
-     * @param first Vrai si première connection dans la partie Faux sinon
+     * Fonction permettant de ce connecter a un serveur et d'initialiser le pong.
+     * @param adress addresse ou se connecter.
+     * @param portConnection port de connection.
+     * @param first Vrai si c'est la premiere connection dans la partie Faux sinon.
      * @throws IOException
      */
     public void connectionServerInit(String adress, int portConnection, boolean first) throws IOException, InterruptedException {
         int position = super.connectionServer(adress, portConnection, first);
-        /* initialisation de tout les objets grâce à l'information reçu */
+        /* initialisation de tous les objets grace a l'information reçu */
         if (first) {
             String tabSocket = read(position);
             String listItem = read(position);
 
-            this.initialisationItem(listItem,getSocketPlayer(position));
+            this.initializationItem(listItem,getSocketPlayer(position));
             if (!tabSocket.isEmpty())
-                this.initialisationSocket(tabSocket);
+                this.initializationSocket(tabSocket);
         }
         else{
             String myRacket = Protocol.informationItem(getPong().getItem(MYRACKET));
@@ -367,9 +360,9 @@ public class Player extends PlayerNetwork {
     }
 
     /**
-     * Fonction permettant d'accepter une connexion d'un joueur et
-     * de l'ajouter dans ca liste Item, et lui envoyer la liste des item deja présent dans le jeu
-     * @param socket Socket à accepter
+     * Accepte la connexion d'un joueur, l'ajoute dans sa liste Item,
+     * et lui envoie la liste des items deja presents dans le jeu.
+     * @param socket Socket a accepter.
      * @throws IOException
      */
     public void connectionAcceptPlayer(Socket socket) throws IOException, InterruptedException {

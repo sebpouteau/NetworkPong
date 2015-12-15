@@ -1,19 +1,14 @@
 package src.Network;
 
-import sun.net.NetworkServer;
-
 import java.io.*;
 import java.net.*;
-import java.nio.channels.NetworkChannel;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-/**
- * PlayerNetwork
- */
 public class PlayerNetwork {
+    
     private ServerSocketChannel server;
     private ArrayList<SocketPlayer> tabSocket;
     private int port;
@@ -22,9 +17,9 @@ public class PlayerNetwork {
         tabSocket = new ArrayList<SocketPlayer>();
     }
 
-    /* =================================================
+    /* ================================================
                       Getter and Setter
-     ================================================= */
+       ================================================ */
 
     public ServerSocketChannel getServer(){
         return server;
@@ -43,8 +38,8 @@ public class PlayerNetwork {
     }
 
     /**
-     * Recupere l'adresse du serveur
-     * @return
+     * Recupere l'adresse du serveur.
+     * @return l'adresse du serveur.
      * @throws IOException
      */
     public static String getAdressServeur() throws IOException {
@@ -71,16 +66,16 @@ public class PlayerNetwork {
     }
 
     /**
-     * retourne la taille de la liste des sockets
-     * @return tailoe list socket
+     * Retourne la taille de la liste des sockets.
+     * @return taille de la liste des sockets.
      */
     public int getListSocketSize(){
         return this.tabSocket.size();
     }
 
     /**
-     * Permet de supprimer un socket player de la liste des sockets
-     * @param id numero de la socket à supprimer
+     * Supprime un socket player de la liste des sockets.
+     * @param id numero de la socket à supprimer.
      * @throws IOException
      */
     public void removeSocket(int id) throws IOException {
@@ -88,13 +83,13 @@ public class PlayerNetwork {
         tabSocket.remove(id);
     }
 
-     /* =================================================
+     /* ================================================
                          Fonctions
-     ================================================= */
+        ================================================ */
 
     /**
-     * Initialise le serveur du joueur
-     * @param port port d'écoute du serveur
+     * Initialise le serveur du joueur.
+     * @param port port d'écoute du serveur.
      * @throws IOException
      */
     public void initServeur(int port) throws IOException {
@@ -105,9 +100,9 @@ public class PlayerNetwork {
     }
 
     /**
-     * Ajoute une Socket à la liste de socket existante
-     * @param socket Socket à ajouter
-     * @return retourne la position dans la liste de la socket
+     * Ajoute une Socket a la liste de sockets existante.
+     * @param socket Socket a ajouter.
+     * @return Retourne la position dans la liste de la socket.
      */
     public int addSocket(SocketPlayer socket) {
         this.tabSocket.add(socket);
@@ -115,9 +110,9 @@ public class PlayerNetwork {
     }
 
     /**
-     * Envoie un message sur une socket
-     * @param socket Socket
-     * @param message message à envoyer
+     * Envoie un message sur une socket.
+     * @param socket Socket.
+     * @param message Message à envoyer.
      * @throws IOException
      */
     public void sendMessage(SocketPlayer socket,String message) throws IOException {
@@ -126,9 +121,9 @@ public class PlayerNetwork {
     }
 
     /**
-     * Permet de lire les information recu durant la phase de connection d'un nouveau joueur
-     * @param idSocket numero de la socket dans l'arrayList SocketPlayer
-     * @return Retourne le String lu
+     * Lit les informations recues durant la phase de connection d'un nouveau joueur.
+     * @param idSocket Numero de la socket dans l'ArrayList SocketPlayer.
+     * @return Retourne le String lu.
      * @throws IOException
      */
     public String read(int idSocket) throws IOException {
@@ -136,43 +131,43 @@ public class PlayerNetwork {
     }
 
     /**
-     * Permet de ce connecter à un serveur
-     * @param adress addresse à se connecter
-     * @param portConnection port de connection
-     * @return retourne la socket connectée
+     * Permet de ce connecter à un serveur.
+     * @param adress Addresse ou se connecter.
+     * @param portConnection Port de connection.
+     * @return Retourne la socket connectee.
      * @throws IOException
      */
     public Socket connection(String adress, int portConnection) throws IOException {
         SocketChannel socket = SocketChannel.open();
         socket.connect(new InetSocketAddress(adress, portConnection));
-        /* permet d'ignorer Nagle */
+        /* Permet d'ignorer Nagle. */
         socket.socket().setTcpNoDelay(true);
         return socket.socket();
     }
 
     /**
-     * Fonction permettant de ce connecter à un serveur avec procedure d'identification
-     * @param adress addresse à se connecter
-     * @param portConnection port de connection
-     * @param first Vrai si première connection dans la partie Faux sinon
-     * @return la position de la nouvelle socket dans la liste des sockets
+     * Fonction permettant de ce connecter a un serveur avec procedure d'identification.
+     * @param adress Addresse ou se connecter.
+     * @param portConnection Port de connection.
+     * @param first Vrai si premiere connection dans la partie. Faux sinon.
+     * @return La position de la nouvelle socket dans la liste des sockets.
      * @throws IOException
      */
     public int connectionServer(String adress, int portConnection, boolean first) throws IOException {
         Socket s = connection(adress, portConnection);
         SocketPlayer socketPlayer = new SocketPlayer(s, portConnection);
         int position = this.addSocket(socketPlayer);
-        /* envoie des informations de reconnaissance */
+        /* Envoie des informations de reconnaissance. */
         String message = Protocol.identification(this.getPort(), first);
         sendMessage(this.getSocketPlayer(position),message);
-        /* reception des informations envoyées par le serveur du premier joueur */
+        /* Reception des informations envoyees par le serveur du premier joueur. */
         return position;
     }
 
     /**
-     * Fonction permettant d'accepter la connexion d'un joueur
-     * @param socket Socket à accepter
-     * @return true si premiere connection à un joueur, false sinon
+     * Fonction permettant d'accepter la connexion d'un joueur.
+     * @param socket Socket a accepter.
+     * @return True si premiere connection à un joueur,False sinon.
      * @throws IOException
      */
     public boolean connectionAccept(Socket socket) throws IOException {
@@ -186,6 +181,5 @@ public class PlayerNetwork {
         return Protocol.decryptFirst(lu);
 
     }
-
 
 }

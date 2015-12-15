@@ -1,17 +1,15 @@
 package src.Network;
 
-import com.sun.org.apache.xerces.internal.impl.dv.dtd.StringDatatypeValidator;
-import src.gui.Pong;
 import src.gui.PongItem;
 import src.gui.Racket;
 
 /**
- * Protocol de communication
- * Permet de générer les méssages et de les décryter
+ * Protocol de communication.
+ * Permet de generer les méssages et de les decryter.
  */
 public class Protocol {
+    
     private static int CLASSE_ITEM = 0;
-
     private static int ID = 1;
     private static int POS_X = 2;
     private static int POS_Y = 3;
@@ -27,33 +25,32 @@ public class Protocol {
     private static int FIRST = 2;
     private static int LENGTH_IDENTIFICATION=3;
 
-
-    /* =================================================
+    /* ================================================
                    Decrypteur de message
-      ================================================= */
+       ================================================ */
 
     /**
-     * Permet de récupérer l'adresse de connection d'une socket contenu dans le String
-     * @param message String contenant un Item
-     * @return Adresse de connection
+     * Recupere l'adresse de connection d'une socket contenu dans le String
+     * @param message String contenant un Item.
+     * @return Adresse de connection.
      */
     public static String decryptAdress(String[] message){
         return message[2];
     }
 
     /**
-     * Permet de récupérer le port de connection d'une socket contenu dans le String
-     * @param message String contenant un Item
-     * @return Port de connection
+     * Recupere le port de connection d'une socket contenu dans le String.
+     * @param message String contenant un Item.
+     * @return Port de connection.
      */
     public static int decryptPortSocket(String[] message){
         return Integer.parseInt(message[1]);
     }
 
     /**
-     * Permet de récupérer le port de connection d'une socket contenu dans le String de connection
-     * @param message String contenant un Item
-     * @return Port de connection
+     * Recupere le port de connection d'une socket contenu dans le String de connection.
+     * @param message String contenant un Item.
+     * @return Port de connection.
      */
     public static int decryptPort(String message) {
         String[] tabMessage = message.split(";");
@@ -62,10 +59,10 @@ public class Protocol {
     }
 
     /**
-     * Permet de récupérer le boolean permettant de savoir si c'est la première connection avec
-     * un joueur du jeu ou non
-     * @param message String contenant un Item
-     * @return true si première connexion, false sinon
+     * Recupere le boolean permettant de savoir si c'est la première connection
+     * avec un joueur du jeu ou non.
+     * @param message String contenant un Item.
+     * @return True si première connexion, False sinon.
      */
     public static boolean decryptFirst(String message){
         String[] tabMessage = message.split(";");
@@ -74,103 +71,102 @@ public class Protocol {
     }
 
     /**
-     * Permet de savoir le nom de la classe de l'item contenu dans le String
-     * @param message String contenant un Item
-     * @return nom de la classe
+     * Permet de savoir le nom de la classe de l'item contenu dans le String.
+     * @param message String contenant un Item.
+     * @return Nom de la classe.
      */
     public static String decryptClasseItem(String[] message){
         return message[CLASSE_ITEM];
     }
 
     /**
-     * Permet de récupérer l'ID de l'item contenu dans le String
-     * @param message String contenant un Item
-     * @return ID de l'item
+     * Recupere l'ID de l'item contenu dans le String.
+     * @param message String contenant un Item.
+     * @return ID de l'item.
      */
     public static int decryptId(String[] message){
         return Integer.parseInt(message[ID]);
     }
 
     /**
-     * Permet de récupérer la position X de l'item contenu dans le String
-     * @param message String contenant un Item
-     * @return Position X de l'item
+     * Recupere la position X de l'item contenu dans le String.
+     * @param message String contenant un Item.
+     * @return Position X de l'item.
      */
     public static int decryptX(String[] message){
         return Integer.parseInt(message[POS_X]);
     }
 
     /**
-     * Permet de récupérer la position Y de l'item contenu dans le String
-     * @param message String contenant un Item
-     * @return Position Y de l'item
+     * Recupere la position Y de l'item contenu dans le String.
+     * @param message String contenant un Item.
+     * @return Position Y de l'item.
      */
     public static int decryptY(String[] message){
         return Integer.parseInt(message[POS_Y]);
-
     }
 
     /**
-     * Permet de récupérer la vitesse en X de l'item contenu dans le String
-     * @param message String contenant un Item
-     * @return la vitesse en X de l'item
+     * Recupere la vitesse en X de l'item contenu dans le String.
+     * @param message String contenant un Item.
+     * @return La vitesse en X de l'item.
      */
     public static int decryptSpeedX(String[] message){
         return Integer.parseInt(message[SPEED_X]);
-
     }
 
     /**
-     * Permet de récupérer la vitesse en Y de l'item contenu dans le String
-     * @param message String contenant un Item
-     * @return la vitesse en Y de l'item
+     * Recupere la vitesse en Y de l'item contenu dans le String.
+     * @param message String contenant un Item.
+     * @return La vitesse en Y de l'item.
      */
     public static int decryptSpeedY(String[] message){
         return Integer.parseInt(message[SPEED_Y]);
 
     }
 
-    /**i
-     * Permet de récupérer le nombre de joueur valable que pour la phase d'initialisation d'un objet
-     * @param message String contenant L'initialisaton d'un joueur
-     * @return le nombre de joueur
+    /**
+     * Recupere le nombre de joueurs valables pour la phase d'initialisation d'un objet.
+     * @param message String contenant l'initialisaton d'un joueur.
+     * @return Le nombre de joueurs.
      */
     public static int decryptNumberPlayer(String[] message){
         return Integer.parseInt(message[NUMBER_PLAYER]);
     }
 
-    /**i
-     * Permet de récupérer le nombre de joueur valable que pour la phase d'initialisation d'un objet
-     * @param message String contenant l'initialisaton d'un joueur
-     * @return le nombre de joueur
+    /**
+     * Recupere le nombre de joueurs valables que pour la phase d'initialisation d'un objet.
+     * @param message String contenant l'initialisaton d'un joueur.
+     * @return Le nombre de joueurs.
      */
     public static int decryptMaxPlayer(String[] message){
         return Integer.parseInt(message[MAX_PLAYER]);
     }
 
     /**
-     * Permet de récupérer le nméro du joueur qui c'est connecté
-     * @param message String contenant l'initialisation du joueur
-     * @return le numéro du joueur qui se connecte
+     * Recupere le numero du joueur qui c'est connecte.
+     * @param message String contenant l'initialisation du joueur.
+     * @return Le numero du joueur qui se connecte.
      */
     public static int decryptIdPlayerConnected(String[] message){ return Integer.parseInt(message[ID_PLAYER_CONNECTED]);}
 
     /**
-     * Permet de decrypter le score d'un message
-     * @param message message contenant le score
-     * @return le score contenu dans le message
+     * Decrypte le score d'un message.
+     * @param message Message contenant le score.
+     * @return Le score contenu dans le message.
      */
     public static int decryptScorePlayer(String[] message){
         return Integer.parseInt(message[SCORE_PLAYER]);
     }
-    /* =================================================
+  
+    /* ================================================
                     Createur de message
-       ================================================= */
+       ================================================ */
 
     /**
-     * Permet de vérifier que le joueur est valide
+     * Verifie que le joueur est valide.
      * @param message String contenant le message de connection.
-     * @return true si joueur valide, false sinon
+     * @return True si joueur valide, False sinon.
      */
     public static boolean validPlayer(String message) {
         String[] tabMessage = message.split(";");
@@ -179,21 +175,21 @@ public class Protocol {
     }
 
     /**
-     * Génère le message valide servant à la connection à un serveur
-     * @param port Port du Serveur du joueur qui veux se connecter
-     * @param firstConnection true si première connection, false sinon
-     * @return retourne le message à envoyer au serveur
+     * Genere le message valide servant a la connection à un serveur.
+     * @param port Port du Serveur du joueur qui veut se connecter.
+     * @param firstConnection Vrai si premiere connection, Faux sinon.
+     * @return Retourne le message a envoyer au serveur.
      */
     public static String identification(int port, boolean firstConnection){
         return  "Pong Play;Port: " + port + ";ConnectionFirst " + firstConnection;
     }
 
     /**
-     * Génère le String contenant les information de la raquette du nouveau joueur
-     * ainsi que le nombre de joueur
-     * @param numberPlayer nombre de joueur dans la partie
-     * @param racket Racket du nouveau joueur
-     * @return String contenant les informations
+     * Genere le String contenant les informations de la raquette du nouveau joueur
+     * ainsi que le nombre de joueurs.
+     * @param numberPlayer Nombre de joueurs dans la partie.
+     * @param racket Raquette du nouveau joueur.
+     * @return String contenant les informations.
      */
     public static String attributionNewPlayer(int numberPlayer, int maxPlayer, Racket racket, int idPlayerConncted){
         StringBuilder m = new StringBuilder();
@@ -205,9 +201,9 @@ public class Protocol {
     }
 
     /**
-     * Génère un String contenant toutes les informations d'un PongItem
-     * @param item PongItem dont on veux les informations
-     * @return message contenant toutes les informations sur l'item
+     * Genere un String contenant toutes les informations d'un PongItem.
+     * @param item PongItem dont on veux les informations.
+     * @return Message contenant toutes les informations sur item.
      */
     public static String informationItem(PongItem item){
         StringBuilder m = new StringBuilder();
@@ -221,9 +217,9 @@ public class Protocol {
     }
 
     /**
-     * Génère les informations sur une socketPlayer
-     * @param socketPlayer SocketPlayer contenant une connection vers un autre joueur
-     * @return String contenant tout les informations
+     * Genere les informations sur une socketPlayer.
+     * @param socketPlayer SocketPlayer contenant une connection vers un autre joueur.
+     * @return String contenant toutes les informations.
      */
     public static String infomationSocket(SocketPlayer socketPlayer){
         StringBuilder m = new StringBuilder();
@@ -234,9 +230,9 @@ public class Protocol {
     }
 
     /**
-     * Permet de générer un message contenant le score
-     * @param player
-     * @return un message contenant le score.
+     * Genere un message contenant le score.
+     * @param player Un joueur.
+     * @return Un message contenant le score.
      */
     public static String informationScore(Player player){
         StringBuilder message = new StringBuilder();
@@ -247,9 +243,9 @@ public class Protocol {
     }
 
     /**
-     * Permet de génerer le message contenant l'identifiant d'un joueur
-     * @param id numero du joueur
-     * @return Message contenant l'identifiant du joueur
+     * Generer le message contenant l'identifiant du joueur.
+     * @param id numero du joueur.
+     * @return Message contenant l'identifiant du joueur.
      */
     public static String idPlayer(int id){
         return "IdPlayer "+id+";";

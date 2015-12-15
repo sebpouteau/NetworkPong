@@ -9,7 +9,6 @@ public class Ball extends PongItem {
     public static final int BALL_SPEED = 4;
     private String image = "image/ball.png";
 
-
     public Ball(int id) {
         super(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
         this.setNumber(id);
@@ -50,6 +49,7 @@ public class Ball extends PongItem {
         this.setPosition((this.getPositionX() + this.getSpeedX()), (this.getPositionY() + this.getSpeedY()));
 
         this.setPositionRectangle(this.getPositionX(), this.getPositionY());
+        System.out.println(this.getSpeed());
     }
 
     @Override
@@ -67,11 +67,12 @@ public class Ball extends PongItem {
     }
 
     /**
-     * Regarde si la balle touche un des côté de l'écran et renvoit le numéro du joueur correspondant
+     * Regarde si la balle touche un des côtés de l'écran et renvoit le numéro du joueur correspondant
      * @return un entier représentant un côté de l'écran qui si il y a un joueur, il a perdu.
      */
     public int getLosePlayerSize(){
         if (this.getPositionX() <= 0) {
+            System.out.println("le jouer 1 a perdu");
             return 1;
         }
         else if (this.getPositionY()<= 0) {
@@ -110,7 +111,7 @@ public class Ball extends PongItem {
                         loseRacket.getPositionY() - this.getHeight());
                 break;
         }
-
+        this.setSpeed(0,0);
         return loseRacket.getNumber();
     }
 
@@ -143,7 +144,6 @@ public class Ball extends PongItem {
         }
         this.setSpeed(newSpeedX, newSpeedY);
         this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY());
-
     }
 
     /**
