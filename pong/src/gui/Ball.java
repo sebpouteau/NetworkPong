@@ -3,7 +3,6 @@ package src.gui;
 import src.util.RandomNumber;
 import java.awt.*;
 
-
 public class Ball extends PongItem {
 
     public static final int BALL_SPEED = 4;
@@ -15,12 +14,25 @@ public class Ball extends PongItem {
         initImage(image);
         this.setSpeed(new Point(BALL_SPEED, BALL_SPEED));
     }
+    /* =================================================
+                      Functions
+       ================================================= */
 
+    /**
+     * Modifie la position et la vitesse de la balle en X suivant les parametres.
+      * @param setPos Nouvelle position en X.
+     * @param setSpeed Nouvelle vitesse en X.
+     */
     private void animateX(int setPos, int setSpeed){
         this.setPositionX(setPos);
         this.setSpeedX(setSpeed);
     }
 
+    /**
+     * Modifie la position et la vitesse de la balle en Y suivant les parametres.
+     * @param setPos Nouvelle position en Y.
+     * @param setSpeed Nouvelle vitesse en Y.
+     */
     private void animateY(int setPos, int setSpeed){
         this.setPositionY(setPos);
         this.setSpeedY(setSpeed);
@@ -32,7 +44,6 @@ public class Ball extends PongItem {
             this.setSpeed(0, 0);
         }
         else{
-		/* Update ball position */
             if (this.getPositionX() < 0) {
                 animateX(0, -this.getSpeedX());
             }
@@ -67,10 +78,10 @@ public class Ball extends PongItem {
     }
 
     /**
-     * Regarde si la balle touche un des côtés de l'écran et renvoit le numéro du joueur correspondant
-     * @return un entier représentant un côté de l'écran qui si il y a un joueur, il a perdu.
+     * Regarde si la balle touche un des cotes de l'ecran et renvoit le numero du joueur correspondant.
+     * @return Un entier representant un cote de l'écran. Si il represente un joeur en jeu, il perd la balle.
      */
-    public int getLosePlayerSize(){
+    public int losePlayerSize(){
         if (this.getPositionX() <= 0) {
             System.out.println("le jouer 1 a perdu");
             return 1;
@@ -88,9 +99,9 @@ public class Ball extends PongItem {
     }
 
     /**
-     * Positionne la balle sur la raquette du joueur qui vient de la perdre
-     * @param loseRacket la raquette du joueur qui a perdu la balle
-     * @ le numéro du joueur qui a perdu
+     * Positionne la balle sur la raquette du joueur qui vient de la perdre.
+     * @param loseRacket La raquette du joueur qui a perdu la balle.
+     * @return Le numéro du joueur qui a perdu la balle.
      */
     public int restart(PongItem loseRacket){
         switch(loseRacket.getNumber()){
@@ -116,7 +127,8 @@ public class Ball extends PongItem {
     }
 
     /**
-     * Donne une vitesse aléatoire à la balle de manière à ce qu'elle soit remise en jeu avec une meilleure amplitude de possibilités
+     * Donne une vitesse aleatoire a la balle de maniere a ce qu'elle soit remise en jeu
+     * avec une meilleure amplitude de possibilites pour sa trajectoire.
      * @param idRacket La raquette qui tient la balle.
      */
     public void launch(int idRacket){
@@ -147,9 +159,10 @@ public class Ball extends PongItem {
     }
 
     /**
-     * Vérifie si la vitesse de la balle est nulle et lui redonne une vitesse, mais principalement teste si la ball est rentrée en collision avec item.
+     * Verifie si la vitesse de la balle est nulle et lui redonne une vitesse,
+     * mais principalement teste si la balle est rentree en collision avec un PongItem.
      * @param item Le PongItem avec lequel on teste la collision de la balle.
-     * @return vrai si il y a une collision, faux sinon
+     * @return True si il y a une collision, False sinon.
      */
     public boolean collision(PongItem item){
         if (this.getSpeedX() == 0) {
@@ -192,7 +205,7 @@ public class Ball extends PongItem {
     }
 
     /**
-     * Le "rebond", les modifications de vitesse a effectuer suivant où la balle est en collision avec le pongItem
+     * Le "rebond", les modifications de vitesse a effectuer suivant ou la balle est en collision avec le PongItem
      * @param item PongItem avec lequelle il y a la collision (seulement raquette pour cette version)
      */
     public void doCollision(PongItem item) {
@@ -229,6 +242,10 @@ public class Ball extends PongItem {
         }
     }
 
+    /**
+     * Le changement de trajectoire de la balle si elle en rencontre une autre.
+     * @param item Un PongItem representant une balle.
+     */
     public void doCollisionBall(PongItem item){
         if(! (item instanceof Bonus )) {
             item.setSpeed(item.getSpeedX(), -item.getSpeedY());

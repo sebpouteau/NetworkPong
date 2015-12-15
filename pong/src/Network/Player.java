@@ -23,7 +23,7 @@ public class Player extends PlayerNetwork {
 
 /* =================================================
                       Getter and Setter
-     ================================================= */
+   ================================================= */
 
     public int getNumberPlayer() {
         return NumberPlayer;
@@ -36,6 +36,7 @@ public class Player extends PlayerNetwork {
     public void setIdplayer(int idplayer) {
         this.idplayer = idplayer;
     }
+
     public int getIdplayer() {
         return this.idplayer;
     }
@@ -43,6 +44,7 @@ public class Player extends PlayerNetwork {
     public int getMaxPlayer() {
         return maxPlayer;
     }
+
     public void setMaxPlayer(int maxPlayer) {
         this.maxPlayer = maxPlayer;
     }
@@ -74,11 +76,11 @@ public class Player extends PlayerNetwork {
         for (int i = 0; i < getPong().listItemSize(); i++) {
             if (getPong().getItem(i) instanceof Ball) {
                 Ball ball = (Ball) getPong().getItem(i);
-                int playerLose = ball.getLosePlayerSize();
+                int playerLose = ball.losePlayerSize();
                 if(playerLose != 0){
                     int somme = sommeScore();
                     for (int k = 0; k < getPong().listItemSize() ; k++) {
-                        /* Si l'item est une racket et que le numero player lose est bien un joueur alors */
+                        /* Si l'item est une raquette et que le numero du playerLose est bien un joueur alors: */
                         if (getPong().getItem(k) instanceof  Racket && getPong().getItem(k).getNumber() == playerLose ){
                             if (idplayer==playerLose)
                                 Pong.setIfStart(true);
@@ -102,7 +104,7 @@ public class Player extends PlayerNetwork {
     }
 
      /* ================================================
-                         Fonctions
+                         Functions
         ================================================ */
 
     /**
@@ -192,7 +194,7 @@ public class Player extends PlayerNetwork {
             else
                 getPong().add(new Ball(Protocol.decryptId(item)));
         }
-        getPong().addKeyListener(getPong().getItem(0));
+        getPong().addKeyListener((Racket)getPong().getItem(0));
     }
 
     /**
@@ -345,7 +347,7 @@ public class Player extends PlayerNetwork {
             String tabSocket = read(position);
             String listItem = read(position);
 
-            this.initializationItem(listItem,getSocketPlayer(position));
+            this.initializationItem(listItem, getSocketPlayer(position));
             if (!tabSocket.isEmpty())
                 this.initializationSocket(tabSocket);
         }

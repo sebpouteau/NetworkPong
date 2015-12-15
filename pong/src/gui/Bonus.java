@@ -2,17 +2,13 @@ package src.gui;
 
 import src.util.RandomNumber;
 
-
-
-/**
- * Created by Se Easy on 23/11/2015.
- */
 public class Bonus extends PongItem {
-    private static int BIGRACKET = 1;
-    private static int SMALLRACKET = 2;
-//    private static int ROCK = 3;
-    private static int QUICKRACKET = 3;
-    private static int SLOWRACKET = 4;
+
+    private final static int BIGRACKET = 1;
+    private final static int SMALLRACKET = 2;
+    private final static int QUICKRACKET = 3;
+    private final static int SLOWRACKET = 4;
+
     private long time;
     private long delay;
     private String image = "image/bonus.png";
@@ -20,21 +16,6 @@ public class Bonus extends PongItem {
     private boolean active;
     private int playerMax = 0;
     private int SPEED_BONUS = 3;
-    public long getTime(){return this.time;}
-    public void setTime(){this.time = System.currentTimeMillis();}
-    public boolean isActive() {return active;}
-    public boolean isVisible(){return visible;}
-    public void setActive(Boolean b){ active = b;}
-    public void setVisible(Boolean b){visible = b;}
-    public long getDelay(){
-        return delay;
-    }
-    public Bonus getBonus(){return bonus;}
-    public int getPlayerMax(){
-        return playerMax;
-    }
-    public void setPlayerMax(int newMaxPlayer){playerMax = newMaxPlayer; }
-
     private Bonus bonus;
 
     public Bonus(){
@@ -44,10 +25,49 @@ public class Bonus extends PongItem {
         visible = false;
     }
 
+    /* =================================================
+                      Getter and Setter
+       ================================================= */
+
+    public long getTime(){return this.time;}
+
+    public void setTime(){this.time = System.currentTimeMillis();}
+
+    public boolean isActive() {return active;}
+
+    public void setActive(Boolean b){ active = b;}
+
+    public boolean isVisible(){return visible;}
+
+    public void setVisible(Boolean b){visible = b;}
+
+    public long getDelay(){
+        return delay;
+    }
+
+    public void setDelay(int x){
+        delay = x * 1000;
+    }
+
+    public Bonus getBonus(){return bonus;}
+
+    public int getPlayerMax(){
+        return playerMax;
+    }
+
+    public void setPlayerMax(int newMaxPlayer){playerMax = newMaxPlayer; }
+
+    /* =================================================
+                      Functions
+       ================================================= */
+
+    /**
+     *
+     */
     public void bonusAleatoire(){
         setPosition(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
-        int a = RandomNumber.randomValue(1,4);
-        switch(a){
+        int speed = RandomNumber.randomValue(1,4);
+        switch(speed){
             case 1:
                 this.setSpeed(3 , 3);
                 break;
@@ -61,15 +81,15 @@ public class Bonus extends PongItem {
                 this.setSpeed(-3, -3);
                 break;
         }
-        a = RandomNumber.randomValue(1,4);
-        setNumber(a);
+        int numBonus = RandomNumber.randomValue(1,4);
+        setNumber(numBonus);
         setVisible(true);
     }
 
     /**
-     * Déplace le cadeaux représentant le bonus si il est visible et le fait rebondir sur les côtés de l'écran
-     * @param sizePongX longueur de la fenêtre
-     * @param sizePongY largeur de la fenêtre
+     * Deplace le cadeau representant le bonus si il est visible et le fait rebondir sur les cotes de l'ecran.
+     * @param sizePongX Longueur de la fenetre.
+     * @param sizePongY Largeur de la fenetre.
      */
     public void animate(int sizePongX, int sizePongY){
         if(this.visible) {
@@ -103,12 +123,8 @@ public class Bonus extends PongItem {
                 Math.abs(this.getSpeedY() - speedY) <=SPEED_BONUS*2;
     }
 
-    public void setDelay(int x){
-        delay = x * 1000;
-    }
-
     /**
-     * Si le delai du bonus de changement de taille de raquette est passé on arrête le bonus.
+     * Si le delai du bonus est passe on arrete le bonus.
      */
     public void duration(){
         if(isActive())
@@ -116,9 +132,8 @@ public class Bonus extends PongItem {
                 stopBonus();
     }
 
-
     /**
-     * Fais "disparaître" le cadeau de l'écran lors d'un collision avec une raquette
+     * Fais "disparaitre" le cadeau de l'ecran lors d'un collision avec une raquette.
      */
     public void disappear(){
         visible = false;
@@ -133,58 +148,47 @@ public class Bonus extends PongItem {
         setDelay(5);
         active = true;
         switch (getNumber()){
-            case 1:
+            case BIGRACKET:
                 bonus = new ChangeRacketSize(PongItem, 1);
                 break;
-            case 2:
+            case SMALLRACKET:
                 bonus = new ChangeRacketSize(PongItem, -1);
                 break;
-
-//            case 3:
-//                System.out.println("je suis un rocher");
-//                bonus = new Rock();
-//                break;
-            case 3:
+            case QUICKRACKET:
                 bonus = new ChangeRacketSpeed(PongItem, 1);
                 break;
-            case 4:
+            case SLOWRACKET:
                 bonus = new ChangeRacketSpeed(PongItem, -1);
         }
     }
 
     /**
-     * Désactive le Bonus et se remet à l'état initiale les changement effectués par le Bonus.
+     * Desactive le Bonus et se remet à l'etat initiale les changements effectues par le Bonus.
      */
     public void stopBonus(){
         if (active && !isVisible()) {
             active = false;
             visible=false;
             switch (getNumber()) {
-                case 1:
+                case BIGRACKET:
                     ChangeRacketSize c = (ChangeRacketSize) bonus;
                     c.stopChangeRacketSize();
                     break;
-                case 2:
+                case SMALLRACKET:
                     ChangeRacketSize s = (ChangeRacketSize) bonus;
                     s.stopChangeRacketSize();
                     break;
-//                case 3:
-//                    Rock r = (Rock) bonus;
-//                    r.stopRock();
-//                    break;
-                case 3:
+                case QUICKRACKET:
                     ChangeRacketSpeed crs = (ChangeRacketSpeed) bonus;
                     crs.stopChangeRacketSpeed();
                     break;
-                case 4:
+                case SLOWRACKET:
                     ChangeRacketSpeed cs = (ChangeRacketSpeed) bonus;
                     cs.stopChangeRacketSpeed();
                     break;
-
             }
         }
         setNumber(0);
     }
-
 
 }

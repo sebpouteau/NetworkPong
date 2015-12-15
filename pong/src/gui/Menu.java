@@ -24,32 +24,11 @@ public class Menu extends JFrame implements ActionListener {
     private JTextField portTextField = new JTextField();
 
     private Player client;
+    private int buttonTextSize = 15;
     private boolean allPlayerConnect = true;
 
     private final Dimension MENU_SIZE = new Dimension(300,250);
     private static final Color backgroundColor = new Color(144, 148, 201);
-
-    /* ================================================
-                      Getter and Setter
-       ================================================ */
-    
-    public boolean isAllPlayerConnect() {
-        return allPlayerConnect;
-    }
-
-    public void setAllPlayerConnect(boolean allPlayerConnect) {
-        this.allPlayerConnect = allPlayerConnect;
-    }
-
-    public Player getClient() {
-        return this.client;
-    }
-
-    /* ================================================
-                      Constructor
-       ================================================ */
-
-    private int buttonTextSize = 15;
 
     public Menu(Player client) {
         this.client = client;
@@ -67,11 +46,26 @@ public class Menu extends JFrame implements ActionListener {
         modificationButton(join,buttonTextSize);
         modificationButton(createGame,buttonTextSize);
         modificationButton(joinGame,buttonTextSize);
-
     }
 
     /* ================================================
-                         Fonctions
+                      Getter and Setter
+       ================================================ */
+
+    public boolean isAllPlayerConnect() {
+        return allPlayerConnect;
+    }
+
+    public void setAllPlayerConnect(boolean allPlayerConnect) {
+        this.allPlayerConnect = allPlayerConnect;
+    }
+
+    public Player getClient() {
+        return this.client;
+    }
+
+    /* ================================================
+                         Functions
        ================================================ */
 
     private final Font fontTitle = new Font("Arial",Font.BOLD,40);
@@ -211,7 +205,7 @@ public class Menu extends JFrame implements ActionListener {
        } catch (InterruptedException e) {
            e.printStackTrace();
        }
-       getClient().getPong().addKeyListener(getClient().getMyRacket());
+       getClient().getPong().addKeyListener((Racket)getClient().getMyRacket());
        displayInformationConnection();
        this.repaint();
    }
