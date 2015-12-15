@@ -11,23 +11,23 @@ public class ChangeRacketSize extends Bonus {
     private Rectangle oldPIRect;
 
 
-    public ChangeRacketSize(PongItem pi, int i){
-        startChangeRacketSize(pi, i);
+    public ChangeRacketSize(PongItem item, int i){
+        startChangeRacketSize(item, i);
     }
 
     /**
      *Change la taille de la raquette en gardant ses anciennes dimensions
-     * @param pi la raquette que l'on agrandit ou retrécie.
+     * @param item la raquette que l'on agrandit ou retrécie.
      * @param i vaut +1 ou -1 suivant si l'on souhaite agrandir la raquette ou la retrécir.
      */
-    public void startChangeRacketSize(PongItem pi, int i){
-        oldPongItem = pi;
-        oldPIRect = new Rectangle(pi.getWidth(), pi.getHeight());
-        if(pi.getNumber() < 3){
-            pi.setHeight(pi.getHeight() + i*sizeChange);
+    public void startChangeRacketSize(PongItem item, int i){
+        oldPongItem = item;
+        oldPIRect = new Rectangle(item.getWidth(), item.getHeight());
+        if(item.getNumber() < 3){
+            item.setHeight(item.getHeight() + i*sizeChange);
         }
         else{
-            pi.setWidth(pi.getWidth() + i * sizeChange);
+            item.setWidth(item.getWidth() + i * sizeChange);
         }
     }
 

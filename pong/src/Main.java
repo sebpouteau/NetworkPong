@@ -10,6 +10,7 @@ import java.nio.channels.SocketChannel;
  * Classe permettant de lancer le jeu.
  */
 public class Main{
+	
 	private static int PORT = 7777;
 
 	public static void main(String[] args) throws IOException, InterruptedException {
@@ -18,7 +19,7 @@ public class Main{
 		Player client = new Player(pong);
 		client.addPlayer();
 
-		/* Initialisation du Serveur avec une port */
+		/* Initialisation du Serveur avec un port */
 		boolean serverOK = false;
 		while (!serverOK) {
 			try {
@@ -28,15 +29,12 @@ public class Main{
 				port++;
 			}
 		}
-		boolean t = true;
+		
 		Menu menu = new Menu(client);
 		menu.displayMenu();
-		while (t){
-			t = menu.isAllPlayerConnect();
+		while (menu.isAllPlayerConnect()){
 		}
 		menu.endMenu();
-
-		/* Boucle de connection entre tout les joueurs */
 
 		pong.setTabScore(client.getMaxPlayer());
 		String namePlayer = "Joueur ";
@@ -44,33 +42,29 @@ public class Main{
 		Window window = new Window(pong, namePlayer);
 		window.displayOnscreen();
 
-		/* Boucle de jeu une fois que tout les joueur sont connecté */
+		/* Boucle de jeu quand tous les joueurs sont connectés */
 		while (true) {
-			if (client.getNombrePlayer()< 2)
+			if (client.getNumberPlayer()< 2)
 				return;
-			/* Envoie des information au autres joueurs */
 
+			/* Envoie des informations aux autres joueurs */
 			String info = client.information();
 			for (int i = 0; i < client.getListSocketSize(); i++) {
 				client.sendMessage(client.getSocketPlayer(i), info);
                 try {
                     Thread.sleep(1);
-                } catch (InterruptedException ignored) {
-                }
+                } catch (InterruptedException ignored) {}
 			}
 			try {
 				Thread.sleep(Pong.timestep);
-			} catch (InterruptedException ignored) {
-			}
+			} catch (InterruptedException ignored) {}
+			
 			/* Reception des information des autres joueurs */
 			for (int i = 0; i < client.getListSocketSize(); i++) {
 				client.update(i);
 			}
 
-			/* animation du jeu */
-			client.getPong().animateItem();
-
-
+			client.getPong().animate();
 			client.attributionScore();
 		}
 	}

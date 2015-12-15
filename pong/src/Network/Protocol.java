@@ -205,9 +205,9 @@ public class Protocol {
     }
 
     /**
-     * Génère un String contenant toute les informations d'un item
-     * @param item Item dont on veux les informations
-     * @return message contenant tout les informations sur l'item
+     * Génère un String contenant toutes les informations d'un PongItem
+     * @param item PongItem dont on veux les informations
+     * @return message contenant toutes les informations sur l'item
      */
     public static String informationItem(PongItem item){
         StringBuilder m = new StringBuilder();

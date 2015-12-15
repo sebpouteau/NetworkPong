@@ -1,24 +1,19 @@
 package src.gui;
 
-import src.util.RandomNumber;
-
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Racket extends PongItem {
 	private static final int RACKET_SPEED = 4;
-	private int speedRacket;
 	private static int HEIGHT = 80 ;
 	private static int WIDTH = 15;
+	private int speedRacket;
 
 	public int getSpeedRacket(){return speedRacket;}
 	public void setSpeedRacket(int speed){speedRacket = speed;}
 
-
 	public Racket(int idPlayer){
 		super();
 		if(idPlayer < 3) {
-
 			if(idPlayer == 1) {
 				this.setSurface(10, Pong.getSizePongY() / 2 - HEIGHT / 2, WIDTH, HEIGHT);
 			}
@@ -53,7 +48,6 @@ public class Racket extends PongItem {
 		if (this.getPositionY() > sizePongY - this.getHeight())
 			this.setPositionY(sizePongY - this.getHeight());
 		this.setPositionRectangle(this.getPositionX(), this.getPositionY());
-
 	}
 
 
@@ -67,19 +61,18 @@ public class Racket extends PongItem {
 
 	/**
 	 * Pour vérifier si une collision a lieu avec un Bonus de manière à lancer le Bonus sur cette raquette
-	 * @param pi le Bonus
+	 * @param item le Bonus
 	 */
-	public void collision(PongItem pi){
-		if (this.getSurface().intersects(pi.getSurface())){
-            if(pi instanceof Bonus){
-                Bonus b = (Bonus) pi;
+	public void collision(PongItem item){
+		if (this.getSurface().intersects(item.getSurface())){
+            if(item instanceof Bonus){
+                Bonus b = (Bonus) item;
                 if(b.isVisible()) {
                     b.disappear();
                     b.startBonus(this);
                 }
             }
        }
-
 	}
 
 	/**
@@ -108,12 +101,13 @@ public class Racket extends PongItem {
 				if(this.getNumber() > 2)
 					this.setSpeedY(getSpeedRacket());
 				break;
-			case KeyEvent.VK_SPACE:
-
-			default:
-				//System.out.println("got press "+e);
 		}
 	}
+
+	/**
+	 * Remet la vitesse de la raquette à 0. Si on relâche "SPACE" et que l'on détient la balle, cela la relance.
+	 * @param e touche relâchée du clavier (flêche directionnels et barre espace).
+     */
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_UP:
@@ -137,9 +131,6 @@ public class Racket extends PongItem {
                     Pong.setIfGo(true);
                 }
                 break;
-
-            default:
-				//System.out.println("got release "+e);
 		}
 	}
 	public void keyTyped(KeyEvent e) { }

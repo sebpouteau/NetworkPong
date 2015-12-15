@@ -8,14 +8,8 @@ import javax.swing.*;
 public class Window extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Pong component to be displayed
-	 */
 	private final Pong pong;
 
-	 /* Constructor
-	 */
 	public Window(Pong pong, String namePlayer) {
 		super(namePlayer);
 		this.pong = pong;

@@ -67,7 +67,7 @@ public class Bonus extends PongItem {
     }
 
     /**
-     * Déplace le cadeaux représentant le bonus et le fais rebondir sur les côtés de l'écran
+     * Déplace le cadeaux représentant le bonus si il est visible et le fait rebondir sur les côtés de l'écran
      * @param sizePongX longueur de la fenêtre
      * @param sizePongY largeur de la fenêtre
      */
@@ -126,18 +126,18 @@ public class Bonus extends PongItem {
 
     /**
      * Active le bonus suivant son numéro et l'item (pour le changement de taille de la raquette).
-     * @param pi le PongItem qui peut être influencée par les bonus.
+     * @param PongItem le PongItem qui peut être influencée par les bonus.
      */
-    public void startBonus(PongItem pi){
+    public void startBonus(PongItem PongItem){
         setTime();
         setDelay(5);
         active = true;
         switch (getNumber()){
             case 1:
-                bonus = new ChangeRacketSize(pi, 1);
+                bonus = new ChangeRacketSize(PongItem, 1);
                 break;
             case 2:
-                bonus = new ChangeRacketSize(pi, -1);
+                bonus = new ChangeRacketSize(PongItem, -1);
                 break;
 
 //            case 3:
@@ -145,10 +145,10 @@ public class Bonus extends PongItem {
 //                bonus = new Rock();
 //                break;
             case 3:
-                bonus = new ChangeRacketSpeed(pi, 1);
+                bonus = new ChangeRacketSpeed(PongItem, 1);
                 break;
             case 4:
-                bonus = new ChangeRacketSpeed(pi, -1);
+                bonus = new ChangeRacketSpeed(PongItem, -1);
         }
     }
 

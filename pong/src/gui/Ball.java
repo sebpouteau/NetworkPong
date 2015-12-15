@@ -66,6 +66,10 @@ public class Ball extends PongItem {
         return s && t;
     }
 
+    /**
+     * Regarde si la balle touche un des côté de l'écran et renvoit le numéro du joueur correspondant
+     * @return un entier représentant un côté de l'écran qui si il y a un joueur, il a perdu.
+     */
     public int getLosePlayerSize(){
         if (this.getPositionX() <= 0) {
             return 1;
@@ -82,8 +86,12 @@ public class Ball extends PongItem {
         return 0;
     }
 
+    /**
+     * Positionne la balle sur la raquette du joueur qui vient de la perdre
+     * @param loseRacket la raquette du joueur qui a perdu la balle
+     * @ le numéro du joueur qui a perdu
+     */
     public int restart(PongItem loseRacket){
-        //int a = RandomNumber.randomValue(1,4);
         switch(loseRacket.getNumber()){
             case 1:
                 this.setPosition(loseRacket.getPositionX()+loseRacket.getWidth(),
@@ -106,6 +114,10 @@ public class Ball extends PongItem {
         return loseRacket.getNumber();
     }
 
+    /**
+     * Donne une vitesse aléatoire à la balle de manière à ce qu'elle soit remise en jeu avec une meilleure amplitude de possibilités
+     * @param idRacket La raquette qui tient la balle.
+     */
     public void launch(int idRacket){
         int newSpeedX, newSpeedY;
         switch (idRacket){
@@ -134,7 +146,12 @@ public class Ball extends PongItem {
 
     }
 
-    public boolean collision(PongItem pi){
+    /**
+     * Vérifie si la vitesse de la balle est nulle et lui redonne une vitesse, mais principalement teste si la ball est rentrée en collision avec item.
+     * @param item Le PongItem avec lequel on teste la collision de la balle.
+     * @return vrai si il y a une collision, faux sinon
+     */
+    public boolean collision(PongItem item){
         if (this.getSpeedX() == 0) {
             this.setSpeedX(BALL_SPEED);
         }
@@ -143,8 +160,8 @@ public class Ball extends PongItem {
 
         Rectangle ball = new Rectangle(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY(), this.getWidth(), this.getHeight());
 
-//        if(pi instanceof Bonus){
-//            Bonus bonus = (Bonus) pi;
+//        if(item instanceof Bonus){
+//            Bonus bonus = (Bonus) item;
 //            if(bonus.getNumber() == 4){
 //                Rock r =(Rock) bonus;
 //                if (ball.intersects(r.getRock())){
@@ -158,62 +175,63 @@ public class Ball extends PongItem {
 //            }
 //        }
 //        else {
-           if ((ball.getX() >= pi.getSurface().getX() + pi.getSurface().getWidth())      // trop à droite
-                    || (ball.getX() + ball.getWidth() <= pi.getSurface().getX()) // trop à gauche
-                    || (ball.getY() >= pi.getSurface().getY() + pi.getSurface().getHeight()) // trop en bas
-                    || (ball.getY() + ball.getHeight() <= pi.getSurface().getY())) { // trop en haut
+           if ((ball.getX() >= item.getSurface().getX() + item.getSurface().getWidth())      // trop à droite
+                    || (ball.getX() + ball.getWidth() <= item.getSurface().getX()) // trop à gauche
+                    || (ball.getY() >= item.getSurface().getY() + item.getSurface().getHeight()) // trop en bas
+                    || (ball.getY() + ball.getHeight() <= item.getSurface().getY())) { // trop en haut
                 return false;
             } else {
-                if (pi instanceof Racket)
-                    doCollision(pi);
+                if (item instanceof Racket)
+                    doCollision(item);
                 else
-                    doCollisionBall(pi);
+                    doCollisionBall(item);
                 return true;
             }
 //        }
 //        return false;
     }
 
-    public void doCollision(PongItem pi) {
+    /**
+     * Le "rebond", les modifications de vitesse a effectuer suivant où la balle est en collision avec le pongItem
+     * @param item PongItem avec lequelle il y a la collision (seulement raquette pour cette version)
+     */
+    public void doCollision(PongItem item) {
         if (this.getPositionY() <= 0) {
-            pi.setPosition(pi.getPositionX(), this.getPositionY() + this.getHeight() + pi.getSpeedX());
+            item.setPosition(item.getPositionX(), this.getPositionY() + this.getHeight() + item.getSpeedX());
         } else if (this.getPositionY() + this.getHeight() >= Pong.getSizePongY()) {
-            pi.setPosition(pi.getPositionX(), this.getPositionY() - pi.getHeight() - pi.getSpeedX());
+            item.setPosition(item.getPositionX(), this.getPositionY() - item.getHeight() - item.getSpeedX());
         }
-        if (pi instanceof Racket) {
-            Racket r = (Racket) pi;
-            if (r.getNumber() < 3) {
-                if (this.getSurface().getX() >= pi.getSurface().getX() + pi.getSurface().getWidth() ||
-                        this.getSurface().getX() + this.getSurface().getWidth() <= pi.getSurface().getX()) {
+        if (item.getNumber() < 3) {
+            if (this.getSurface().getX() >= item.getSurface().getX() + item.getSurface().getWidth() ||
+                    this.getSurface().getX() + this.getSurface().getWidth() <= item.getSurface().getX()) {
 
-                    this.setSpeedX(-this.getSpeedX());
-                    this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY());
-                } else {
-                    this.setSpeedX(-this.getSpeedX());
-                    this.setSpeedY(-this.getSpeedY());
-                    int s = pi.getSpeedX();
-                    this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY() + s);
+                this.setSpeedX(-this.getSpeedX());
+                this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY());
+            } else {
+                this.setSpeedX(-this.getSpeedX());
+                this.setSpeedY(-this.getSpeedY());
+                int s = item.getSpeedX();
+                this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY() + s);
 
-                }
+            }
+        }
+        else{
+            if(this.getSurface().getY() >= item.getSurface().getY() + item.getSurface().getHeight() ||
+                    this.getSurface().getY() + this.getSurface().getHeight() <= item.getSurface().getY() ){
+                this.setSpeedY(-this.getSpeedY());
+                this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY());
             }
             else{
-                if(this.getSurface().getY() >= pi.getSurface().getY() + pi.getSurface().getHeight() ||
-                        this.getSurface().getY() + this.getSurface().getHeight() <= pi.getSurface().getY() ){
-                    this.setSpeedY(-this.getSpeedY());
-                    this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY());
-                }
-                else{
-                    this.setSpeed(-this.getSpeedX(), -this.getSpeedY());
-                    int s = pi.getSpeedY();
-                    this.setPosition(this.getPositionX() + this.getSpeedX() + s, this.getPositionY() + this.getSpeedY());
-                }
+                this.setSpeed(-this.getSpeedX(), -this.getSpeedY());
+                int s = item.getSpeedY();
+                this.setPosition(this.getPositionX() + this.getSpeedX() + s, this.getPositionY() + this.getSpeedY());
             }
         }
     }
 
-    public void doCollisionBall(PongItem pi){
-        if(! (pi instanceof Bonus )) {
-            pi.setSpeed(pi.getSpeedX(), -pi.getSpeedY());
+    public void doCollisionBall(PongItem item){
+        if(! (item instanceof Bonus )) {
+            item.setSpeed(item.getSpeedX(), -item.getSpeedY());
             this.setSpeed(this.getSpeedX(), -this.getSpeedY());
         }
     }

@@ -129,7 +129,7 @@ public class Pong extends JPanel {
         waitPlayer = 0;
 	}
 
-	public void animateItem() {
+	public void animate() {
        startGame(getWaitPlayer());
 
         for(int i = 0; i < listItemSize(); i++) {
@@ -143,10 +143,10 @@ public class Pong extends JPanel {
 		g.drawImage(buffer, 0, 0, this);
 	}
 
-    public void draw(PongItem pi){
-        graphicContext.drawImage(pi.getImageItem(),
-                pi.getPositionX(), pi.getPositionY(),
-                pi.getWidth(), pi.getHeight(),
+    public void draw(PongItem item){
+        graphicContext.drawImage(item.getImageItem(),
+                item.getPositionX(), item.getPositionY(),
+                item.getWidth(), item.getHeight(),
                 null);
     }
 

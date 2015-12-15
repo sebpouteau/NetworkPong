@@ -9,18 +9,15 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.nio.channels.SocketChannel;
 
-/**
- * Created by Sebastien on 10/12/2015.
- */
 public class Menu extends JFrame implements ActionListener {
 
     private JPanel contener = new JPanel();
     private JPanel text = new JPanel();
 
-    private JButton hebergement = new JButton("Héberger un Pong");
+    private JButton hosting = new JButton("Héberger un Pong");
     private JButton join = new JButton("Rejoindre Pong");
-    private JButton createGame = new JButton("Validé");
-    private JButton joinGame = new JButton("Validé");
+    private JButton createGame = new JButton("Valider");
+    private JButton joinGame = new JButton("Valider");
 
     private JTextField numberPlayerTextField = new JTextField();
     private JTextField adressJPTextField = new JTextField();
@@ -32,10 +29,10 @@ public class Menu extends JFrame implements ActionListener {
     private final Dimension MENU_SIZE = new Dimension(300,250);
     private static final Color backgroundColor = new Color(144, 148, 201);
 
-    /* =================================================
-                          Getter and Setter
-         ================================================= */
-
+    /* ================================================
+                      Getter and Setter
+       ================================================ */
+    
     public boolean isAllPlayerConnect() {
         return allPlayerConnect;
     }
@@ -47,6 +44,12 @@ public class Menu extends JFrame implements ActionListener {
     public Player getClient() {
         return this.client;
     }
+
+    /* ================================================
+                      Constructor
+       ================================================ */
+
+    private int buttonTextSize = 15;
 
     public Menu(Player client) {
         this.client = client;
@@ -60,51 +63,65 @@ public class Menu extends JFrame implements ActionListener {
         contener.setBackground(backgroundColor);
         text.setBackground(backgroundColor);
 
-        modificationButton(hebergement,15);
-        modificationButton(join,15);
-        modificationButton(createGame,15);
-        modificationButton(joinGame,15);
+        modificationButton(hosting,buttonTextSize);
+        modificationButton(join,buttonTextSize);
+        modificationButton(createGame,buttonTextSize);
+        modificationButton(joinGame,buttonTextSize);
 
     }
 
-    /* =================================================
+    /* ================================================
                          Fonctions
-     ================================================= */
+       ================================================ */
 
+    private final Font fontTitle = new Font("Arial",Font.BOLD,40);
+    private final Font fontText= new Font("Arial",Font.ITALIC,20);
+    private final Font fontConnection= new Font("Arial",Font.BOLD,17);
+    
+    private final Dimension dimensionButton = new Dimension(200,30);
+    private final Dimension dimensionAction = new Dimension(300,200);
+
+    /**
+     * Change la taille par défaut du bouton et sa police
+     * @param button le bouton que l'on modifie
+     * @param textSize la taille du texte sur le bouton
+     */
     private void modificationButton(JButton button, int textSize){
         button.setPreferredSize(dimensionButton);
         button.setFont(new Font("Arial",Font.BOLD,textSize));
     }
 
-    private final Font fontTitle = new Font("Arial",Font.BOLD,40);
-    private final Font fontText= new Font("Arial",Font.ITALIC,20);
-    private final Font fontConnection= new Font("Arial",Font.BOLD,17);
-
-    private final Dimension dimensionButton = new Dimension(200,30);
-    private final Dimension dimensionAction = new Dimension(300,200);
-
+    /**
+     *
+     */
     public void menuMain(){
-
         JLabel titre = new JLabel("PONG");
+        
         text.setPreferredSize(new Dimension((int)MENU_SIZE.getWidth(),70));
         titre.setFont(fontTitle);
         text.add(titre,BorderLayout.CENTER);
 
         contener.add(text) ;
-        contener.add(hebergement);
+        contener.add(hosting);
         contener.add(join);
 
-        hebergement.addActionListener(this);
+        hosting.addActionListener(this);
         join.addActionListener(this);
 
         this.setVisible(true);
     }
+
+    /**
+     *
+     */
     public void endMenu() {
         this.setVisible(false);
     }
 
-    private void initHebergement() {
-
+    /**
+     *
+     */
+    private void initHosting() {
         this.setSize(dimensionAction);
         text.setPreferredSize(new Dimension (250,100));
         numberPlayerTextField.setPreferredSize(new Dimension(50, 25));
@@ -130,7 +147,6 @@ public class Menu extends JFrame implements ActionListener {
         adressLabel = new JLabel("Saisir l'adresse de connection:");
         panAdress.setLayout(new BorderLayout());
 
-
         JPanel panPort = new JPanel();
         panPort.setBackground(backgroundColor);
         portTextField.setPreferredSize(new Dimension(50,25));
@@ -148,6 +164,9 @@ public class Menu extends JFrame implements ActionListener {
         contener.add(joinGame);
     }
 
+    /**
+     *
+     */
     private void displayInformationConnection(){
         JLabel jl = null;
         try {
@@ -163,6 +182,9 @@ public class Menu extends JFrame implements ActionListener {
         contener.add(jl,BorderLayout.CENTER);
     }
 
+    /**
+     *
+     */
     private void displayWaitPlayerHost(){
         getClient().getPong().add(new Racket(1));
         getClient().getPong().add(new Ball(1));
@@ -174,6 +196,9 @@ public class Menu extends JFrame implements ActionListener {
         displayInformationConnection();
     }
 
+    /**
+     *
+     */
    private void displayWaitPlayerJoin(){
        String adress = adressJPTextField.getText();
        int portConnection = Integer.parseInt(portTextField.getText());
@@ -181,15 +206,21 @@ public class Menu extends JFrame implements ActionListener {
 
        try {
            getClient().connectionServerInit(adress, portConnection, true);
-       } catch (IOException | InterruptedException e) {
+       } catch (IOException e) {
+           e.printStackTrace();
+       } catch (InterruptedException e) {
            e.printStackTrace();
        }
        getClient().getPong().addKeyListener(getClient().getMyRacket());
        displayInformationConnection();
        this.repaint();
-
    }
 
+    /**
+     *
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private void waitPlayer() throws IOException, InterruptedException {
         while (client.getNombrePlayer() != client.getMaxPlayer() ) {
             if (client.getServer() != null) {
@@ -207,22 +238,24 @@ public class Menu extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         contener.removeAll();
         text.removeAll();
-        if (e.getSource() == hebergement) {
-            initHebergement();
+        if (e.getSource() == hosting) {
+            initHosting();
         }
         if (e.getSource() == join) {
             initJoin();
         }
         if (e.getSource() == createGame) {
             if (numberPlayerTextField.getText().length() == 0){
-                initHebergement();
+                initHosting();
             }
             else {
                 int numberPlayer = Integer.parseInt(numberPlayerTextField.getText());
-                if (1 < numberPlayer && numberPlayer <= 4)
+                if (1 < numberPlayer && numberPlayer <= 4) {
                     displayWaitPlayerHost();
-                else
-                    initHebergement();
+                }
+                else{
+                    initHosting();
+                }
             }
         }
         if (e.getSource() == joinGame) {
@@ -232,6 +265,11 @@ public class Menu extends JFrame implements ActionListener {
         this.validate();
     }
 
+    /**
+     *
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public void displayMenu() throws IOException, InterruptedException {
         menuMain();
         waitPlayer();

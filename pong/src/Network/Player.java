@@ -12,7 +12,7 @@ public class Player extends PlayerNetwork {
     private static int MYRACKET = 0;
     private Pong pong;
     private int idplayer;
-    private int nombrePlayer;
+    private int NumberPlayer;
     private int maxPlayer;
     private boolean activateBonus = false;
 
@@ -27,12 +27,12 @@ public class Player extends PlayerNetwork {
                       Getter and Setter
      ================================================= */
 
-    public int getNombrePlayer() {
-        return nombrePlayer;
+    public int getNumberPlayer() {
+        return NumberPlayer;
     }
 
-    public void setNombrePlayer(int nombrePlayer) {
-        this.nombrePlayer = nombrePlayer;
+    public void setNumberPlayer(int NumberPlayer) {
+        this.NumberPlayer = NumberPlayer;
     }
 
     public void setIdplayer(int idplayer) {
@@ -55,7 +55,7 @@ public class Player extends PlayerNetwork {
         return getPong().getItem(MYRACKET);
     }
 
-    public void addPlayer() {this.nombrePlayer++;}
+    public void addPlayer() {this.NumberPlayer++;}
 
     /**
      * Permet de calculer la somme des scores du jeu
@@ -63,7 +63,7 @@ public class Player extends PlayerNetwork {
      */
     public int sommeScore(){
         int somme=0;
-        for (int i = 1; i < getNombrePlayer()+1; i++) {
+        for (int i = 1; i < getNumberPlayer()+1; i++) {
             somme += this.getPong().getScore(i);
         }
         return somme;
@@ -85,7 +85,7 @@ public class Player extends PlayerNetwork {
                             if (idplayer==playerLose)
                                 Pong.setIfStart(true);
 
-                            if (idplayer==playerLose && somme % (SCORE_FOR_BONUS * (getNombrePlayer()-1)) == 0 && sommeScore() != 0)
+                            if (idplayer==playerLose && somme % (SCORE_FOR_BONUS * (getNumberPlayer()-1)) == 0 && sommeScore() != 0)
                                 activateBonus = true;
                             for (int j = 0; j < getPong().listItemSize(); j++) {
                                 if(getPong().getItem(j) instanceof Racket){
@@ -116,7 +116,7 @@ public class Player extends PlayerNetwork {
      */
     private String listItemGame(Racket newRacket) {
         StringBuilder message = new StringBuilder();
-        message.append(Protocol.attributionNewPlayer(this.getNombrePlayer(), this.getMaxPlayer(), newRacket, this.getIdplayer()));
+        message.append(Protocol.attributionNewPlayer(this.getNumberPlayer(), this.getMaxPlayer(), newRacket, this.getIdplayer()));
         message.append(";");
         for (int i = 0; i < getPong().listItemSize(); i++) {
             message.append(Protocol.informationItem(getPong().getItem(i)));
@@ -185,7 +185,7 @@ public class Player extends PlayerNetwork {
     public void initialisationItem(String message,SocketPlayer s) {
         String[] listItem = message.split(";");
         String[] item = listItem[MYRACKET].split(" ");
-        this.setNombrePlayer(Protocol.decryptNumberPlayer(item));
+        this.setNumberPlayer(Protocol.decryptNumberPlayer(item));
         this.setIdplayer(Protocol.decryptId(item));
         this.setMaxPlayer(Protocol.decryptMaxPlayer(item));
         s.setNumeroPlayer(Protocol.decryptIdPlayerConnected(item));
@@ -244,9 +244,9 @@ public class Player extends PlayerNetwork {
         /* envoie de la liste des connexions */
         sendMessage(socket, listOtherPlayer.toString());
         this.addPlayer();
-        socket.setNumeroPlayer(this.nombrePlayer);
+        socket.setNumeroPlayer(this.NumberPlayer);
         /* creation nouvelle racket et envoie des items du jeu au nouveau joueur */
-        Racket newRacket = new Racket(this.getNombrePlayer());
+        Racket newRacket = new Racket(this.getNumberPlayer());
         String item = listItemGame(newRacket);
         this.getPong().add(newRacket);
         Thread.sleep(1);
@@ -263,7 +263,7 @@ public class Player extends PlayerNetwork {
             if (getPong().getItem(i).getClass().getSimpleName().equals("Racket")
                     && getPong().getItem(i).getNumber() == getSocketPlayer(idSocket).getNumeroPlayer()) {
                 getPong().removeItem(i);
-                this.setNombrePlayer(this.getNombrePlayer() - 1);
+                this.setNumberPlayer(this.getNumberPlayer() - 1);
                 break;
             }
         }

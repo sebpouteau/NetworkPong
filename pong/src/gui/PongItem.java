@@ -9,11 +9,11 @@ import java.util.ArrayList;
 public class PongItem implements KeyListener {
     private int width;
     private int height;
+    private int number;
     private Point position;
     private Image imageItem;
     private Rectangle surface;
     private Point speed;
-    private int number;
 
     public int getNumber() {
         return number;
@@ -24,23 +24,23 @@ public class PongItem implements KeyListener {
     public Point getSpeed() {
         return speed;
     }
-    public int getSpeedX() {
-        return (int)speed.getX();
-    }
-    public int getSpeedY() {
-        return (int)speed.getY();
-    }
     public void setSpeed(int x, int y) {
         this.speed.setLocation(x, y);
+    }
+    public void setSpeed(Point speed) {
+        this.speed = speed;
+    }
+    public int getSpeedX() {
+        return (int)speed.getX();
     }
     public void setSpeedX(int x) {
         this.getSpeed().setLocation(x, this.getSpeed().getY());
     }
+    public int getSpeedY() {
+        return (int)speed.getY();
+    }
     public void setSpeedY(int y) {
         this.getSpeed().setLocation(this.getSpeed().getX(), y);
-    }
-    public void setSpeed(Point speed) {
-        this.speed = speed;
     }
     public Image getImageItem() {
         return imageItem;
@@ -81,15 +81,15 @@ public class PongItem implements KeyListener {
     public int getPositionY() {
         return (int)position.getY();
     }
-    public void setPosition(int x,int y) {
-        this.position.setLocation(x, y);
-        this.setPositionRectangle(x,y);
-    }
     public void setPositionX(int x) {
         this.position.setLocation(x, this.getPositionY());
     }
     public void setPositionY(int y) {
         this.position.setLocation(this.getPositionX(), y);
+    }
+    public void setPosition(int x,int y) {
+        this.position.setLocation(x, y);
+        this.setPositionRectangle(x,y);
     }
     public void setPosition(Point position) {
         this.position = position;
@@ -120,8 +120,7 @@ public class PongItem implements KeyListener {
      * @param sizePongX longueur de la fenêtre
      * @param sizePongY largueur de la fenêtre
      */
-    public void animate(int sizePongX,int sizePongY){
-    }
+    public void animate(int sizePongX,int sizePongY){}
 
     /**
      * fonction verifiant si les donnée sont valide
@@ -143,7 +142,6 @@ public class PongItem implements KeyListener {
     public boolean collision (ArrayList<PongItem> p){
         boolean t = false;
         for (int i = 0; i < p.size() ; i++) {
-
             if(this instanceof Ball && p.get(i) != this){
                 Ball b = (Ball) this;
                 b.collision(p.get(i));
@@ -152,7 +150,6 @@ public class PongItem implements KeyListener {
             if(this instanceof Bonus && p.get(i) instanceof Racket ){
                 Racket r = (Racket) p.get(i);
                 r.collision(this);
-
             }
         }
         return t;
