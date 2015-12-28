@@ -68,6 +68,4 @@ public class Main{
 			client.attributionScore();
 		}
 	}
-
-
 }

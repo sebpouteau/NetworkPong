@@ -62,7 +62,8 @@ public class Bonus extends PongItem {
        ================================================= */
 
     /**
-     *
+     * Fais apparaitre un cadeau au milieu de la fenetre de jeu et lui donne une vitesse et une direction aléatoire.
+     * Ainsi qu'un numero qui determinera le type de bonus que les joueurs pourront attrapper.
      */
     public void bonusAleatoire(){
         setPosition(Pong.getSizePongX()/2,Pong.getSizePongY()/2);

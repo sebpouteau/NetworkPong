@@ -106,7 +106,7 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     /**
-     *
+     * Fais disparaitre le menu de l'ecran.
      */
     public void endMenu() {
         this.setVisible(false);
@@ -130,6 +130,9 @@ public class Menu extends JFrame implements ActionListener {
         contener.add(createGame);
     }
 
+    /**
+     *
+     */
     private void initJoin() {
         this.setSize(dimensionAction);
         JLabel adressLabel, portLabel;
@@ -259,7 +262,7 @@ public class Menu extends JFrame implements ActionListener {
         this.validate();
     }
 
-    /**
+    /** Affiche le menu.
      *
      * @throws IOException
      * @throws InterruptedException

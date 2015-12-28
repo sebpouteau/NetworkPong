@@ -123,7 +123,7 @@ public class Player extends PlayerNetwork {
 
     /**
      * Cree une chaine de caractere contenant les positions de la raquette d'un joueur
-     * ainsi que toutes les positions des balles.
+     * ainsi que toutes les positions des balles. Et si'l est actif les informations concernant le Bonus.
      * @return String contenant les positions.
      */
     public String information() {
@@ -378,8 +378,6 @@ public class Player extends PlayerNetwork {
             this.addPlayer();
         }
     }
-
-
 }
 
 

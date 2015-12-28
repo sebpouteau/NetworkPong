@@ -166,40 +166,22 @@ public class Ball extends PongItem {
         if (this.getSpeedX() == 0) {
             this.setSpeedX(BALL_SPEED);
         }
-        if (this.getSpeedY() == 0)
+        if (this.getSpeedY() == 0) {
             this.setSpeedY(BALL_SPEED);
-
+        }
         Rectangle ball = new Rectangle(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY(), this.getWidth(), this.getHeight());
-
-//        if(item instanceof Bonus){
-//            Bonus bonus = (Bonus) item;
-//            if(bonus.getNumber() == 4){
-//                Rock r =(Rock) bonus;
-//                if (ball.intersects(r.getRock())){
-//                    r.setLifePointRock(r.getLifePointRock() - 1);
-//                    if(r.getLifePointRock() == 0)
-//                        bonus.stopBonus();
-//                    doCollisionBall(bonus);
-//                    return true;
-//                }
-//                return false;
-//            }
-//        }
-//        else {
-           if ((ball.getX() >= item.getSurface().getX() + item.getSurface().getWidth())      // trop à droite
-                    || (ball.getX() + ball.getWidth() <= item.getSurface().getX()) // trop à gauche
-                    || (ball.getY() >= item.getSurface().getY() + item.getSurface().getHeight()) // trop en bas
-                    || (ball.getY() + ball.getHeight() <= item.getSurface().getY())) { // trop en haut
-                return false;
-            } else {
-                if (item instanceof Racket)
-                    doCollision(item);
+        if ((ball.getX() >= item.getSurface().getX() + item.getSurface().getWidth())      // trop a droite
+                || (ball.getX() + ball.getWidth() <= item.getSurface().getX()) // trop a gauche
+                || (ball.getY() >= item.getSurface().getY() + item.getSurface().getHeight()) // trop en bas
+                || (ball.getY() + ball.getHeight() <= item.getSurface().getY())) { // trop en haut
+            return false;
+        } else {
+            if (item instanceof Racket)
+                doCollision(item);
                 else
                     doCollisionBall(item);
                 return true;
             }
-//        }
-//        return false;
     }
 
     /**
@@ -223,7 +205,6 @@ public class Ball extends PongItem {
                 this.setSpeedY(-this.getSpeedY());
                 int s = item.getSpeedX();
                 this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY() + s);
-
             }
         }
         else{
@@ -250,6 +231,4 @@ public class Ball extends PongItem {
             this.setSpeed(this.getSpeedX(), -this.getSpeedY());
         }
     }
-
-
 }
