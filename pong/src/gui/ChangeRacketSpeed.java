@@ -1,6 +1,7 @@
 package src.gui;
 
 public class ChangeRacketSpeed extends Bonus{
+
     private int oldSpeed;
     private int changeSpeed = 2;
     private PongItem oldPongItem;

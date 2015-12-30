@@ -3,6 +3,7 @@ package src.gui;
 import java.awt.*;
 
 public class ChangeRacketSize extends Bonus {
+
     private int sizeChange = 20;
     private PongItem oldPongItem;
     private Rectangle oldPIRect;

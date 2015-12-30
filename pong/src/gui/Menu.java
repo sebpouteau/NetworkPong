@@ -11,24 +11,40 @@ import java.nio.channels.SocketChannel;
 
 public class Menu extends JFrame implements ActionListener {
 
-    private JPanel contener = new JPanel();
+    private JPanel contener = new JPanel(){
+        /* Creer un Jpanel d"grader de noir */
+        public void paintComponent(Graphics g) {
+            Graphics2D g2d = (Graphics2D) g;
+            GradientPaint gp = new GradientPaint(0, 0, Color.BLACK, 1200, 1200, Color.WHITE, true);
+            g2d.setPaint(gp);
+            g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
+        }
+    };
+
     private JPanel text = new JPanel();
 
-    private JButton hosting = new JButton("Héberger un Pong");
-    private JButton join = new JButton("Rejoindre Pong");
+    private JButton hosting = new JButton("Créer un Pong");
+    private JButton join = new JButton("Rejoindre un Pong");
     private JButton createGame = new JButton("Valider");
     private JButton joinGame = new JButton("Valider");
 
     private JTextField numberPlayerTextField = new JTextField();
-    private JTextField adressJPTextField = new JTextField();
+    private JTextField adressTextField = new JTextField();
     private JTextField portTextField = new JTextField();
 
     private Player client;
-    private int buttonTextSize = 15;
+    private int buttonTextSize = 25;
     private boolean allPlayerConnect = true;
 
-    private final Dimension MENU_SIZE = new Dimension(300,250);
-    private static final Color backgroundColor = new Color(144, 148, 201);
+    private final Dimension MENU_SIZE = new Dimension(500,400);
+
+    private final Font fontTitle = new Font("Serif",Font.BOLD|Font.ITALIC,50);
+    private final Font fontText= new Font("Arial",Font.PLAIN,25);
+    private final Font fontConnection= new Font("Arial",Font.BOLD,25);
+
+    private final Dimension dimensionButtonMenu = new Dimension(400,60);
+    private final Dimension dimensionButton = new Dimension(300,50);
+
 
     public Menu(Player client) {
         this.client = client;
@@ -39,13 +55,10 @@ public class Menu extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
-        contener.setBackground(backgroundColor);
-        text.setBackground(backgroundColor);
-
-        modificationButton(hosting,buttonTextSize);
-        modificationButton(join,buttonTextSize);
-        modificationButton(createGame,buttonTextSize);
-        modificationButton(joinGame,buttonTextSize);
+        modificationButton(hosting,buttonTextSize,dimensionButtonMenu);
+        modificationButton(join,buttonTextSize,dimensionButtonMenu);
+        modificationButton(createGame,buttonTextSize, dimensionButton);
+        modificationButton(joinGame,buttonTextSize, dimensionButton);
     }
 
     /* ================================================
@@ -68,35 +81,36 @@ public class Menu extends JFrame implements ActionListener {
                          Functions
        ================================================ */
 
-    private final Font fontTitle = new Font("Arial",Font.BOLD,40);
-    private final Font fontText= new Font("Arial",Font.ITALIC,20);
-    private final Font fontConnection= new Font("Arial",Font.BOLD,17);
-    
-    private final Dimension dimensionButton = new Dimension(200,30);
-    private final Dimension dimensionAction = new Dimension(300,200);
-
     /**
-     * Change la taille par défaut du bouton et sa police
+     * Change la taille par defaut du bouton et sa police
      * @param button le bouton que l'on modifie
      * @param textSize la taille du texte sur le bouton
      */
-    private void modificationButton(JButton button, int textSize){
-        button.setPreferredSize(dimensionButton);
+    private void modificationButton(JButton button, int textSize, Dimension dim){
+        button.setPreferredSize(dim);
         button.setFont(new Font("Arial",Font.BOLD,textSize));
     }
 
     /**
-     *
+     * Affiche le menu du jeu
      */
     public void menuMain(){
+        JPanel space = createSpace(20);
+        space.setOpaque(false);
+        JPanel space1 = createSpace(20);
+        space1.setOpaque(false);
+
         JLabel titre = new JLabel("PONG");
-        
-        text.setPreferredSize(new Dimension((int)MENU_SIZE.getWidth(),70));
+        titre.setForeground(Color.WHITE);
+        text.setOpaque(false);
+        text.setPreferredSize(new Dimension((int)MENU_SIZE.getWidth(),100));
         titre.setFont(fontTitle);
         text.add(titre,BorderLayout.CENTER);
 
+        contener.add(space);
         contener.add(text) ;
         contener.add(hosting);
+        contener.add(space1);
         contener.add(join);
 
         hosting.addActionListener(this);
@@ -106,60 +120,94 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     /**
-     *
+     * masquera la fenetre menu
      */
     public void endMenu() {
         this.setVisible(false);
     }
 
     /**
-     *
+     * Creer une zone d'espace permettant de decaler l'affichage par exemple
+     * @param dimY dimension en hauteur
+     * @return retourne une zone vide JPanel (espace)
+     */
+    private JPanel createSpace(int dimY){
+        JPanel tmp = new JPanel();
+        tmp.setPreferredSize(new Dimension((int)MENU_SIZE.getWidth(), dimY));
+        tmp.setOpaque(false);
+        return tmp;
+    }
+
+    /**
+     * Menu concernant la partie ce creation de la partie
      */
     private void initHosting() {
-        this.setSize(dimensionAction);
-        text.setPreferredSize(new Dimension (250,100));
-        numberPlayerTextField.setPreferredSize(new Dimension(50, 25));
+
+        JPanel space = createSpace(20);
+        JPanel spaceAfter = createSpace(20);
+
         JLabel numberPlayerLabel = new JLabel("<html><div style=\"text-align:center;\"> Saisir le nombre de joueurs<br> (max 4)<br></div></html>");
+        numberPlayerLabel.setForeground(Color.WHITE);
         numberPlayerLabel.setFont(fontText);
 
-        text.setLayout(new BorderLayout());
-        text.add(numberPlayerLabel,BorderLayout.LINE_START);
-        text.add(numberPlayerTextField,BorderLayout.AFTER_LAST_LINE);
+        text.add(numberPlayerLabel,BorderLayout.CENTER);
+
+        numberPlayerTextField.setPreferredSize(new Dimension(200, 30));
+        numberPlayerTextField.setFont(fontText);
         createGame.addActionListener(this);
+
+        contener.add(space);
         contener.add(text);
+        contener.add(numberPlayerTextField,BorderLayout.AFTER_LAST_LINE);
+        contener.add(spaceAfter);
         contener.add(createGame);
     }
 
+    /**
+     * Menu concernant la partie permettant de rejoindre une partie
+     */
     private void initJoin() {
-        this.setSize(dimensionAction);
+        JPanel space = createSpace(60);
+        JPanel space1 = createSpace(20);
+        JPanel space2 = createSpace(20);
+
         JLabel adressLabel, portLabel;
 
         JPanel panAdress = new JPanel();
-        panAdress.setBackground(backgroundColor);
-        adressJPTextField.setPreferredSize(new Dimension(100,25));
-        panAdress.setBorder(BorderFactory.createTitledBorder("Adresse de connection"));
+        panAdress.setOpaque(false);
+        adressTextField.setPreferredSize(new Dimension(100,30));
+        adressTextField.setFont(fontText);
+
         adressLabel = new JLabel("Saisir l'adresse de connection:");
+        adressLabel.setForeground(Color.WHITE);
+        adressLabel.setFont(fontText);
         panAdress.setLayout(new BorderLayout());
 
         JPanel panPort = new JPanel();
-        panPort.setBackground(backgroundColor);
-        portTextField.setPreferredSize(new Dimension(50,25));
-        panPort.setBorder(BorderFactory.createTitledBorder("Port de connection"));
-        portLabel = new JLabel("Saisir le port de connection");
+        panPort.setOpaque(false);
+        portTextField.setPreferredSize(new Dimension(70,30));
+        portTextField.setFont(fontText);
+
+        portLabel = new JLabel("Saisir le port de connection:");
+        portLabel.setFont(fontText);
+        portLabel.setForeground(Color.WHITE);
 
         panAdress.add(adressLabel,BorderLayout.LINE_START);
-        panAdress.add(adressJPTextField,BorderLayout.AFTER_LAST_LINE);
+        panAdress.add(adressTextField,BorderLayout.AFTER_LAST_LINE);
         panPort.add(portLabel);
         panPort.add(portTextField);
 
+        contener.add(space);
         contener.add(panAdress);
+        contener.add(space1);
         contener.add(panPort);
         joinGame.addActionListener(this);
+        contener.add(space2);
         contener.add(joinGame);
     }
 
     /**
-     *
+     * Menu avec les informations utiles, en attendant que tout les joueur soit connecte
      */
     private void displayInformationConnection(){
         JLabel jl = null;
@@ -169,15 +217,17 @@ public class Menu extends JFrame implements ActionListener {
                     "Adresse Connection: " +  getClient().getAdressServeur() + "<br> Port: "+ getClient().getPort() + "</div></html>",JLabel.CENTER);
             jl.setFont(fontConnection);
             jl.setSize(new Dimension(300,150));
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
         contener.setLayout(new BorderLayout());
-        contener.add(jl,BorderLayout.CENTER);
+        if (jl != null) {
+            jl.setForeground(Color.WHITE);
+            contener.add(jl, BorderLayout.CENTER);
+        }
     }
 
     /**
-     *
+     * permet d'instantion l'hebergeur, creer tout les elements du pong a envoyer au autre joueur
      */
     private void displayWaitPlayerHost(){
         getClient().getPong().add(new Racket(1));
@@ -191,18 +241,16 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     /**
-     *
+     * Conecte un joueur a une partie
      */
    private void displayWaitPlayerJoin(){
-       String adress = adressJPTextField.getText();
+       String adress = adressTextField.getText();
        int portConnection = Integer.parseInt(portTextField.getText());
        getClient().setNumberPlayer(1);
 
        try {
            getClient().connectionServerInit(adress, portConnection, true);
-       } catch (IOException e) {
-           e.printStackTrace();
-       } catch (InterruptedException e) {
+       } catch (IOException | InterruptedException e) {
            e.printStackTrace();
        }
        getClient().getPong().addKeyListener((Racket)getClient().getMyRacket());
@@ -211,7 +259,7 @@ public class Menu extends JFrame implements ActionListener {
    }
 
     /**
-     *
+     * Attend que tout les joueur soit present
      * @throws IOException
      * @throws InterruptedException
      */
@@ -260,7 +308,7 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     /**
-     *
+     * Affiche le menu
      * @throws IOException
      * @throws InterruptedException
      */

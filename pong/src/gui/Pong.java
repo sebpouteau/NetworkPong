@@ -12,10 +12,15 @@ import javax.swing.JPanel;
 public class Pong extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static final int SIZE_PONG_X = 800;
-	private static final int SIZE_PONG_Y = 600;
-	private static final int SIZE_WINDOW_X = 800;
-	private static final int SIZE_WINDOW_Y = 630;
+	private static final int SIZE_PONG_X = 700;
+	private static final int SIZE_PONG_Y = 700;
+	private static final int SIZE_WINDOW_X = 700;
+	private static final int SIZE_WINDOW_Y = 730;
+
+	private Color colorJoueur1 = new Color(255, 229, 65);
+	private Color colorJoueur2 = new Color(47, 37, 255);
+	private Color colorJoueur3 = new Color(214, 30, 30);
+	private Color colorJoueur4 = new Color(31, 197, 64);
 
 	private int[] score;
 	private ArrayList<PongItem> pongList;
@@ -104,8 +109,8 @@ public class Pong extends JPanel {
         ================================================= */
 
 	/**
-	 *
-	 * @param item
+	 * Ajoute un pong item a la liste
+	 * @param item item a ajouter
 	 */
 	public void add(PongItem item){
 		if (item instanceof Ball) {
@@ -114,14 +119,14 @@ public class Pong extends JPanel {
 				if (getItem(i) instanceof Ball)
 					compteur = Math.max(compteur,getItem(i).getNumber())+1;
 			}
-			item.setNumber(compteur++);
+			item.setNumber(compteur+1);
 		}
 		this.pongList.add(item);
 	}
 
 	/**
-	 *
-	 * @param idRacket
+	 * Lance la manche
+	 * @param idRacket numero de la raquette
 	 */
     public void startGame(int idRacket) {
       if(getIfStart() && getIfGo()) {
@@ -137,32 +142,32 @@ public class Pong extends JPanel {
     }
 
 	/**
-	 *
-	 * @param id
+	 * Supprime le pong item
+	 * @param id position de l'item a supprimer
 	 */
 	public void removeItem(int id){
 		pongList.remove(id);
 	}
 
 	/**
-	 *
-	 * @param number
-	 * @return
+	 * retourne un pong Item present dans la liste
+	 * @param number numero de l'item à recuperer
+	 * @return un pongItem
 	 */
 	public PongItem getItem(int number){
 		return this.pongList.get(number);
 	}
 
 	/**
-	 *
-	 * @return
+	 * retourne le nombre d'item de la liste
+	 * @return nombre d'item
 	 */
 	public int listItemSize(){
 		return pongList.size();
 	}
 
 	/**
-	 *
+	 * anime les items du jeu
 	 */
 	public void animateItems() {
        startGame(getWaitPlayer());
@@ -175,16 +180,16 @@ public class Pong extends JPanel {
 	}
 
 	/**
-	 *
-	 * @param g
-	 */
+	 * dessine le contenu du buffer
+	 * @param g graphics
+     */
 	public void paint(Graphics g) {
 		g.drawImage(buffer, 0, 0, this);
 	}
 
 	/**
-	 *
-	 * @param item
+	 * dessine les items
+	 * @param item un pongItem a dessiner
 	 */
     public void draw(PongItem item){
         graphicContext.drawImage(item.getImageItem(),
@@ -193,16 +198,22 @@ public class Pong extends JPanel {
                 null);
     }
 
+
+	/**
+	 * Selectionne la couleur d'un jouoeur
+	 * @param racket la raquette du joueur
+	 * @return la couleur associe au joueur
+     */
 	private Color selectColor(PongItem racket){
 		switch(racket.getNumber()){
 			case 1:
-				return new Color(255, 229, 65);
+				return colorJoueur1;
 			case 2:
-				return new Color(47, 37, 255);
+				return colorJoueur2;
 			case 3:
-				return new Color(214, 30, 30) ;
+				return colorJoueur3;
 			case 4:
-				return  new Color(31, 197, 64);
+				return colorJoueur4;
 			default:
 				return Color.WHITE;
 
@@ -210,7 +221,7 @@ public class Pong extends JPanel {
 	}
 
 	/**
-	 *
+	 * met a jour l'ecran
 	 */
 	public void updateScreen() {
 		if (buffer == null) {
@@ -226,14 +237,15 @@ public class Pong extends JPanel {
         graphicContext.setColor(backgroundColor);
         graphicContext.fillRect(0,0, SIZE_PONG_X, SIZE_PONG_Y);
 
-		int numberPlayer =0;
+		int sumNumberPlayer =0;
+
 		/* Draw items */
 		for (int i = 0; i < listItemSize(); i++) {
 			if(getItem(i) instanceof Racket){
-				numberPlayer += getItem(i).getNumber();
-                graphicContext.setColor(selectColor(getItem(i)));
+				sumNumberPlayer += getItem(i).getNumber();
+				graphicContext.setColor(selectColor(getItem(i)));
 				graphicContext.fillRect(getItem(i).getPositionX(), getItem(i).getPositionY(), getItem(i).getWidth(), getItem(i).getHeight());
-                //graphicContext.setColor(backgroundColor);
+
 			}
 			else if (getItem(i) instanceof Bonus) {
                 Bonus b =(Bonus) getItem(i);
@@ -246,31 +258,42 @@ public class Pong extends JPanel {
 			}
 		}
 		graphicContext.setColor(Color.WHITE);
-		if (numberPlayer <=3)
+		if (sumNumberPlayer <=3)
 			graphicContext.drawLine(SIZE_PONG_X /2,0,SIZE_PONG_X/2,SIZE_PONG_Y);
         else {
 			graphicContext.drawLine(0, 0, SIZE_PONG_X, SIZE_PONG_Y);
 			graphicContext.drawLine(SIZE_PONG_X , 0, 0, SIZE_PONG_Y);
 		}
 
-
-
-
 		graphicContext.fillRect(0, SIZE_PONG_Y,SIZE_WINDOW_X,SIZE_WINDOW_Y);
 		graphicContext.setColor(Color.BLACK);
 		for (int j = 0; j < listItemSize() ; j++) {
             if(getItem(j) instanceof Racket){
                  int idPlayer = getItem(j).getNumber();
-				graphicContext.setFont(new Font("impact", Font.ITALIC, 20));
-                graphicContext.drawString("Joueur " + (idPlayer) + " : " + score[idPlayer - 1]+"   ", 0 + (idPlayer - 1)*150 , SIZE_PONG_Y + 20);
+				graphicContext.setFont(new Font("impact", Font.PLAIN, 20));
+                graphicContext.drawString("Joueur " + (idPlayer) + " : " + score[idPlayer - 1]+"   ", 100 + (idPlayer - 1)*150 , SIZE_PONG_Y + 20);
 
 			}
         }
-
-
         this.repaint();
 		this.validate();
+	}
 
+	/**
+	 * Affiche l'écran de fin
+	 */
+	public void updateScreenEnd(){
+		updateScreen();
+		graphicContext.drawLine(SIZE_PONG_X /2,0,SIZE_PONG_X/2,SIZE_PONG_Y);
+		graphicContext.setColor(Color.WHITE);
+		graphicContext.setFont(new Font("Serif", Font.PLAIN, 30));
+
+		graphicContext.drawString("Tous les autres joueurs sont deconnectés",40, 250);
+		graphicContext.setFont(new Font("Serif", Font.PLAIN, 80));
+		graphicContext.drawString("FIN",SIZE_PONG_X/2 -70, 350);
+
+		this.repaint();
+		this.validate();
 	}
 }
 

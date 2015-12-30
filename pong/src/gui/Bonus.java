@@ -62,7 +62,7 @@ public class Bonus extends PongItem {
        ================================================= */
 
     /**
-     *
+     * Génère un bonus aléatoire
      */
     public void bonusAleatoire(){
         setPosition(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
@@ -145,7 +145,7 @@ public class Bonus extends PongItem {
      */
     public void startBonus(PongItem PongItem){
         setTime();
-        setDelay(5);
+        setDelay(10);
         active = true;
         switch (getNumber()){
             case BIGRACKET:
@@ -190,5 +190,4 @@ public class Bonus extends PongItem {
         }
         setNumber(0);
     }
-
 }

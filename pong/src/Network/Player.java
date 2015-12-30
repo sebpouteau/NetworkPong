@@ -186,12 +186,17 @@ public class Player extends PlayerNetwork {
         s.setNumeroPlayer(Protocol.decryptIdPlayerConnected(item));
         for (String aListItem : listItem) {
             item = aListItem.split(" ");
-            if (Protocol.decryptClasseItem(item).equals("Racket"))
-                getPong().add(new Racket(Protocol.decryptId(item)));
-            else if (Protocol.decryptClasseItem(item).equals("Bonus"))
-                getPong().add(new Bonus());
-            else
-                getPong().add(new Ball(Protocol.decryptId(item)));
+            switch (Protocol.decryptClasseItem(item)) {
+                case "Racket":
+                    getPong().add(new Racket(Protocol.decryptId(item)));
+                    break;
+                case "Bonus":
+                    getPong().add(new Bonus());
+                    break;
+                default:
+                    getPong().add(new Ball(Protocol.decryptId(item)));
+                    break;
+            }
         }
         getPong().addKeyListener((Racket)getPong().getItem(0));
     }
@@ -263,7 +268,6 @@ public class Player extends PlayerNetwork {
             }
         }
         removeSocket(idSocket);
-
     }
 
     /**
@@ -378,7 +382,6 @@ public class Player extends PlayerNetwork {
             this.addPlayer();
         }
     }
-
 
 }
 

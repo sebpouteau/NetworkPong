@@ -44,16 +44,14 @@ public class Main{
 
 		/* Boucle de jeu quand tous les joueurs sont connectés */
 		while (true) {
-			if (client.getNumberPlayer()< 2)
+			if (client.getNumberPlayer()< 2) {
+				pong.updateScreenEnd();
 				return;
-
+			}
 			/* Envoie des informations aux autres joueurs */
 			String info = client.information();
 			for (int i = 0; i < client.getListSocketSize(); i++) {
 				client.sendMessage(client.getSocketPlayer(i), info);
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException ignored) {}
 			}
 			try {
 				Thread.sleep(Pong.timestep);
