@@ -145,6 +145,4 @@ public class Racket extends PongItem implements KeyListener{
 	}
 
 	public void keyTyped(KeyEvent e) { }
-
-
 }

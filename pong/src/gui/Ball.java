@@ -160,11 +160,10 @@ public class Ball extends PongItem {
         if (this.getSpeedX() == 0) {
             this.setSpeedX(BALL_SPEED);
         }
-        if (this.getSpeedY() == 0)
+        if (this.getSpeedY() == 0) {
             this.setSpeedY(BALL_SPEED);
-
+        }
         Rectangle ball = new Rectangle(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY(), this.getWidth(), this.getHeight());
-
         if ((ball.getX() >= item.getSurface().getX() + item.getSurface().getWidth())      // trop à droite
                 || (ball.getX() + ball.getWidth() <= item.getSurface().getX()) // trop à gauche
                 || (ball.getY() >= item.getSurface().getY() + item.getSurface().getHeight()) // trop en bas
@@ -227,5 +226,6 @@ public class Ball extends PongItem {
             this.setSpeed(this.getSpeedX(), -this.getSpeedY());
         }
     }
+
 
 }

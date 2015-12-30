@@ -57,7 +57,4 @@ public class SocketPlayer {
     public String getAdress() {
         return adress;
     }
-
-
-
 }
