@@ -82,7 +82,7 @@ public class Player extends PlayerNetwork {
                         /* Si l'item est une raquette et que le numero du playerLose est bien un joueur alors: */
                         if (getPong().getItem(k) instanceof  Racket && getPong().getItem(k).getNumber() == playerLose ){
                             if (idplayer==playerLose)
-                                Pong.setIfStart(true);
+                                pong.setIfStart(true);
 
                             if (idplayer==playerLose && somme % (SCORE_FOR_BONUS * (getNumberPlayer()-1)) == 0 && sommeScore() != 0)
                                 activateBonus = true;
@@ -134,7 +134,7 @@ public class Player extends PlayerNetwork {
             if (getPong().getItem(i) instanceof Ball ) {
                 message.append(Protocol.informationItem(getPong().getItem(i))).append(";");
             }
-            if (activateBonus){
+            if (activateBonus && pong.getIfStart()==false){
                 if (getPong().getItem(i) instanceof Bonus){
                     if (! ((Bonus) getPong().getItem(i)).isActive() &&
                             !((Bonus)getPong().getItem(i)).isVisible()) {

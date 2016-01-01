@@ -66,21 +66,14 @@ public class Bonus extends PongItem {
      */
     public void bonusAleatoire(){
         setPosition(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
-        int speed = RandomNumber.randomValue(1,4);
-        switch(speed){
-            case 1:
-                this.setSpeed(3 , 3);
-                break;
-            case 2:
-                this.setSpeed(3, -3);
-                break;
-            case 3:
-                this.setSpeed(-3, 3);
-                break;
-            case 4:
-                this.setSpeed(-3, -3);
-                break;
+        int speedX = 0;
+        int speedY = 0;
+        while (speedX==0||speedY==0){
+            speedX = RandomNumber.randomValue(-3,3);
+            speedY = RandomNumber.randomValue(-3,3);
         }
+        this.setSpeed(speedX,speedY);
+
         int numBonus = RandomNumber.randomValue(1,4);
         setNumber(numBonus);
         setVisible(true);

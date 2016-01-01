@@ -1,13 +1,13 @@
 package src.gui;
 
-import src.Network.Player;
+        import src.Network.Player;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.nio.channels.SocketChannel;
+        import javax.swing.*;
+        import java.awt.*;
+        import java.awt.event.ActionEvent;
+        import java.awt.event.ActionListener;
+        import java.io.IOException;
+        import java.nio.channels.SocketChannel;
 
 public class Menu extends JFrame implements ActionListener {
 
@@ -142,6 +142,8 @@ public class Menu extends JFrame implements ActionListener {
      * Menu concernant la partie ce creation de la partie
      */
     private void initHosting() {
+        contener.removeAll(); // =============================================
+        text.removeAll(); // ===============================================
 
         JPanel space = createSpace(20);
         JPanel spaceAfter = createSpace(20);
@@ -167,6 +169,9 @@ public class Menu extends JFrame implements ActionListener {
      * Menu concernant la partie permettant de rejoindre une partie
      */
     private void initJoin() {
+        contener.removeAll(); // ===============================================
+        text.removeAll(); // ===============================================
+
         JPanel space = createSpace(60);
         JPanel space1 = createSpace(20);
         JPanel space2 = createSpace(20);
@@ -210,6 +215,9 @@ public class Menu extends JFrame implements ActionListener {
      * Menu avec les informations utiles, en attendant que tout les joueur soit connecte
      */
     private void displayInformationConnection(){
+        contener.removeAll(); // ===============================================
+        text.removeAll(); // ===============================================
+
         JLabel jl = null;
         try {
             jl = new JLabel("<html><div style=\"text-align:center;\">" +
@@ -230,33 +238,41 @@ public class Menu extends JFrame implements ActionListener {
      * permet d'instantion l'hebergeur, creer tout les elements du pong a envoyer au autre joueur
      */
     private void displayWaitPlayerHost(){
-        getClient().getPong().add(new Racket(1));
-        getClient().getPong().add(new Ball(1));
-        getClient().getPong().add(new Bonus());
+        if (numberPlayerTextField.getText().length() != 0) {   // ===============================================
+            int numberPlayer = Integer.parseInt(numberPlayerTextField.getText());
+            if (1 < numberPlayer && numberPlayer < 5) {
+                System.out.println("je passe " + numberPlayer);
 
-        int numberPlayer = Integer.parseInt(numberPlayerTextField.getText());
-        getClient().setMaxPlayer(numberPlayer);
+                getClient().setMaxPlayer(numberPlayer);
+                getClient().getPong().add(new Racket(1));
+                getClient().getPong().add(new Ball(1));
+                getClient().getPong().add(new Bonus());
 
-        displayInformationConnection();
+                displayInformationConnection();
+            }
+        }
     }
 
     /**
      * Conecte un joueur a une partie
      */
-   private void displayWaitPlayerJoin(){
-       String adress = adressTextField.getText();
-       int portConnection = Integer.parseInt(portTextField.getText());
-       getClient().setNumberPlayer(1);
+    private void displayWaitPlayerJoin(){
+        contener.removeAll();  // ===============================================
+        text.removeAll(); // ===============================================
 
-       try {
-           getClient().connectionServerInit(adress, portConnection, true);
-       } catch (IOException | InterruptedException e) {
-           e.printStackTrace();
-       }
-       getClient().getPong().addKeyListener((Racket)getClient().getMyRacket());
-       displayInformationConnection();
-       this.repaint();
-   }
+        String adress = adressTextField.getText();
+        int portConnection = Integer.parseInt(portTextField.getText());
+        getClient().setNumberPlayer(1);
+
+        try {
+            getClient().connectionServerInit(adress, portConnection, true);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        getClient().getPong().addKeyListener((Racket)getClient().getMyRacket());
+        displayInformationConnection();
+        this.repaint();
+    }
 
     /**
      * Attend que tout les joueur soit present
@@ -278,8 +294,6 @@ public class Menu extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        contener.removeAll();
-        text.removeAll();
         if (e.getSource() == hosting) {
             initHosting();
         }
@@ -287,24 +301,13 @@ public class Menu extends JFrame implements ActionListener {
             initJoin();
         }
         if (e.getSource() == createGame) {
-            if (numberPlayerTextField.getText().length() == 0){
-                initHosting();
-            }
-            else {
-                int numberPlayer = Integer.parseInt(numberPlayerTextField.getText());
-                if (1 < numberPlayer && numberPlayer <= 4) {
-                    displayWaitPlayerHost();
-                }
-                else{
-                    initHosting();
-                }
-            }
+            displayWaitPlayerHost();
         }
         if (e.getSource() == joinGame) {
             displayWaitPlayerJoin();
         }
         this.repaint();
-        this.validate();
+       this.validate();
     }
 
     /**
