@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="pong">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/pong/out/artifacts/pong_jar/pong.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

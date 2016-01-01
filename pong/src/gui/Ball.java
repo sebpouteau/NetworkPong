@@ -14,6 +14,7 @@ public class Ball extends PongItem {
         initImage(image);
         this.setSpeed(new Point(BALL_SPEED, BALL_SPEED));
     }
+
     /* =================================================
                       Functions
        ================================================= */
@@ -99,18 +100,18 @@ public class Ball extends PongItem {
         switch(loseRacket.getNumber()){
             case 1:
                 this.setPosition(loseRacket.getPositionX()+loseRacket.getWidth(),
-                        loseRacket.getPositionY() + loseRacket.getHeight()/2);
+                        loseRacket.getPositionY() + loseRacket.getHeight()/2 - this.getHeight()/2);
                 break;
             case 2:
                 this.setPosition(loseRacket.getPositionX() - this.getWidth(),
-                        loseRacket.getPositionY() + loseRacket.getHeight()/2);
+                        loseRacket.getPositionY() + loseRacket.getHeight()/2 - this.getHeight()/2);
                 break;
             case 3:
-                this.setPosition(loseRacket.getPositionX() + this.getWidth(),
+                this.setPosition(loseRacket.getPositionX() + this.getWidth()/2 - this.getWidth()/2,
                         loseRacket.getPositionY() + loseRacket.getHeight());
                 break;
             case 4:
-                this.setPosition(loseRacket.getPositionX() + loseRacket.getWidth() / 2,
+                this.setPosition(loseRacket.getPositionX() + loseRacket.getWidth()/2 - this.getWidth()/2,
                         loseRacket.getPositionY() - this.getHeight());
                 break;
         }
@@ -165,8 +166,8 @@ public class Ball extends PongItem {
 
         Rectangle ball = new Rectangle(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY(), this.getWidth(), this.getHeight());
 
-        if ((ball.getX() >= item.getSurface().getX() + item.getSurface().getWidth())      // trop à droite
-                || (ball.getX() + ball.getWidth() <= item.getSurface().getX()) // trop à gauche
+        if ((ball.getX() >= item.getSurface().getX() + item.getSurface().getWidth())// trop a droite
+                || (ball.getX() + ball.getWidth() <= item.getSurface().getX()) // trop a gauche
                 || (ball.getY() >= item.getSurface().getY() + item.getSurface().getHeight()) // trop en bas
                 || (ball.getY() + ball.getHeight() <= item.getSurface().getY())) { // trop en haut
             return false;
@@ -200,7 +201,6 @@ public class Ball extends PongItem {
                 this.setSpeedY(-this.getSpeedY());
                 int s = item.getSpeedX();
                 this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY() + s);
-
             }
         }
         else{
@@ -227,6 +227,4 @@ public class Ball extends PongItem {
             this.setSpeed(this.getSpeedX(), -this.getSpeedY());
         }
     }
-
-
 }

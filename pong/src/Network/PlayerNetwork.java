@@ -42,7 +42,7 @@ public class PlayerNetwork {
      * @return l'adresse du serveur.
      * @throws IOException
      */
-    public static String getAdressServeur() throws IOException {
+    public static String getAddressServeur() throws IOException {
         String ip="";
                 Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             while (interfaces.hasMoreElements()) {
