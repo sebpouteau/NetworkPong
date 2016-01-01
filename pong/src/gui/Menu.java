@@ -28,7 +28,7 @@ public class Menu extends JFrame implements ActionListener {
     private JButton createGame = new JButton("Valider");
     private JButton joinGame = new JButton("Valider");
 
-    private JButton back = new JButton("Annuler");
+    private JButton back = new JButton("Retour");
 
     private JTextField numberPlayerTextField = new JTextField();
     private JTextField addressTextField = new JTextField();
@@ -39,13 +39,14 @@ public class Menu extends JFrame implements ActionListener {
     private boolean allPlayerConnect = true;
 
     private final Dimension MENU_SIZE = new Dimension(500,400);
+    private final int PREFERED_GAP = 40;
 
     private final Font fontTitle = new Font("Serif",Font.BOLD|Font.ITALIC,50);
     private final Font fontText= new Font("Arial",Font.PLAIN,25);
     private final Font fontConnection= new Font("Arial",Font.BOLD,25);
 
     private final Dimension dimensionButtonMenu = new Dimension(400,60);
-    private final Dimension dimensionButton = new Dimension(300,50);
+    private final Dimension dimensionButton = new Dimension(200,50);
 
 
     public Menu(Player client) {
@@ -61,6 +62,7 @@ public class Menu extends JFrame implements ActionListener {
         modificationButton(join,buttonTextSize,dimensionButtonMenu);
         modificationButton(createGame,buttonTextSize, dimensionButton);
         modificationButton(joinGame,buttonTextSize, dimensionButton);
+        modificationButton(back, buttonTextSize, dimensionButton);
     }
 
     /* ================================================
@@ -97,7 +99,6 @@ public class Menu extends JFrame implements ActionListener {
      * Affiche le menu du jeu
      */
     public void menuMain(){
-
         JLabel titre = new JLabel("PONG");
         titre.setForeground(Color.WHITE);
         text.setOpaque(false);
@@ -118,11 +119,10 @@ public class Menu extends JFrame implements ActionListener {
 
         groupLayout.setVerticalGroup(
                 groupLayout.createSequentialGroup()
-                        .addContainerGap(50,50)
+                        .addContainerGap(PREFERED_GAP, PREFERED_GAP)
                         .addComponent(text , GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addGap(0)
                         .addComponent(hosting, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addGap(40)
+                        .addGap(PREFERED_GAP)
                         .addComponent(join, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         );
 
@@ -155,7 +155,9 @@ public class Menu extends JFrame implements ActionListener {
         numberPlayerTextField.setPreferredSize(new Dimension(100, 30));
         numberPlayerTextField.setHorizontalAlignment(JTextField.CENTER);
         numberPlayerTextField.setFont(fontText);
+
         createGame.addActionListener(this);
+        back.addActionListener(this);
 
         GroupLayout groupLayout = new GroupLayout(contener);
         contener.setLayout(groupLayout);
@@ -165,8 +167,10 @@ public class Menu extends JFrame implements ActionListener {
                 groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(text, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(numberPlayerTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(createGame, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        );
+                        .addGroup(groupLayout.createSequentialGroup()
+                                .addComponent(createGame)
+                                .addComponent(back))
+                        );
 
         groupLayout.setVerticalGroup(
                 groupLayout.createSequentialGroup()
@@ -174,8 +178,10 @@ public class Menu extends JFrame implements ActionListener {
                         .addComponent(text , GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addGap(0)
                         .addComponent(numberPlayerTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addGap(40)
-                        .addComponent(createGame, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGap(PREFERED_GAP)
+                        .addGroup(groupLayout.createParallelGroup()
+                                .addComponent(createGame)
+                                .addComponent(back))
         );
     }
 
@@ -203,19 +209,21 @@ public class Menu extends JFrame implements ActionListener {
         portLabel = new JLabel("Saisir le port de connection:");
         portLabel.setFont(fontText);
         portLabel.setForeground(Color.WHITE);
+
         joinGame.addActionListener(this);
+        back.addActionListener(this);
 
         GroupLayout groupLayout = new GroupLayout(contener);
         contener.setLayout(groupLayout);
         groupLayout.setLayoutStyle(new LayoutStyle() {
             @Override
             public int getPreferredGap(JComponent component1, JComponent component2, ComponentPlacement type, int position, Container parent) {
-                return 30;
+                return 20;
             }
 
             @Override
             public int getContainerGap(JComponent component, int position, Container parent) {
-                return 50;
+                return 60;
             }
         });
         groupLayout.setAutoCreateContainerGaps(true);
@@ -227,17 +235,23 @@ public class Menu extends JFrame implements ActionListener {
                         .addGroup(groupLayout.createSequentialGroup()
                                 .addComponent(portLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(portTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addComponent(joinGame)
+                        .addGroup(groupLayout.createSequentialGroup()
+                                .addComponent(joinGame)
+                                .addComponent(back))
         );
 
         groupLayout.setVerticalGroup(
                 groupLayout.createSequentialGroup()
                         .addComponent(addressLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(addressTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGap(PREFERED_GAP)
                         .addGroup(groupLayout.createParallelGroup()
                                 .addComponent(portLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(portTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addComponent(joinGame)
+                        .addGap(PREFERED_GAP)
+                        .addGroup(groupLayout.createParallelGroup()
+                                .addComponent(joinGame)
+                                .addComponent(back))
         );
     }
 
@@ -331,10 +345,14 @@ public class Menu extends JFrame implements ActionListener {
             displayWaitPlayerHost();
         }
         if (e.getSource() == joinGame) {
-            System.out.println("je valide");
             displayWaitPlayerJoin();
         }
-
+        if(e.getSource() == back){
+            contener.removeAll();
+            text.removeAll();
+            menuMain();
+            this.repaint();
+        }
         this.repaint();
         this.validate();
     }
