@@ -1,13 +1,13 @@
 package src.gui;
 
-        import src.Network.Player;
+import src.Network.Player;
 
-        import javax.swing.*;
-        import java.awt.*;
-        import java.awt.event.ActionEvent;
-        import java.awt.event.ActionListener;
-        import java.io.IOException;
-        import java.nio.channels.SocketChannel;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.nio.channels.SocketChannel;
 
 public class Menu extends JFrame implements ActionListener {
 
@@ -97,10 +97,6 @@ public class Menu extends JFrame implements ActionListener {
      * Affiche le menu du jeu
      */
     public void menuMain(){
-        JPanel space = createSpace(20);
-        space.setOpaque(false);
-        JPanel space1 = createSpace(20);
-        space1.setOpaque(false);
 
         JLabel titre = new JLabel("PONG");
         titre.setForeground(Color.WHITE);
@@ -109,11 +105,26 @@ public class Menu extends JFrame implements ActionListener {
         titre.setFont(fontTitle);
         text.add(titre,BorderLayout.CENTER);
 
-        contener.add(space);
-        contener.add(text) ;
-        contener.add(hosting);
-        contener.add(space1);
-        contener.add(join);
+        GroupLayout groupLayout = new GroupLayout(contener);
+        contener.setLayout(groupLayout);
+        groupLayout.setAutoCreateContainerGaps(true);
+        groupLayout.setAutoCreateGaps(true);
+        groupLayout.setHorizontalGroup(
+                groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(text, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(hosting, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(join, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        );
+
+        groupLayout.setVerticalGroup(
+                groupLayout.createSequentialGroup()
+                        .addContainerGap(50,50)
+                        .addComponent(text , GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGap(0)
+                        .addComponent(hosting, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGap(40)
+                        .addComponent(join, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        );
 
         hosting.addActionListener(this);
         join.addActionListener(this);
@@ -129,26 +140,11 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     /**
-     * Creer une zone d'espace permettant de decaler l'affichage par exemple
-     * @param dimY dimension en hauteur
-     * @return retourne une zone vide JPanel (espace)
-     */
-    private JPanel createSpace(int dimY){
-        JPanel tmp = new JPanel();
-        tmp.setPreferredSize(new Dimension((int)MENU_SIZE.getWidth(), dimY));
-        tmp.setOpaque(false);
-        return tmp;
-    }
-
-    /**
      * Menu concernant la partie ce creation de la partie
      */
     private void initHosting() {
         contener.removeAll(); // =============================================
         text.removeAll(); // ===============================================
-
-        JPanel space = createSpace(20);
-        JPanel spaceAfter = createSpace(20);
 
         JLabel numberPlayerLabel = new JLabel("<html><div style=\"text-align:center;\"> Saisir le nombre de joueurs<br> (max 4)<br></div></html>");
         numberPlayerLabel.setForeground(Color.WHITE);
@@ -161,11 +157,26 @@ public class Menu extends JFrame implements ActionListener {
         numberPlayerTextField.setFont(fontText);
         createGame.addActionListener(this);
 
-        contener.add(space);
-        contener.add(text);
-        contener.add(numberPlayerTextField,BorderLayout.AFTER_LAST_LINE);
-        contener.add(spaceAfter);
-        contener.add(createGame);
+        GroupLayout groupLayout = new GroupLayout(contener);
+        contener.setLayout(groupLayout);
+        groupLayout.setAutoCreateContainerGaps(true);
+        groupLayout.setAutoCreateGaps(true);
+        groupLayout.setHorizontalGroup(
+                groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(text, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(numberPlayerTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(createGame, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        );
+
+        groupLayout.setVerticalGroup(
+                groupLayout.createSequentialGroup()
+                        .addContainerGap(50,70)
+                        .addComponent(text , GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGap(0)
+                        .addComponent(numberPlayerTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGap(40)
+                        .addComponent(createGame, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        );
     }
 
     /**
@@ -175,25 +186,16 @@ public class Menu extends JFrame implements ActionListener {
         contener.removeAll(); // ===============================================
         text.removeAll(); // ===============================================
 
-        JPanel space = createSpace(60);
-        JPanel space1 = createSpace(20);
-        JPanel space2 = createSpace(20);
-
         JLabel addressLabel, portLabel;
 
-        JPanel panAddress = new JPanel();
-        panAddress.setOpaque(false);
-        addressTextField.setPreferredSize(new Dimension(100,30));
+        addressTextField.setPreferredSize(new Dimension(200,30));
         addressTextField.setHorizontalAlignment(JTextField.CENTER);
         addressTextField.setFont(fontText);
 
         addressLabel = new JLabel("Saisir l'addresse de connection:");
         addressLabel.setForeground(Color.WHITE);
         addressLabel.setFont(fontText);
-        panAddress.setLayout(new BorderLayout());
 
-        JPanel panPort = new JPanel();
-        panPort.setOpaque(false);
         portTextField.setPreferredSize(new Dimension(70,30));
         portTextField.setHorizontalAlignment(JTextField.CENTER);
         portTextField.setFont(fontText);
@@ -201,19 +203,42 @@ public class Menu extends JFrame implements ActionListener {
         portLabel = new JLabel("Saisir le port de connection:");
         portLabel.setFont(fontText);
         portLabel.setForeground(Color.WHITE);
-
-        panAddress.add(addressLabel,BorderLayout.LINE_START);
-        panAddress.add(addressTextField,BorderLayout.AFTER_LAST_LINE);
-        panPort.add(portLabel);
-        panPort.add(portTextField);
-
-        contener.add(space);
-        contener.add(panAddress);
-        contener.add(space1);
-        contener.add(panPort);
         joinGame.addActionListener(this);
-        contener.add(space2);
-        contener.add(joinGame);
+
+        GroupLayout groupLayout = new GroupLayout(contener);
+        contener.setLayout(groupLayout);
+        groupLayout.setLayoutStyle(new LayoutStyle() {
+            @Override
+            public int getPreferredGap(JComponent component1, JComponent component2, ComponentPlacement type, int position, Container parent) {
+                return 30;
+            }
+
+            @Override
+            public int getContainerGap(JComponent component, int position, Container parent) {
+                return 50;
+            }
+        });
+        groupLayout.setAutoCreateContainerGaps(true);
+        groupLayout.setAutoCreateGaps(true);
+        groupLayout.setHorizontalGroup(
+                groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(addressLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addressTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGroup(groupLayout.createSequentialGroup()
+                                .addComponent(portLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(portTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addComponent(joinGame)
+        );
+
+        groupLayout.setVerticalGroup(
+                groupLayout.createSequentialGroup()
+                        .addComponent(addressLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addressTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGroup(groupLayout.createParallelGroup()
+                                .addComponent(portLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(portTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addComponent(joinGame)
+        );
     }
 
     /**
@@ -258,12 +283,9 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     /**
-     * Conecte un joueur a une partie
+     * Connecte un joueur a une partie
      */
     private void displayWaitPlayerJoin(){
-        contener.removeAll();  // ===============================================
-        text.removeAll(); // ===============================================
-
         String address = addressTextField.getText();
         int portConnection = Integer.parseInt(portTextField.getText());
         getClient().setNumberPlayer(1);
@@ -271,15 +293,16 @@ public class Menu extends JFrame implements ActionListener {
         try {
             getClient().connectionServerInit(address, portConnection, true);
         } catch (IOException | InterruptedException e) {
+            System.out.println("fail");
             e.printStackTrace();
         }
         getClient().getPong().addKeyListener((Racket)getClient().getMyRacket());
         displayInformationConnection();
-        this.repaint();
+
     }
 
     /**
-     * Attend que tous les joueur soit present
+     * Attend que tous les joueurs soient presents
      * @throws IOException
      * @throws InterruptedException
      */
@@ -308,13 +331,12 @@ public class Menu extends JFrame implements ActionListener {
             displayWaitPlayerHost();
         }
         if (e.getSource() == joinGame) {
+            System.out.println("je valide");
             displayWaitPlayerJoin();
         }
-//        if(e.getSource() = back){
-//            displayMenu();
-//        }
+
         this.repaint();
-       this.validate();
+        this.validate();
     }
 
     /**
