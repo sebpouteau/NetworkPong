@@ -37,9 +37,7 @@ public class Main{
 		menu.endMenu();
 
 		pong.setTabScore(client.getMaxPlayer());
-		String namePlayer = "Joueur ";
-		namePlayer += client.getIdplayer();
-		Window window = new Window(pong, namePlayer);
+		Window window = new Window(pong,menu.getPseudo());
 		window.displayOnscreen();
 
 		/* Boucle de jeu quand tous les joueurs sont connectés */
@@ -47,6 +45,13 @@ public class Main{
 			if (client.getNumberPlayer()< 2) {
 				pong.updateScreenEnd();
 				return;
+			}
+			if(pong.hasClientWin() != 0){
+                if(client.getIdplayer() == pong.hasClientWin())
+			    	pong.updateScreenWin();
+                else
+                    pong.updateScreenLose();
+                return;
 			}
 			/* Envoie des informations aux autres joueurs */
 			String info = client.information();

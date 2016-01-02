@@ -1,5 +1,6 @@
 package src.gui;
 
+import javafx.scene.control.RadioButton;
 import src.Network.Player;
 
 import javax.swing.*;
@@ -7,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.nio.channels.CancelledKeyException;
 import java.nio.channels.SocketChannel;
 
 public class Menu extends JFrame implements ActionListener {
@@ -28,11 +30,17 @@ public class Menu extends JFrame implements ActionListener {
     private JButton createGame = new JButton("Valider");
     private JButton joinGame = new JButton("Valider");
 
+    private ButtonGroup scoreButtonGroup = new ButtonGroup();
+    private JRadioButton unlimitedScore = new JRadioButton("Sans fin");
+    private JRadioButton limitedScore = new JRadioButton("Score max:");
+
     private JButton back = new JButton("Retour");
 
     private JTextField numberPlayerTextField = new JTextField();
     private JTextField addressTextField = new JTextField();
     private JTextField portTextField = new JTextField();
+    private JTextField pseudoTextField = new JTextField();
+    private JTextField scoreMaxTextField = new JTextField();
 
     private Player client;
     private int buttonTextSize = 25;
@@ -69,6 +77,17 @@ public class Menu extends JFrame implements ActionListener {
         createGame.addActionListener(this);
         joinGame.addActionListener(this);
         back.addActionListener(this);
+        unlimitedScore.addActionListener(this);
+        limitedScore.addActionListener(this);
+
+        setRadioButton(unlimitedScore,false,Color.WHITE,fontText);
+        setRadioButton(limitedScore, false, Color.WHITE,fontText);
+
+        scoreButtonGroup.add(unlimitedScore);
+        scoreButtonGroup.add(limitedScore);
+
+        scoreMaxTextField.setEnabled(false);
+        scoreMaxTextField.setVisible(false);
     }
 
     /* ================================================
@@ -86,6 +105,8 @@ public class Menu extends JFrame implements ActionListener {
     public Player getClient() {
         return this.client;
     }
+
+    public String getPseudo(){return pseudoTextField.getText();}
 
     /* ================================================
                          Functions
@@ -106,12 +127,11 @@ public class Menu extends JFrame implements ActionListener {
      */
     public void menuMain(){
 
-        JLabel titre = new JLabel("PONG");
-        titre.setForeground(Color.WHITE);
+        JLabel title = new JLabel("PONG");
+        setJLabel(title, fontTitle, Color.WHITE);
         text.setOpaque(false);
         text.setPreferredSize(new Dimension((int)MENU_SIZE.getWidth(),100));
-        titre.setFont(fontTitle);
-        text.add(titre,BorderLayout.CENTER);
+        text.add(title,BorderLayout.CENTER);
 
         GroupLayout groupLayout = new GroupLayout(contener);
         contener.setLayout(groupLayout);
@@ -149,15 +169,19 @@ public class Menu extends JFrame implements ActionListener {
     private void initHosting() {
         clearWindow();
 
-        JLabel numberPlayerLabel = new JLabel("<html><div style=\"text-align:center;\"> Saisir le nombre de joueurs<br> (max 4)<br></div></html>");
-        numberPlayerLabel.setForeground(Color.WHITE);
-        numberPlayerLabel.setFont(fontText);
+        JLabel numberPlayerLabel = new JLabel("<html><div style=\"text-align:center;\"> Saisir le nombre de joueurs<br>(max 4)</div></html>");
+        setJLabel(numberPlayerLabel, fontText, Color.WHITE);
 
         text.add(numberPlayerLabel,BorderLayout.CENTER);
 
-        numberPlayerTextField.setPreferredSize(new Dimension(100, 30));
-        numberPlayerTextField.setHorizontalAlignment(JTextField.CENTER);
-        numberPlayerTextField.setFont(fontText);
+        JLabel pseudoLabel = new JLabel("<html><div style=\"text-align:center;\"> Entrez votre pseudo</div></html> ");
+        setJLabel(pseudoLabel, fontText, Color.WHITE);
+
+        setJTextField(numberPlayerTextField, 100,30,fontText);
+
+        setJTextField(scoreMaxTextField, 100, 30, fontText);
+
+        setJTextField(pseudoTextField, 100,30,fontText);
 
         GroupLayout groupLayout = new GroupLayout(contener);
         contener.setLayout(groupLayout);
@@ -165,20 +189,29 @@ public class Menu extends JFrame implements ActionListener {
         groupLayout.setAutoCreateGaps(true);
         groupLayout.setHorizontalGroup(
                 groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(pseudoLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pseudoTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(text, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(numberPlayerTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addGroup(groupLayout.createSequentialGroup()
+                                .addComponent(unlimitedScore, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(limitedScore, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(scoreMaxTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addGroup(groupLayout.createSequentialGroup()
                                 .addComponent(createGame)
                                 .addComponent(back))
-                        );
+        );
 
         groupLayout.setVerticalGroup(
                 groupLayout.createSequentialGroup()
-                        .addContainerGap(50,70)
+                        .addComponent(pseudoLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pseudoTextField,  GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(text , GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addGap(0)
                         .addComponent(numberPlayerTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addGap(PREFERED_GAP)
+                        .addGroup(groupLayout.createParallelGroup()
+                                .addComponent(unlimitedScore,  GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(limitedScore, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(scoreMaxTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                         .addGroup(groupLayout.createParallelGroup()
                                 .addComponent(createGame)
                                 .addComponent(back))
@@ -193,21 +226,20 @@ public class Menu extends JFrame implements ActionListener {
 
         JLabel addressLabel, portLabel;
 
-        addressTextField.setPreferredSize(new Dimension(200,30));
-        addressTextField.setHorizontalAlignment(JTextField.CENTER);
-        addressTextField.setFont(fontText);
+        JLabel pseudoLabel = new JLabel("<html><div style=\"text-align:center;\"> Entrez votre pseudo</div></html> ");
+        setJLabel(pseudoLabel, fontText, Color.WHITE);
+
+        setJTextField(pseudoTextField, 100,30,fontText);
+
+        setJTextField(addressTextField, 200, 30,fontText);
 
         addressLabel = new JLabel("Saisir l'addresse de connection:");
-        addressLabel.setForeground(Color.WHITE);
-        addressLabel.setFont(fontText);
+        setJLabel(addressLabel, fontText, Color.WHITE);
 
-        portTextField.setPreferredSize(new Dimension(80,30));
-        portTextField.setHorizontalAlignment(JTextField.CENTER);
-        portTextField.setFont(fontText);
+        setJTextField(portTextField, 80, 30, fontText);
 
         portLabel = new JLabel("Saisir le port de connection:");
-        portLabel.setFont(fontText);
-        portLabel.setForeground(Color.WHITE);
+        setJLabel(portLabel, fontText, Color.WHITE);
 
         GroupLayout groupLayout = new GroupLayout(contener);
         contener.setLayout(groupLayout);
@@ -226,6 +258,8 @@ public class Menu extends JFrame implements ActionListener {
         groupLayout.setAutoCreateGaps(true);
         groupLayout.setHorizontalGroup(
                 groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(pseudoLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pseudoTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(addressLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(addressTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addGroup(groupLayout.createSequentialGroup()
@@ -238,13 +272,13 @@ public class Menu extends JFrame implements ActionListener {
 
         groupLayout.setVerticalGroup(
                 groupLayout.createSequentialGroup()
+                        .addComponent(pseudoLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pseudoTextField,  GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(addressLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(addressTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addGap(PREFERED_GAP)
                         .addGroup(groupLayout.createParallelGroup()
                                 .addComponent(portLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(portTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addGap(PREFERED_GAP)
                         .addGroup(groupLayout.createParallelGroup()
                                 .addComponent(joinGame)
                                 .addComponent(back))
@@ -259,15 +293,14 @@ public class Menu extends JFrame implements ActionListener {
 
         JLabel jl = null;
         try {
-            jl = new JLabel("<html><div style=\"text-align:center;\">" +
+            jl = new JLabel("<html><div style=\"text-align:center;\">" + "Bonjour " + pseudoTextField.getText() +"<br>" +
                     "En attente de joueurs<br><br> "+
                     "addresse Connection: " +  getClient().getAddressServeur() + "<br> Port: "+ getClient().getPort() + "</div></html>",JLabel.CENTER);
-            jl.setFont(fontConnection);
+            setJLabel(jl, fontConnection, Color.WHITE);
             jl.setSize(new Dimension(300,150));
         } catch (IOException ignored) {}
         contener.setLayout(new BorderLayout());
         if (jl != null) {
-            jl.setForeground(Color.WHITE);
             contener.add(jl, BorderLayout.CENTER);
         }
     }
@@ -283,7 +316,13 @@ public class Menu extends JFrame implements ActionListener {
                 getClient().getPong().add(new Racket(1));
                 getClient().getPong().add(new Ball(1));
                 getClient().getPong().add(new Bonus());
-
+              //  getClient().setPseudo(pseudoTextField.getText());
+                if(unlimitedScore.isSelected()){
+                    getClient().setMaxScore(0);
+                }
+                else {
+                    getClient().setMaxScore(Integer.parseInt(scoreMaxTextField.getText()));
+                }
                 displayInformationConnection();
             }
         }
@@ -304,6 +343,7 @@ public class Menu extends JFrame implements ActionListener {
             e.printStackTrace();
         }
         getClient().getPong().addKeyListener((Racket)getClient().getMyRacket());
+      //  getClient().setPseudo(pseudoTextField.getText());
         displayInformationConnection();
 
     }
@@ -341,21 +381,78 @@ public class Menu extends JFrame implements ActionListener {
             displayWaitPlayerJoin();
         }
         if(e.getSource() == back){
-            clearWindow();
+            clearTextField();
             menuMain();
+        }
+        if(e.getSource() == limitedScore){
+            scoreMaxTextField.setEnabled(true);
+            scoreMaxTextField.setVisible(true);
+        }
+        if(e.getSource() == unlimitedScore){
+            scoreMaxTextField.setEnabled(false);
+            scoreMaxTextField.setVisible(false);
         }
         this.repaint();
         this.validate();
     }
 
     /**
-     * Enleve tous les composants de la fenetre (contener) et du panal text.
+     * Enleve tous les composants de la fenetre (contener) et du panael text.
      */
     public void clearWindow(){
         contener.removeAll();
         text.removeAll();
     }
 
+    /**
+     * Nettoie la fenetre et vide tous les textfields. On l'utilise pour le bouton retour.
+     */
+    public void clearTextField(){
+        clearWindow();
+        addressTextField.setText("");
+        numberPlayerTextField.setText("");
+        portTextField.setText("");
+        scoreMaxTextField.setText("");
+        pseudoTextField.setText("");
+    }
+
+    /**
+     * Initialise un jTextField.
+     * @param jTextField le JTextField a modifier.
+     * @param width La largeur du JTextField.
+     * @param height La hauteur du JTextField.
+     * @param font La police du JTextField.
+     */
+    public void setJTextField(JTextField jTextField, int width, int height,Font font){
+        jTextField.setPreferredSize(new Dimension(width, height));
+        jTextField.setHorizontalAlignment(JTextField.CENTER);
+        jTextField.setFont(font);
+    }
+
+    /**
+     * Initialise un JLabel.
+     * @param jLabel Le JLabel a modifier.
+     * @param font La police du JLabel.
+     * @param color La couleur du JLabel.
+     */
+    public void setJLabel(JLabel jLabel, Font font, Color color){
+        jLabel.setFont(font);
+        jLabel.setForeground(color);
+    }
+
+    /**
+     * Initiale un JRadioButton.
+     * @param jRadioButton Le JRadioButton a modifier..
+     * @param opaque L'opacite du JRadioButton.
+     * @param color La couleur du JRadioButton.
+     * @param font La police du JRadioButton.
+     */
+    public void setRadioButton(JRadioButton jRadioButton, boolean opaque, Color color, Font font){
+        jRadioButton.setPreferredSize(new Dimension(170,30));
+        jRadioButton.setFont(font);
+        jRadioButton.setForeground(color);
+        jRadioButton.setOpaque(opaque);
+    }
 
     /**
      * Affiche le menu
@@ -367,3 +464,4 @@ public class Menu extends JFrame implements ActionListener {
         waitPlayer();
     }
 }
+

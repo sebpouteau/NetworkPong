@@ -19,6 +19,8 @@ public class Protocol {
     private static int NUMBER_PLAYER = 6;
     private static int MAX_PLAYER = 7;
     private static int ID_PLAYER_CONNECTED = 8;
+    private static int MAX_SCORE = 9;
+    private static int PSEUDO = 10;
     private static int IDENTIFICATION=0;
     private static int POS_INFORM_IDENTIFICATION = 1;
     private static int PORT = 1;
@@ -158,7 +160,10 @@ public class Protocol {
     public static int decryptScorePlayer(String[] message){
         return Integer.parseInt(message[SCORE_PLAYER]);
     }
-  
+
+    public static int decryptMaxScore(String[] message){return Integer.parseInt(message[MAX_SCORE]);}
+
+    public static String decryptPseudo(String[] message){return message[PSEUDO];}
     /* ================================================
                     Createur de message
        ================================================ */
@@ -181,7 +186,7 @@ public class Protocol {
      * @return Retourne le message a envoyer au serveur.
      */
     public static String identification(int port, boolean firstConnection){
-        return  "Pong Play;Port: " + port + ";ConnectionFirst " + firstConnection;
+        return  "Pong Play;Port: " + port + ";ConnectionFirst " + firstConnection ;
     }
 
     /**
@@ -196,7 +201,9 @@ public class Protocol {
         m.append(informationItem(racket)).append(" ");
         m.append(numberPlayer).append(" ");
         m.append(maxPlayer).append(" ");
-        m.append(idPlayerConncted);
+        m.append(idPlayerConncted).append(" ");
+//        m.append(maxScore).append(" ");
+//        m.append(pseudo);
         return m.toString();
     }
 

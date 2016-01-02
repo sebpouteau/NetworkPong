@@ -10,9 +10,10 @@ public class Player extends PlayerNetwork {
     private static int MYRACKET = 0;
     private Pong pong;
     private int idplayer;
-    private int NumberPlayer;
+    private int numberPlayer;
     private int maxPlayer;
     private boolean activateBonus = false;
+    private String pseudo;
 
     public Player(Pong pong) {
         super();
@@ -25,11 +26,11 @@ public class Player extends PlayerNetwork {
        ================================================= */
 
     public int getNumberPlayer() {
-        return NumberPlayer;
+        return numberPlayer;
     }
 
     public void setNumberPlayer(int NumberPlayer) {
-        this.NumberPlayer = NumberPlayer;
+        this.numberPlayer = NumberPlayer;
     }
 
     public void setIdplayer(int idplayer) {
@@ -40,9 +41,7 @@ public class Player extends PlayerNetwork {
         return this.idplayer;
     }
 
-    public int getMaxPlayer() {
-        return maxPlayer;
-    }
+    public int getMaxPlayer() {return maxPlayer;}
 
     public void setMaxPlayer(int maxPlayer) {
         this.maxPlayer = maxPlayer;
@@ -54,7 +53,17 @@ public class Player extends PlayerNetwork {
         return getPong().getItem(MYRACKET);
     }
 
-    public void addPlayer() {this.NumberPlayer++;}
+    public void addPlayer() {this.numberPlayer++;}
+
+    public int getMaxScore(){return pong.getMaxScore();}
+
+    public void setMaxScore(int maxScore){pong.setMaxScore(maxScore);}
+
+    public void setPseudo(String pseudo){this.pseudo = pseudo;
+        this.getPong().addPlayerPseudo(pseudo, idplayer);
+        System.out.println("je rajoute un pseudo");}
+
+    public String getPseudo(){return pseudo;}
 
     /**
      * Calcule la somme des scores du jeu.
@@ -244,7 +253,7 @@ public class Player extends PlayerNetwork {
         /* Envoi de la liste des connexions. */
         sendMessage(socket, listOtherPlayer.toString());
         this.addPlayer();
-        socket.setNumeroPlayer(this.NumberPlayer);
+        socket.setNumeroPlayer(this.numberPlayer);
         /* Creation d'une nouvelle raquette et envoi des items du jeu au nouveau joueur. */
         Racket newRacket = new Racket(this.getNumberPlayer());
         String item = listItemGame(newRacket);
@@ -373,8 +382,10 @@ public class Player extends PlayerNetwork {
     public void connectionAcceptPlayer(Socket socket) throws IOException, InterruptedException {
         boolean first = super.connectionAccept(socket);
         int pos = getListSocketSize()-1;
-        if (first)
-            this.addNewClient(this.getSocketPlayer(pos),pos);
+        if (first) {
+
+            this.addNewClient(this.getSocketPlayer(pos), pos);
+        }
         else{
             String lu = read(pos);
             addRacketNewPlayer(lu,getSocketPlayer(pos));
