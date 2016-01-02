@@ -63,6 +63,12 @@ public class Menu extends JFrame implements ActionListener {
         modificationButton(createGame,buttonTextSize, dimensionButton);
         modificationButton(joinGame,buttonTextSize, dimensionButton);
         modificationButton(back, buttonTextSize, dimensionButton);
+
+        hosting.addActionListener(this);
+        join.addActionListener(this);
+        createGame.addActionListener(this);
+        joinGame.addActionListener(this);
+        back.addActionListener(this);
     }
 
     /* ================================================
@@ -99,6 +105,7 @@ public class Menu extends JFrame implements ActionListener {
      * Affiche le menu du jeu
      */
     public void menuMain(){
+
         JLabel titre = new JLabel("PONG");
         titre.setForeground(Color.WHITE);
         text.setOpaque(false);
@@ -126,9 +133,6 @@ public class Menu extends JFrame implements ActionListener {
                         .addComponent(join, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         );
 
-        hosting.addActionListener(this);
-        join.addActionListener(this);
-
         this.setVisible(true);
     }
 
@@ -155,9 +159,6 @@ public class Menu extends JFrame implements ActionListener {
         numberPlayerTextField.setPreferredSize(new Dimension(100, 30));
         numberPlayerTextField.setHorizontalAlignment(JTextField.CENTER);
         numberPlayerTextField.setFont(fontText);
-
-        createGame.addActionListener(this);
-        back.addActionListener(this);
 
         GroupLayout groupLayout = new GroupLayout(contener);
         contener.setLayout(groupLayout);
@@ -202,16 +203,13 @@ public class Menu extends JFrame implements ActionListener {
         addressLabel.setForeground(Color.WHITE);
         addressLabel.setFont(fontText);
 
-        portTextField.setPreferredSize(new Dimension(70,30));
+        portTextField.setPreferredSize(new Dimension(80,30));
         portTextField.setHorizontalAlignment(JTextField.CENTER);
         portTextField.setFont(fontText);
 
         portLabel = new JLabel("Saisir le port de connection:");
         portLabel.setFont(fontText);
         portLabel.setForeground(Color.WHITE);
-
-        joinGame.addActionListener(this);
-        back.addActionListener(this);
 
         GroupLayout groupLayout = new GroupLayout(contener);
         contener.setLayout(groupLayout);
@@ -278,10 +276,10 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     /**
-     * permet d'instantion l'hebergeur, creer tout les elements du pong a envoyer au autre joueur
+     * Permet d'instantier l'hebergeur, creer tous les elements du pong a envoyer au autres joueurs
      */
     private void displayWaitPlayerHost(){
-        if (numberPlayerTextField.getText().length() != 0) {   // ===============================================
+        if (numberPlayerTextField.getText().length() != 0) {
             int numberPlayer = Integer.parseInt(numberPlayerTextField.getText());
             if (1 < numberPlayer && numberPlayer < 5) {
                 System.out.println("je passe " + numberPlayer);
@@ -348,15 +346,20 @@ public class Menu extends JFrame implements ActionListener {
             displayWaitPlayerJoin();
         }
         if(e.getSource() == back){
-            contener.removeAll();
-            text.removeAll();
+            clearWindow();
             menuMain();
-            this.repaint();
         }
         this.repaint();
         this.validate();
     }
 
+    public void clearWindow(){
+        contener.removeAll();
+        text.removeAll();
+        addressTextField.setText("");
+        numberPlayerTextField.setText("");
+        portTextField.setText("");
+    }
     /**
      * Affiche le menu
      * @throws IOException
