@@ -12,7 +12,7 @@ import java.nio.channels.SocketChannel;
 public class Menu extends JFrame implements ActionListener {
 
     private JPanel contener = new JPanel(){
-        /* Creer un Jpanel degrader de noir */
+        /* Creer un Jpanel degrade de noir */
         public void paintComponent(Graphics g) {
             Graphics2D g2d = (Graphics2D) g;
             GradientPaint gp = new GradientPaint(0, 0, Color.BLACK, 1200, 1200, Color.WHITE, true);
@@ -147,8 +147,7 @@ public class Menu extends JFrame implements ActionListener {
      * Menu concernant la partie ce creation de la partie
      */
     private void initHosting() {
-        contener.removeAll(); // =============================================
-        text.removeAll(); // ===============================================
+        clearWindow();
 
         JLabel numberPlayerLabel = new JLabel("<html><div style=\"text-align:center;\"> Saisir le nombre de joueurs<br> (max 4)<br></div></html>");
         numberPlayerLabel.setForeground(Color.WHITE);
@@ -190,8 +189,7 @@ public class Menu extends JFrame implements ActionListener {
      * Menu concernant la partie permettant de rejoindre une partie
      */
     private void initJoin() {
-        contener.removeAll(); // ===============================================
-        text.removeAll(); // ===============================================
+        clearWindow();
 
         JLabel addressLabel, portLabel;
 
@@ -257,8 +255,7 @@ public class Menu extends JFrame implements ActionListener {
      * Menu avec les informations utiles, en attendant que tout les joueur soit connecte
      */
     private void displayInformationConnection(){
-        contener.removeAll(); // ===============================================
-        text.removeAll(); // ===============================================
+        clearWindow();
 
         JLabel jl = null;
         try {
@@ -353,13 +350,24 @@ public class Menu extends JFrame implements ActionListener {
         this.validate();
     }
 
+    /**
+     * Enleve tous les composants de la fenetre (contener) et du panal text.
+     */
     public void clearWindow(){
         contener.removeAll();
         text.removeAll();
+    }
+
+    /**
+     * Nettoie la fenetre et vide tous les textfields. On l'utilise pour le bouton retour.
+     */
+    public void clearTextField(){
+        clearWindow();
         addressTextField.setText("");
         numberPlayerTextField.setText("");
         portTextField.setText("");
     }
+
     /**
      * Affiche le menu
      * @throws IOException
