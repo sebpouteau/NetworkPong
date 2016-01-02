@@ -25,5 +25,6 @@ public class Window extends JFrame {
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
+		this.setResizable(false);
 	}
 }

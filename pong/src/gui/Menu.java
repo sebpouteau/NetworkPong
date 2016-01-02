@@ -279,8 +279,6 @@ public class Menu extends JFrame implements ActionListener {
         if (numberPlayerTextField.getText().length() != 0) {
             int numberPlayer = Integer.parseInt(numberPlayerTextField.getText());
             if (1 < numberPlayer && numberPlayer < 5) {
-                System.out.println("je passe " + numberPlayer);
-
                 getClient().setMaxPlayer(numberPlayer);
                 getClient().getPong().add(new Racket(1));
                 getClient().getPong().add(new Ball(1));
@@ -358,15 +356,6 @@ public class Menu extends JFrame implements ActionListener {
         text.removeAll();
     }
 
-    /**
-     * Nettoie la fenetre et vide tous les textfields. On l'utilise pour le bouton retour.
-     */
-    public void clearTextField(){
-        clearWindow();
-        addressTextField.setText("");
-        numberPlayerTextField.setText("");
-        portTextField.setText("");
-    }
 
     /**
      * Affiche le menu

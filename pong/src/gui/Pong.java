@@ -271,8 +271,7 @@ public class Pong extends JPanel {
             if(getItem(j) instanceof Racket){
                  int idPlayer = getItem(j).getNumber();
 				graphicContext.setFont(new Font("impact", Font.PLAIN, 20));
-                graphicContext.drawString("Joueur " + (idPlayer) + " : " + score[idPlayer - 1]+"   ", 100 + (idPlayer - 1)*150 , SIZE_PONG_Y + 20);
-
+                graphicContext.drawString("Joueur " + (idPlayer) + " : " + score[idPlayer - 1]+"   ", 80 + (idPlayer - 1)*150 , SIZE_PONG_Y + 20);
 			}
         }
         this.repaint();
