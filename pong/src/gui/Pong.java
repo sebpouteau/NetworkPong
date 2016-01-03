@@ -130,14 +130,6 @@ public class Pong extends JPanel {
         this.pongList.add(item);
     }
 
-    /**
-     * Ajoute un pseudo a l'arrayList des joueurs suivant son numero.
-     * @param pseudo Un String.
-     * @param id Le numero du joueur.
-     */
-    public void addPlayerPseudo(String pseudo, int id){
-        System.out.println("coucou voila mon pseudo " + pseudo);
-    }
 
     /**
      * Lance la manche.

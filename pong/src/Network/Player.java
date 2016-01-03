@@ -62,11 +62,6 @@ public class Player extends PlayerNetwork {
 
     public void setMaxScore(int maxScore){pong.setMaxScore(maxScore);}
 
-    public void setPseudo(String pseudo){this.pseudo = pseudo;
-        this.getPong().addPlayerPseudo(pseudo, idplayer);
-        System.out.println("je rajoute un pseudo");}
-
-    public String getPseudo(){return pseudo;}
 
     /**
      * Calcule la somme des scores du jeu.
