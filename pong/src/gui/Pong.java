@@ -340,7 +340,7 @@ public class Pong extends JPanel {
      * Affiche l'ecran de fin du perdant.
      */
     public void updateScreenLose() {
-        updateEND("Vous avez perdu! Le joueur ");
+        updateEND("Vous avez perdu! ");
     }
 
     /**
@@ -348,8 +348,8 @@ public class Pong extends JPanel {
      * @param string Le message a afficher.
      */
     private void updateEND(String string) {
-        updateScreen();
         graphicContext.setColor(Color.BLACK);
+        graphicContext.fillRect(0, SIZE_PONG_Y,SIZE_WINDOW_X,SIZE_WINDOW_Y);
         graphicContext.drawLine(SIZE_PONG_X/2,0,SIZE_PONG_Y/2,SIZE_PONG_Y);
         graphicContext.setColor(Color.WHITE);
 
@@ -358,27 +358,7 @@ public class Pong extends JPanel {
         graphicContext.setFont(new Font("Serif", Font.PLAIN, 80));
         graphicContext.drawString("FIN",SIZE_PONG_X/2 -70, 350);
 
-        JPanel jPanel = new JPanel();
-        jPanel.setBackground(Color.BLACK);
-        jPanel.setPreferredSize(new Dimension(200, 200));
-        JButton quit = new JButton("Quitter");
-        quit.setPreferredSize(new Dimension(200,80));
-        quit.setFont(new Font("Arial", Font.PLAIN, 30));
-        quit.setVisible(true);
-        quit.setOpaque(true);
-        jPanel.add(quit);
-        jPanel.setVisible(true);
-        jPanel.setOpaque(true);
-        this.setLayout(new BorderLayout());
-        this.add(jPanel, BorderLayout.PAGE_END);
-        quit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-
-        for (int j = 0; j < listItemSize() ; j++) {
+              for (int j = 0; j < listItemSize() ; j++) {
             if (getItem(j) instanceof Racket) {
                 int idPlayer = getItem(j).getNumber();
                 graphicContext.setFont(new Font("impact", Font.PLAIN, 20));
@@ -387,7 +367,10 @@ public class Pong extends JPanel {
             }
         }
 
-        System.out.println("j'ai fini");
+        graphicContext.setColor(Color.WHITE);
+        graphicContext.setFont(new Font("Arial", Font.PLAIN, 35));
+        graphicContext.drawString("Veuillez fermer la fenêtre!", SIZE_PONG_X/2 - 24*7, 550);
+
         this.repaint();
         this.validate();
     }

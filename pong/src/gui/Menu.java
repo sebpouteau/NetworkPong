@@ -323,8 +323,8 @@ public class Menu extends JFrame implements ActionListener {
     private void displayWaitPlayerJoin() {
         String address = addressTextField.getText();
         int portConnection = Integer.parseInt(portTextField.getText());
-        getClient().setNumberPlayer(1);
         try {
+            getClient().setNumberPlayer(1);
             getClient().connectionServerInit(address, portConnection, true);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
