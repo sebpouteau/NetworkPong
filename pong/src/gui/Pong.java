@@ -23,7 +23,6 @@ public class Pong extends JPanel {
     private Color colorJoueur4 = new Color(31, 197, 64);
 
     private int[] score;
-    private ArrayList<String> players = new ArrayList<>(5);
     private int maxScore ;
     private ArrayList<PongItem> pongList;
 
@@ -66,6 +65,7 @@ public class Pong extends JPanel {
 
     public Pong() {
         pongList = new ArrayList<PongItem>();
+
         this.setPreferredSize(new Dimension(SIZE_WINDOW_X, SIZE_WINDOW_Y));
         startGame = false;
         go = false;
@@ -137,14 +137,12 @@ public class Pong extends JPanel {
      */
     public void addPlayerPseudo(String pseudo, int id){
         System.out.println("coucou voila mon pseudo " + pseudo);
-        players.add(id-1 ,pseudo);
     }
 
     /**
      * Lance la manche.
-     * @param idRacket Numero de la raquette.
      */
-    public void startGame(int idRacket) {
+    public void startGame() {
         if(getIfStart() && getIfGo()) {
             setIfStart(false);
             for (int i = 0; i < listItemSize(); i++) {
@@ -163,7 +161,6 @@ public class Pong extends JPanel {
      */
     public void removeItem(int id){
         pongList.remove(id);
-//        players.remove(id);
     }
 
     /**
@@ -187,7 +184,7 @@ public class Pong extends JPanel {
      * Anime les items du jeu.
      */
     public void animateItems() {
-        startGame(getWaitPlayer());
+        startGame();
 
         for(int i = 0; i < listItemSize(); i++) {
             getItem(i).collision(pongList);
@@ -234,11 +231,11 @@ public class Pong extends JPanel {
 
     /**
      * Selectionne la couleur d'un joueur.
-     * @param racket La raquette du joueur.
+     * @param numero La raquette du joueur.
      * @return La couleur associe au joueur.
      */
-    private Color selectColor(PongItem racket){
-        switch(racket.getNumber()){
+    private Color selectColor(int numero){
+        switch(numero){
             case 1:
                 return colorJoueur1;
             case 2:
@@ -271,12 +268,18 @@ public class Pong extends JPanel {
         graphicContext.fillRect(0,0, SIZE_PONG_X, SIZE_PONG_Y);
 
         int sumNumberPlayer =0;
-
+        graphicContext.setColor(Color.WHITE);
+        if (sumNumberPlayer <=3)
+            graphicContext.drawLine(SIZE_PONG_X /2,0,SIZE_PONG_X/2,SIZE_PONG_Y);
+        else {
+            graphicContext.drawLine(0, 0, SIZE_PONG_X, SIZE_PONG_Y);
+            graphicContext.drawLine(SIZE_PONG_X , 0, 0, SIZE_PONG_Y);
+        }
 		/* Draw items */
         for (int i = 0; i < listItemSize(); i++) {
             if(getItem(i) instanceof Racket){
                 sumNumberPlayer += getItem(i).getNumber();
-                graphicContext.setColor(selectColor(getItem(i)));
+                graphicContext.setColor(selectColor(getItem(i).getNumber()));
                 graphicContext.fillRect(getItem(i).getPositionX(), getItem(i).getPositionY(), getItem(i).getWidth(), getItem(i).getHeight());
 
             }
@@ -290,20 +293,15 @@ public class Pong extends JPanel {
                 draw(getItem(i));
             }
         }
-        graphicContext.setColor(Color.WHITE);
-        if (sumNumberPlayer <=3)
-            graphicContext.drawLine(SIZE_PONG_X /2,0,SIZE_PONG_X/2,SIZE_PONG_Y);
-        else {
-            graphicContext.drawLine(0, 0, SIZE_PONG_X, SIZE_PONG_Y);
-            graphicContext.drawLine(SIZE_PONG_X , 0, 0, SIZE_PONG_Y);
-        }
+
+        graphicContext.setColor(Color.GRAY);
 
         graphicContext.fillRect(0, SIZE_PONG_Y,SIZE_WINDOW_X,SIZE_WINDOW_Y);
-        graphicContext.setColor(Color.BLACK);
         for (int j = 0; j < listItemSize() ; j++) {
             if(getItem(j) instanceof Racket){
                 int idPlayer = getItem(j).getNumber();
                 graphicContext.setFont(new Font("impact", Font.PLAIN, 20));
+                graphicContext.setColor(selectColor(getItem(j).getNumber()));
                 graphicContext.drawString("Joueur" + idPlayer + " : " + score[idPlayer - 1]+"   ", 80 + (idPlayer - 1)*150 , SIZE_PONG_Y + 20);
             }
         }
@@ -338,6 +336,7 @@ public class Pong extends JPanel {
      */
     private void updateEND(String string){
         updateScreen();
+        graphicContext.setColor(Color.BLACK);
         graphicContext.drawLine(SIZE_PONG_X/2,0,SIZE_PONG_Y/2,SIZE_PONG_Y);
         graphicContext.setColor(Color.WHITE);
 

@@ -1,6 +1,6 @@
 package src.gui;
 
-import javafx.scene.control.RadioButton;
+
 import src.Network.Player;
 
 import javax.swing.*;
@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.nio.channels.CancelledKeyException;
 import java.nio.channels.SocketChannel;
 
 public class Menu extends JFrame implements ActionListener {
@@ -317,11 +316,16 @@ public class Menu extends JFrame implements ActionListener {
                 getClient().getPong().add(new Ball(1));
                 getClient().getPong().add(new Bonus());
               //  getClient().setPseudo(pseudoTextField.getText());
-                if(unlimitedScore.isSelected()){
-                    getClient().setMaxScore(0);
+                if(limitedScore.isSelected()) {
+                    // si ce n'est pas un nombre alors la partie sera infini
+                    try {
+                        getClient().setMaxScore(Integer.parseInt(scoreMaxTextField.getText()));
+                    } catch (Exception e) {
+                        getClient().setMaxScore(0);
+                    }
                 }
                 else {
-                    getClient().setMaxScore(Integer.parseInt(scoreMaxTextField.getText()));
+                    getClient().setMaxScore(0);
                 }
                 displayInformationConnection();
             }
@@ -334,6 +338,7 @@ public class Menu extends JFrame implements ActionListener {
     private void displayWaitPlayerJoin(){
         String address = addressTextField.getText();
         int portConnection = Integer.parseInt(portTextField.getText());
+        String pseudo = pseudoTextField.getText();
         getClient().setNumberPlayer(1);
 
         try {

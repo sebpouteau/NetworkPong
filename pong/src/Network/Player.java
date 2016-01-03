@@ -12,11 +12,14 @@ public class Player extends PlayerNetwork {
     private int idplayer;
     private int numberPlayer;
     private int maxPlayer;
+    private String tabPseudo[];
+
     private boolean activateBonus = false;
     private String pseudo;
 
     public Player(Pong pong) {
         super();
+        tabPseudo = new String[4];
         this.pong = pong;
         idplayer = 1;
     }
@@ -93,7 +96,7 @@ public class Player extends PlayerNetwork {
                             if (idplayer==playerLose)
                                 pong.setIfStart(true);
 
-                            if (idplayer==playerLose && somme % (SCORE_FOR_BONUS * (getNumberPlayer()-1)) == 0 && sommeScore() != 0)
+                            if (idplayer==playerLose && somme % ((SCORE_FOR_BONUS-1) * (getNumberPlayer()-1))  == 0 && sommeScore() != 0)
                                 activateBonus = true;
                             for (int j = 0; j < getPong().listItemSize(); j++) {
                                 if(getPong().getItem(j) instanceof Racket){
@@ -121,7 +124,7 @@ public class Player extends PlayerNetwork {
      */
     private String listItemGame(Racket newRacket) {
         StringBuilder message = new StringBuilder();
-        message.append(Protocol.attributionNewPlayer(this.getNumberPlayer(), this.getMaxPlayer(), newRacket, this.getIdplayer()));
+        message.append(Protocol.attributionNewPlayer(this.getNumberPlayer(), this.getMaxPlayer(), newRacket, this.getIdplayer(),getMaxScore()));
         message.append(";");
         for (int i = 0; i < getPong().listItemSize(); i++) {
             message.append(Protocol.informationItem(getPong().getItem(i)));
@@ -192,6 +195,7 @@ public class Player extends PlayerNetwork {
         this.setNumberPlayer(Protocol.decryptNumberPlayer(item));
         this.setIdplayer(Protocol.decryptId(item));
         this.setMaxPlayer(Protocol.decryptMaxPlayer(item));
+        this.setMaxScore(Protocol.decryptMaxScore(item));
         s.setNumeroPlayer(Protocol.decryptIdPlayerConnected(item));
         for (String aListItem : listItem) {
             item = aListItem.split(" ");

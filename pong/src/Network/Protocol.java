@@ -20,7 +20,7 @@ public class Protocol {
     private static int MAX_PLAYER = 7;
     private static int ID_PLAYER_CONNECTED = 8;
     private static int MAX_SCORE = 9;
-    private static int PSEUDO = 10;
+    private static int PSEUDO = 1;
     private static int IDENTIFICATION=0;
     private static int POS_INFORM_IDENTIFICATION = 1;
     private static int PORT = 1;
@@ -163,7 +163,7 @@ public class Protocol {
 
     public static int decryptMaxScore(String[] message){return Integer.parseInt(message[MAX_SCORE]);}
 
-    public static String decryptPseudo(String[] message){return message[PSEUDO];}
+
     /* ================================================
                     Createur de message
        ================================================ */
@@ -185,8 +185,8 @@ public class Protocol {
      * @param firstConnection Vrai si premiere connection, Faux sinon.
      * @return Retourne le message a envoyer au serveur.
      */
-    public static String identification(int port, boolean firstConnection){
-        return  "Pong Play;Port: " + port + ";ConnectionFirst " + firstConnection ;
+    public static String identification(int port,boolean firstConnection){
+        return  "Pong Play;Port: " + port + ";ConnectionFirst: " + firstConnection;
     }
 
     /**
@@ -196,14 +196,14 @@ public class Protocol {
      * @param racket Raquette du nouveau joueur.
      * @return String contenant les informations.
      */
-    public static String attributionNewPlayer(int numberPlayer, int maxPlayer, Racket racket, int idPlayerConncted){
+    public static String attributionNewPlayer(int numberPlayer, int maxPlayer, Racket racket, int idPlayerConncted, int maxScore){
         StringBuilder m = new StringBuilder();
         m.append(informationItem(racket)).append(" ");
         m.append(numberPlayer).append(" ");
         m.append(maxPlayer).append(" ");
         m.append(idPlayerConncted).append(" ");
-//        m.append(maxScore).append(" ");
-//        m.append(pseudo);
+        m.append(maxScore).append(" ");
+  //      m.append(pseudo);
         return m.toString();
     }
 
