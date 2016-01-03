@@ -205,18 +205,24 @@ public class Pong extends JPanel {
      * Verifie si un joueur a gagne.
      * @return Le numero du joueur qui a atteint le maximum de point, 0 sinon. Et 0 si il n'y a pas de maximum.
      */
-    public int hasClientWin() {
+    public boolean endGame() {
         if (maxScore == 0) {
-            return 0;
+            return false;
         }
         for (int i = 0; i < score.length; i++ ) {
             if(score[i] >= maxScore) {
-                return i + 1;
+                return true;
             }
         }
-        return 0;
+        return false;
     }
 
+    public boolean hasWin(int id) {
+        if(getScore(id) == maxScore){
+            return true;
+        }
+        return false;
+    }
     /**
      * Dessine le contenu du buffer.
      * @param g Graphics.
@@ -334,7 +340,7 @@ public class Pong extends JPanel {
      * Affiche l'ecran de fin du perdant.
      */
     public void updateScreenLose() {
-        updateEND("Vous avez perdu! Le joueur " + hasClientWin() + " a gagné!");
+        updateEND("Vous avez perdu! Le joueur ");
     }
 
     /**
@@ -348,15 +354,23 @@ public class Pong extends JPanel {
         graphicContext.setColor(Color.WHITE);
 
         graphicContext.setFont(new Font("Arial", Font.PLAIN, 30));
-        graphicContext.drawString(string, SIZE_PONG_X/2 - string.length()/2 * 10, 250);
+        graphicContext.drawString(string, SIZE_PONG_X/2 - string.length() * 7, 250);
         graphicContext.setFont(new Font("Serif", Font.PLAIN, 80));
         graphicContext.drawString("FIN",SIZE_PONG_X/2 -70, 350);
 
+        JPanel jPanel = new JPanel();
+        jPanel.setBackground(Color.BLACK);
+        jPanel.setPreferredSize(new Dimension(200, 200));
         JButton quit = new JButton("Quitter");
-        quit.setPreferredSize(new Dimension(80,60));
-        quit.setFont(new Font("Arial", Font.PLAIN, 50));
+        quit.setPreferredSize(new Dimension(200,80));
+        quit.setFont(new Font("Arial", Font.PLAIN, 30));
+        quit.setVisible(true);
+        quit.setOpaque(true);
+        jPanel.add(quit);
+        jPanel.setVisible(true);
+        jPanel.setOpaque(true);
         this.setLayout(new BorderLayout());
-        this.add(quit, BorderLayout.PAGE_END);
+        this.add(jPanel, BorderLayout.PAGE_END);
         quit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -364,6 +378,16 @@ public class Pong extends JPanel {
             }
         });
 
+        for (int j = 0; j < listItemSize() ; j++) {
+            if (getItem(j) instanceof Racket) {
+                int idPlayer = getItem(j).getNumber();
+                graphicContext.setFont(new Font("impact", Font.PLAIN, 20));
+                graphicContext.setColor(selectColor(getItem(j).getNumber()));
+                graphicContext.drawString("Joueur" + idPlayer + " : " + score[idPlayer - 1]+"   ", 80 + (idPlayer - 1)*150 ,450);
+            }
+        }
+
+        System.out.println("j'ai fini");
         this.repaint();
         this.validate();
     }

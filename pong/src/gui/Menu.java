@@ -28,14 +28,14 @@ public class Menu extends JFrame implements ActionListener {
     private JButton join = new JButton("Rejoindre un Pong");
     private JButton createGame = new JButton("Valider");
     private JButton joinGame = new JButton("Valider");
-
-    private ButtonGroup scoreButtonGroup = new ButtonGroup();
-    private JRadioButton unlimitedScore = new JRadioButton("Sans fin");
-    private JRadioButton limitedScore = new JRadioButton("Score max:");
-
     private JButton back = new JButton("Retour");
 
-    private JTextField numberPlayerTextField = new JTextField();
+    private ButtonGroup scoreButtonGroup = new ButtonGroup();
+    private JRadioButton limitedScore = new JRadioButton("Score max:");
+    private JRadioButton unlimitedScore = new JRadioButton("Sans fin");
+
+    private JComboBox  numberPlayerCombo = new JComboBox();
+
     private JTextField addressTextField = new JTextField();
     private JTextField portTextField = new JTextField();
     private JTextField scoreMaxTextField = new JTextField();
@@ -69,6 +69,10 @@ public class Menu extends JFrame implements ActionListener {
         setJButton(createGame,buttonTextSize, dimensionButton);
         setJButton(joinGame,buttonTextSize, dimensionButton);
         setJButton(back, buttonTextSize, dimensionButton);
+
+        numberPlayerCombo.addItem("2");
+        numberPlayerCombo.addItem("3");
+        numberPlayerCombo.addItem("4");
 
         hosting.addActionListener(this);
         join.addActionListener(this);
@@ -158,7 +162,8 @@ public class Menu extends JFrame implements ActionListener {
         JLabel numberPlayerLabel = new JLabel("<html><div style=\"text-align:center;\"> Saisir le nombre de joueurs<br>(max 4)</div></html>");
         setJLabel(numberPlayerLabel, fontText, Color.WHITE);
 
-        setJTextField(numberPlayerTextField, 100, 30, fontText);
+        numberPlayerCombo.setPreferredSize(new Dimension(50,30));
+        numberPlayerCombo.setFont(fontText);
 
         setJTextField(scoreMaxTextField, 100, 30, fontText);
 
@@ -180,7 +185,7 @@ public class Menu extends JFrame implements ActionListener {
         groupLayout.setHorizontalGroup(
                 groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER, true)
                         .addComponent(numberPlayerLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(numberPlayerTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(numberPlayerCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(unlimitedScore, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addGroup(groupLayout.createSequentialGroup()
                                 .addComponent(limitedScore, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -194,7 +199,7 @@ public class Menu extends JFrame implements ActionListener {
                 groupLayout.createSequentialGroup()
                         .addContainerGap(PREFERED_GAP, PREFERED_GAP*2)
                         .addComponent(numberPlayerLabel , GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(numberPlayerTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(numberPlayerCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addGap(PREFERED_GAP)
                         .addComponent(unlimitedScore,  GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -291,8 +296,7 @@ public class Menu extends JFrame implements ActionListener {
      * Permet d'instantier l'hebergeur, creer tous les elements du pong a envoyer au autres joueurs
      */
     private void displayWaitPlayerHost() {
-        if (numberPlayerTextField.getText().length() != 0) {
-            int numberPlayer = Integer.parseInt(numberPlayerTextField.getText());
+        int numberPlayer = Integer.parseInt(numberPlayerCombo.getSelectedItem().toString());
             if (1 < numberPlayer && numberPlayer < 5) {
                 getClient().setMaxPlayer(numberPlayer);
                 getClient().getPong().add(new Racket(1));
@@ -311,7 +315,6 @@ public class Menu extends JFrame implements ActionListener {
                 }
                 displayInformationConnection();
             }
-        }
     }
 
     /**
@@ -392,7 +395,6 @@ public class Menu extends JFrame implements ActionListener {
     public void clearTextField() {
         clearWindow();
         addressTextField.setText("");
-        numberPlayerTextField.setText("");
         portTextField.setText("");
         scoreMaxTextField.setText("");
     }
