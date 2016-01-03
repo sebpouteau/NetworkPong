@@ -45,7 +45,6 @@ public class Main {
 				return;
 			}
 			if (pong.endGame()) {
-				System.out.println("fin");
 				if (pong.hasWin(client.getIdPlayer())) {
 					pong.updateScreenWin();
 				}
