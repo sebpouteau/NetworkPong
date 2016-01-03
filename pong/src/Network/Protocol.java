@@ -20,10 +20,10 @@ public class Protocol {
     private static int MAX_PLAYER = 7;
     private static int ID_PLAYER_CONNECTED = 8;
     private static int MAX_SCORE = 9;
-    private static int PSEUDO = 1;
     private static int IDENTIFICATION=0;
     private static int POS_INFORM_IDENTIFICATION = 1;
     private static int PORT = 1;
+    private static int ADDRESS = 2;
     private static int FIRST = 2;
     private static int LENGTH_IDENTIFICATION=3;
 
@@ -32,12 +32,12 @@ public class Protocol {
        ================================================ */
 
     /**
-     * Recupere l'adresse de connection d'une socket contenu dans le String
+     * Recupere l'adresse de connection d'une socket contenu dans le String.
      * @param message String contenant un Item.
      * @return Adresse de connection.
      */
-    public static String decryptAdress(String[] message){
-        return message[2];
+    public static String decryptAddress(String[] message) {
+        return message[ADDRESS];
     }
 
     /**
@@ -45,8 +45,8 @@ public class Protocol {
      * @param message String contenant un Item.
      * @return Port de connection.
      */
-    public static int decryptPortSocket(String[] message){
-        return Integer.parseInt(message[1]);
+    public static int decryptPortSocket(String[] message) {
+        return Integer.parseInt(message[PORT]);
     }
 
     /**
@@ -64,9 +64,9 @@ public class Protocol {
      * Recupere le boolean permettant de savoir si c'est la première connection
      * avec un joueur du jeu ou non.
      * @param message String contenant un Item.
-     * @return True si première connexion, False sinon.
+     * @return True si premiere connexion, False sinon.
      */
-    public static boolean decryptFirst(String message){
+    public static boolean decryptFirst(String message) {
         String[] tabMessage = message.split(";");
         String[] infoFirst = tabMessage[FIRST].split(" ");
         return Boolean.parseBoolean(infoFirst[POS_INFORM_IDENTIFICATION]);
@@ -122,9 +122,8 @@ public class Protocol {
      * @param message String contenant un Item.
      * @return La vitesse en Y de l'item.
      */
-    public static int decryptSpeedY(String[] message){
+    public static int decryptSpeedY(String[] message) {
         return Integer.parseInt(message[SPEED_Y]);
-
     }
 
     /**
@@ -137,7 +136,7 @@ public class Protocol {
     }
 
     /**
-     * Recupere le nombre de joueurs valables que pour la phase d'initialisation d'un objet.
+     * Recupere le nombre de joueurs valables, que lors de la phase d'initialisation d'un objet.
      * @param message String contenant l'initialisaton d'un joueur.
      * @return Le nombre de joueurs.
      */
@@ -150,7 +149,9 @@ public class Protocol {
      * @param message String contenant l'initialisation du joueur.
      * @return Le numero du joueur qui se connecte.
      */
-    public static int decryptIdPlayerConnected(String[] message){ return Integer.parseInt(message[ID_PLAYER_CONNECTED]);}
+    public static int decryptIdPlayerConnected(String[] message) {
+        return Integer.parseInt(message[ID_PLAYER_CONNECTED]);
+    }
 
     /**
      * Decrypte le score d'un message.
@@ -161,7 +162,14 @@ public class Protocol {
         return Integer.parseInt(message[SCORE_PLAYER]);
     }
 
-    public static int decryptMaxScore(String[] message){return Integer.parseInt(message[MAX_SCORE]);}
+    /**
+     * Decrypte le score maximal contenu dans le message.
+     * @param message Message contenant le score maximal.
+     * @return Le score maximal.
+     */
+    public static int decryptMaxScore(String[] message) {
+        return Integer.parseInt(message[MAX_SCORE]);
+    }
 
 
     /* ================================================
@@ -182,10 +190,10 @@ public class Protocol {
     /**
      * Genere le message valide servant a la connection à un serveur.
      * @param port Port du Serveur du joueur qui veut se connecter.
-     * @param firstConnection Vrai si premiere connection, Faux sinon.
+     * @param firstConnection True si premiere connection, False sinon.
      * @return Retourne le message a envoyer au serveur.
      */
-    public static String identification(int port,boolean firstConnection){
+    public static String identification(int port,boolean firstConnection) {
         return  "Pong Play;Port: " + port + ";ConnectionFirst: " + firstConnection;
     }
 
@@ -196,14 +204,13 @@ public class Protocol {
      * @param racket Raquette du nouveau joueur.
      * @return String contenant les informations.
      */
-    public static String attributionNewPlayer(int numberPlayer, int maxPlayer, Racket racket, int idPlayerConncted, int maxScore){
+    public static String attributionNewPlayer(int numberPlayer, int maxPlayer, Racket racket, int idPlayerConncted, int maxScore) {
         StringBuilder m = new StringBuilder();
         m.append(informationItem(racket)).append(" ");
         m.append(numberPlayer).append(" ");
         m.append(maxPlayer).append(" ");
         m.append(idPlayerConncted).append(" ");
         m.append(maxScore).append(" ");
-  //      m.append(pseudo);
         return m.toString();
     }
 
@@ -212,7 +219,7 @@ public class Protocol {
      * @param item PongItem dont on veux les informations.
      * @return Message contenant toutes les informations sur item.
      */
-    public static String informationItem(PongItem item){
+    public static String informationItem(PongItem item) {
         StringBuilder m = new StringBuilder();
         m.append(item.getClass().getSimpleName()).append(" ");
         m.append(item.getNumber()).append(" ");
@@ -228,11 +235,11 @@ public class Protocol {
      * @param socketPlayer SocketPlayer contenant une connection vers un autre joueur.
      * @return String contenant toutes les informations.
      */
-    public static String infomationSocket(SocketPlayer socketPlayer){
+    public static String infomationSocket(SocketPlayer socketPlayer) {
         StringBuilder m = new StringBuilder();
         m.append("Socket ");
         m.append(socketPlayer.getPort()).append(" ");
-        m.append(socketPlayer.getAdress()).append(";");
+        m.append(socketPlayer.getAddress()).append(";");
         return m.toString();
     }
 
@@ -241,7 +248,7 @@ public class Protocol {
      * @param player Un joueur.
      * @return Un message contenant le score.
      */
-    public static String informationScore(Player player){
+    public static String informationScore(Player player) {
         StringBuilder message = new StringBuilder();
         message.append("Score ");
         message.append(String.valueOf(player.getIdPlayer())).append(" ");
@@ -250,11 +257,11 @@ public class Protocol {
     }
 
     /**
-     * Generer le message contenant l'identifiant du joueur.
-     * @param id numero du joueur.
+     * Genere le message contenant l'identifiant du joueur.
+     * @param id Numero du joueur.
      * @return Message contenant l'identifiant du joueur.
      */
     public static String idPlayer(int id){
-        return "IdPlayer "+id+";";
+        return "IdPlayer "+ id +";";
     }
 }

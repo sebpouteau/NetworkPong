@@ -12,7 +12,7 @@ import java.nio.channels.SocketChannel;
 
 public class Menu extends JFrame implements ActionListener {
 
-    private JPanel contener = new JPanel(){
+    private JPanel contener = new JPanel() {
         /* Creer un Jpanel degrade de noir */
         public void paintComponent(Graphics g) {
             Graphics2D g2d = (Graphics2D) g;
@@ -48,8 +48,8 @@ public class Menu extends JFrame implements ActionListener {
     private final int PREFERED_GAP = 40;
 
     private final Font fontTitle = new Font("Serif",Font.BOLD|Font.ITALIC,50);
-    private final Font fontText= new Font("Arial",Font.PLAIN,25);
-    private final Font fontConnection= new Font("Arial",Font.BOLD,25);
+    private final Font fontText = new Font("Arial",Font.PLAIN,25);
+    private final Font fontConnection = new Font("Arial",Font.BOLD,25);
 
     private final Dimension dimensionButtonMenu = new Dimension(400,60);
     private final Dimension dimensionButton = new Dimension(200,50);
@@ -64,11 +64,11 @@ public class Menu extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
-        modificationButton(hosting,buttonTextSize,dimensionButtonMenu);
-        modificationButton(join,buttonTextSize,dimensionButtonMenu);
-        modificationButton(createGame,buttonTextSize, dimensionButton);
-        modificationButton(joinGame,buttonTextSize, dimensionButton);
-        modificationButton(back, buttonTextSize, dimensionButton);
+        setJButton(hosting,buttonTextSize,dimensionButtonMenu);
+        setJButton(join,buttonTextSize,dimensionButtonMenu);
+        setJButton(createGame,buttonTextSize, dimensionButton);
+        setJButton(joinGame,buttonTextSize, dimensionButton);
+        setJButton(back, buttonTextSize, dimensionButton);
 
         hosting.addActionListener(this);
         join.addActionListener(this);
@@ -82,8 +82,8 @@ public class Menu extends JFrame implements ActionListener {
         setRadioButton(limitedScore, false, Color.WHITE,fontText);
 
         scoreButtonGroup.add(unlimitedScore);
-        unlimitedScore.setSelected(true);
         scoreButtonGroup.add(limitedScore);
+        unlimitedScore.setSelected(true);
 
         scoreMaxTextField.setEnabled(false);
         scoreMaxTextField.setVisible(false);
@@ -110,20 +110,9 @@ public class Menu extends JFrame implements ActionListener {
        ================================================ */
 
     /**
-     * Change la taille par defaut du bouton et sa police
-     * @param button le bouton que l'on modifie
-     * @param textSize la taille du texte sur le bouton
-     */
-    private void modificationButton(JButton button, int textSize, Dimension dim){
-        button.setPreferredSize(dim);
-        button.setFont(new Font("Arial",Font.BOLD,textSize));
-    }
-
-    /**
      * Affiche le menu du jeu
      */
-    public void menuMain(){
-
+    public void menuMain() {
         JLabel title = new JLabel("PONG");
         setJLabel(title, fontTitle, Color.WHITE);
         text.setOpaque(false);
@@ -154,14 +143,14 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     /**
-     * Masquera la fenetre menu
+     * Masquera la fenetre menu.
      */
     public void endMenu() {
         this.setVisible(false);
     }
 
     /**
-     * Menu concernant la partie ce creation de la partie
+     * Menu concernant la creation d'une partie.
      */
     private void initHosting() {
         clearWindow();
@@ -169,10 +158,9 @@ public class Menu extends JFrame implements ActionListener {
         JLabel numberPlayerLabel = new JLabel("<html><div style=\"text-align:center;\"> Saisir le nombre de joueurs<br>(max 4)</div></html>");
         setJLabel(numberPlayerLabel, fontText, Color.WHITE);
 
-        setJTextField(numberPlayerTextField, 100,30,fontText);
+        setJTextField(numberPlayerTextField, 100, 30, fontText);
 
         setJTextField(scoreMaxTextField, 100, 30, fontText);
-
 
         GroupLayout groupLayout = new GroupLayout(contener);
         contener.setLayout(groupLayout);
@@ -212,7 +200,7 @@ public class Menu extends JFrame implements ActionListener {
                         .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(limitedScore, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(scoreMaxTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                       .addGap(PREFERED_GAP)
+                        .addGap(PREFERED_GAP)
                         .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(createGame)
                                 .addComponent(back))
@@ -227,7 +215,7 @@ public class Menu extends JFrame implements ActionListener {
 
         JLabel addressLabel, portLabel;
 
-         setJTextField(addressTextField, 200, 30,fontText);
+        setJTextField(addressTextField, 200, 30, fontText);
 
         addressLabel = new JLabel("Saisir l'addresse de connection:");
         setJLabel(addressLabel, fontText, Color.WHITE);
@@ -280,9 +268,9 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     /**
-     * Menu avec les informations utiles, en attendant que tout les joueur soit connecte
+     * Menu avec les informations utiles, en attendant que tous les joueur soient connectes.
      */
-    private void displayInformationConnection(){
+    private void displayInformationConnection() {
         clearWindow();
 
         JLabel jl = null;
@@ -302,7 +290,7 @@ public class Menu extends JFrame implements ActionListener {
     /**
      * Permet d'instantier l'hebergeur, creer tous les elements du pong a envoyer au autres joueurs
      */
-    private void displayWaitPlayerHost(){
+    private void displayWaitPlayerHost() {
         if (numberPlayerTextField.getText().length() != 0) {
             int numberPlayer = Integer.parseInt(numberPlayerTextField.getText());
             if (1 < numberPlayer && numberPlayer < 5) {
@@ -327,22 +315,19 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     /**
-     * Connecte un joueur a une partie
+     * Connecte un joueur a une partie.
      */
-    private void displayWaitPlayerJoin(){
+    private void displayWaitPlayerJoin() {
         String address = addressTextField.getText();
         int portConnection = Integer.parseInt(portTextField.getText());
         getClient().setNumberPlayer(1);
-
         try {
             getClient().connectionServerInit(address, portConnection, true);
         } catch (IOException | InterruptedException e) {
-            System.out.println("fail");
             e.printStackTrace();
         }
         getClient().getPong().addKeyListener((Racket)getClient().getMyRacket());
         displayInformationConnection();
-
     }
 
     /**
@@ -351,7 +336,7 @@ public class Menu extends JFrame implements ActionListener {
      * @throws InterruptedException
      */
     private void waitPlayer() throws IOException, InterruptedException {
-        while (client.getNumberPlayer() != client.getMaxPlayer() ) {
+        while (client.getNumberPlayer() != client.getMaxPlayer()) {
             if (client.getServer() != null) {
                 SocketChannel sc = client.getServer().accept();
                 if (sc != null) {
@@ -377,15 +362,15 @@ public class Menu extends JFrame implements ActionListener {
         if (e.getSource() == joinGame) {
             displayWaitPlayerJoin();
         }
-        if(e.getSource() == back){
+        if (e.getSource() == back) {
             clearTextField();
             menuMain();
         }
-        if(e.getSource() == limitedScore){
+        if (e.getSource() == limitedScore) {
             scoreMaxTextField.setEnabled(true);
             scoreMaxTextField.setVisible(true);
         }
-        if(e.getSource() == unlimitedScore){
+        if (e.getSource() == unlimitedScore) {
             scoreMaxTextField.setEnabled(false);
             scoreMaxTextField.setVisible(false);
         }
@@ -394,9 +379,9 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     /**
-     * Enleve tous les composants de la fenetre (contener) et du panael text.
+     * Enleve tous les composants de la fenetre (contener) et du panel text.
      */
-    public void clearWindow(){
+    public void clearWindow() {
         contener.removeAll();
         text.removeAll();
     }
@@ -404,7 +389,7 @@ public class Menu extends JFrame implements ActionListener {
     /**
      * Nettoie la fenetre et vide tous les textfields. On l'utilise pour le bouton retour.
      */
-    public void clearTextField(){
+    public void clearTextField() {
         clearWindow();
         addressTextField.setText("");
         numberPlayerTextField.setText("");
@@ -413,13 +398,13 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     /**
-     * Initialise un jTextField.
+     * Initialise un JTextField.
      * @param jTextField le JTextField a modifier.
      * @param width La largeur du JTextField.
      * @param height La hauteur du JTextField.
      * @param font La police du JTextField.
      */
-    public void setJTextField(JTextField jTextField, int width, int height,Font font){
+    public void setJTextField(JTextField jTextField, int width, int height, Font font) {
         jTextField.setPreferredSize(new Dimension(width, height));
         jTextField.setHorizontalAlignment(JTextField.CENTER);
         jTextField.setFont(font);
@@ -448,6 +433,17 @@ public class Menu extends JFrame implements ActionListener {
         jRadioButton.setFont(font);
         jRadioButton.setForeground(color);
         jRadioButton.setOpaque(opaque);
+    }
+
+
+    /**
+     * Change la taille par defaut du bouton et sa police.
+     * @param button Le bouton que l'on modifie.
+     * @param textSize La taille du texte sur le bouton.
+     */
+    private void setJButton(JButton button, int textSize, Dimension dim) {
+        button.setPreferredSize(dim);
+        button.setFont(new Font("Arial", Font.BOLD, textSize));
     }
 
     /**

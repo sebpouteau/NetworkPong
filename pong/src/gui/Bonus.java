@@ -14,11 +14,10 @@ public class Bonus extends PongItem {
     private String image = "image/bonus.png";
     private boolean visible;
     private boolean active;
-    private int playerMax = 0;
     private int SPEED_BONUS = 3;
     private Bonus bonus;
 
-    public Bonus(){
+    public Bonus() {
         super(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
         initImage(image);
         active = false;
@@ -29,19 +28,31 @@ public class Bonus extends PongItem {
                       Getter and Setter
        ================================================= */
 
-    public long getTime(){return this.time;}
+    public long getTime() {
+        return this.time;
+    }
 
-    public void setTime(){this.time = System.currentTimeMillis();}
+    public void setTime() {
+        this.time = System.currentTimeMillis();
+    }
 
-    public boolean isActive() {return active;}
+    public boolean isActive() {
+        return active;
+    }
 
-    public void setActive(Boolean b){ active = b;}
+    public void setActive(Boolean b) {
+        active = b;
+    }
 
-    public boolean isVisible(){return visible;}
+    public boolean isVisible() {
+        return visible;
+    }
 
-    public void setVisible(Boolean b){visible = b;}
+    public void setVisible(Boolean b) {
+        visible = b;
+    }
 
-    public long getDelay(){
+    public long getDelay() {
         return delay;
     }
 
@@ -49,32 +60,27 @@ public class Bonus extends PongItem {
         delay = x * 1000;
     }
 
-    public Bonus getBonus(){return bonus;}
-
-    public int getPlayerMax(){
-        return playerMax;
+    public Bonus getBonus() {
+        return bonus;
     }
-
-    public void setPlayerMax(int newMaxPlayer){playerMax = newMaxPlayer; }
 
     /* =================================================
                       Functions
        ================================================= */
 
     /**
-     * Génère un bonus aléatoire
+     * Genere un bonus aleatoire.
      */
-    public void bonusAleatoire(){
-        setPosition(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
+    public void bonusRandom() {
+        setPosition(Pong.getSizePongX()/2, Pong.getSizePongY()/2);
         int speedX = 0;
         int speedY = 0;
-        while (speedX==0||speedY==0){
-            speedX = RandomNumber.randomValue(-3,3);
-            speedY = RandomNumber.randomValue(-3,3);
+        while (speedX == 0 || speedY == 0) {
+            speedX = RandomNumber.randomValue(-3, 3);
+            speedY = RandomNumber.randomValue(-3, 3);
         }
-        this.setSpeed(speedX,speedY);
-
-        int numBonus = RandomNumber.randomValue(1,4);
+        this.setSpeed(speedX, speedY);
+        int numBonus = RandomNumber.randomValue(1, 4);
         setNumber(numBonus);
         setVisible(true);
     }
@@ -84,14 +90,14 @@ public class Bonus extends PongItem {
      * @param sizePongX Longueur de la fenetre.
      * @param sizePongY Largeur de la fenetre.
      */
-    public void animate(int sizePongX, int sizePongY){
-        if(this.visible) {
-            this.setPosition((this.getPositionX() + this.getSpeedX()),(this.getPositionY() + this.getSpeedY()));
+    public void animate(int sizePongX, int sizePongY) {
+        if (this.visible) {
+            this.setPosition((this.getPositionX() + this.getSpeedX()), (this.getPositionY() + this.getSpeedY()));
             if (this.getPositionX() < 0) {
                 this.setPositionX(0);
                 this.setSpeedX(-this.getSpeedX());
             }
-            else if (this.getPositionY()< 0) {
+            else if (this.getPositionY() < 0) {
                 this.setPositionY(0);
                 this.setSpeedY(-this.getSpeedY());
             }
@@ -108,20 +114,20 @@ public class Bonus extends PongItem {
         duration();
     }
 
-   @Override
-    public boolean notCheating(int x, int y, int speedX,int speedY){
-        return Math.abs(this.getPositionX() - x) <= SPEED_BONUS*2&&
-                Math.abs(this.getPositionY() - y) <= SPEED_BONUS*2&&
-                Math.abs(this.getSpeedX() - speedX) <= SPEED_BONUS*2&&
-                Math.abs(this.getSpeedY() - speedY) <=SPEED_BONUS*2;
+    @Override
+    public boolean notCheating(int x, int y, int speedX, int speedY) {
+        return Math.abs(this.getPositionX() - x) <= SPEED_BONUS * 2 &&
+                Math.abs(this.getPositionY() - y) <= SPEED_BONUS * 2 &&
+                Math.abs(this.getSpeedX() - speedX) <= SPEED_BONUS * 2 &&
+                Math.abs(this.getSpeedY() - speedY) <= SPEED_BONUS * 2 ;
     }
 
     /**
      * Si le delai du bonus est passe on arrete le bonus.
      */
-    public void duration(){
-        if(isActive())
-            if(time + delay < System.currentTimeMillis())
+    public void duration() {
+        if (isActive() )
+            if (time + delay < System.currentTimeMillis() )
                 stopBonus();
     }
 
@@ -133,14 +139,14 @@ public class Bonus extends PongItem {
     }
 
     /**
-     * Active le bonus suivant son numéro et l'item (pour le changement de taille de la raquette).
-     * @param PongItem le PongItem qui peut être influencée par les bonus.
+     * Active le bonus suivant son numero et l'item (pour le changement de taille de la raquette).
+     * @param PongItem Le PongItem qui peut etre influencee par les bonus.
      */
-    public void startBonus(PongItem PongItem){
+    public void startBonus(PongItem PongItem) {
         setTime();
         setDelay(10);
         active = true;
-        switch (getNumber()){
+        switch (getNumber()) {
             case BIGRACKET:
                 bonus = new ChangeRacketSize(PongItem, 1);
                 break;
@@ -156,12 +162,12 @@ public class Bonus extends PongItem {
     }
 
     /**
-     * Desactive le Bonus et se remet à l'etat initiale les changements effectues par le Bonus.
+     * Desactive le Bonus et annule les changements effectues par le Bonus.
      */
-    public void stopBonus(){
+    public void stopBonus() {
         if (active && !isVisible()) {
             active = false;
-            visible=false;
+            visible = false;
             switch (getNumber()) {
                 case BIGRACKET:
                     ChangeRacketSize c = (ChangeRacketSize) bonus;

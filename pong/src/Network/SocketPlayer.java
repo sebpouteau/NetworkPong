@@ -11,19 +11,19 @@ public class SocketPlayer {
 
     private Socket socket;
     private int port;
-    private String adress;
+    private String address;
     private BufferedReader bufferReader;
     private PrintStream printStream;
     private int numeroPlayer;
 
     public SocketPlayer(Socket socket, int port) throws IOException {
         this.socket=socket;
-        InputStream inputStream= this.getSocket().getInputStream();
+        InputStream inputStream = this.getSocket().getInputStream();
         this.bufferReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
         OutputStream outputStream = getSocket().getOutputStream();
         this.printStream = new PrintStream(outputStream, false, "utf-8");
         this.port = port;
-        this.adress = socket.getInetAddress().getHostAddress();
+        this.address = socket.getInetAddress().getHostAddress();
     }
 
     public int getNumeroPlayer() {
@@ -54,7 +54,7 @@ public class SocketPlayer {
         this.port = port;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 }

@@ -3,13 +3,12 @@ package src;
 import src.Network.*;
 import src.gui.*;
 import java.io.*;
-import java.nio.channels.SocketChannel;
 
 /**
  * Classe permettant de lancer le jeu.
  */
-public class Main{
-	
+public class Main {
+
 	private static int PORT = 7777;
 
 	public static void main(String[] args) throws IOException, InterruptedException {
@@ -28,11 +27,10 @@ public class Main{
 				port++;
 			}
 		}
-		
+
 		Menu menu = new Menu(client);
 		menu.displayMenu();
-		while (menu.isAllPlayerConnect()){
-		}
+		while (menu.isAllPlayerConnect()) {}
 		menu.endMenu();
 
 		pong.setTabScore(client.getMaxPlayer());
@@ -42,16 +40,18 @@ public class Main{
 
 		/* Boucle de jeu quand tous les joueurs sont connectés */
 		while (true) {
-			if (client.getNumberPlayer()< 2) {
+			if (client.getNumberPlayer() < 2) {
 				pong.updateScreenEnd();
 				return;
 			}
-			if(pong.hasClientWin() != 0){
-                if(client.getIdPlayer() == pong.hasClientWin())
-			    	pong.updateScreenWin();
-                else
-                    pong.updateScreenLose();
-                return;
+			if (pong.hasClientWin() != 0) {
+				if (client.getIdPlayer() == pong.hasClientWin()) {
+					pong.updateScreenWin();
+				}
+				else {
+					pong.updateScreenLose();
+				}
+				return;
 			}
 			/* Envoie des informations aux autres joueurs */
 			String info = client.information();
@@ -66,7 +66,6 @@ public class Main{
 			for (int i = 0; i < client.getListSocketSize(); i++) {
 				client.update(i);
 			}
-
 			client.getPong().animateItems();
 			client.attributionScore();
 		}

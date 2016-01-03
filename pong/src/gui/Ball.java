@@ -9,7 +9,7 @@ public class Ball extends PongItem {
     private String image = "image/ball.png";
 
     public Ball(int id) {
-        super(Pong.getSizePongX()/2,Pong.getSizePongY()/2);
+        super(Pong.getSizePongX()/2, Pong.getSizePongY()/2);
         this.setNumber(id);
         initImage(image);
         this.setSpeed(new Point(BALL_SPEED, BALL_SPEED));
@@ -21,10 +21,10 @@ public class Ball extends PongItem {
 
     /**
      * Modifie la position et la vitesse de la balle en X suivant les parametres.
-      * @param setPos Nouvelle position en X.
+     * @param setPos Nouvelle position en X.
      * @param setSpeed Nouvelle vitesse en X.
      */
-    private void animateX(int setPos, int setSpeed){
+    private void animateX(int setPos, int setSpeed) {
         this.setPositionX(setPos);
         this.setSpeedX(setSpeed);
     }
@@ -34,17 +34,17 @@ public class Ball extends PongItem {
      * @param setPos Nouvelle position en Y.
      * @param setSpeed Nouvelle vitesse en Y.
      */
-    private void animateY(int setPos, int setSpeed){
+    private void animateY(int setPos, int setSpeed) {
         this.setPositionY(setPos);
         this.setSpeedY(setSpeed);
     }
 
     @Override
-    public void animate(int sizePongX,int sizePongY){
-        if(Pong.getIfStart()) {
+    public void animate(int sizePongX,int sizePongY) {
+        if (Pong.getIfStart()) {
             this.setSpeed(0, 0);
         }
-        else{
+        else {
             if (this.getPositionX() < 0) {
                 animateX(0, -this.getSpeedX());
             }
@@ -63,11 +63,11 @@ public class Ball extends PongItem {
     }
 
     @Override
-    public boolean notCheating(int x, int y, int speedX,int speedY){
-        boolean t=  Math.abs(this.getPositionX() - x) <=BALL_SPEED*BALL_SPEED &&
-                Math.abs(this.getPositionY() - y) <=BALL_SPEED *BALL_SPEED;
-        boolean s = Math.abs(this.getSpeedX() - speedX) <=BALL_SPEED*2 &&
-                Math.abs(this.getSpeedY() - speedY) <=BALL_SPEED*2;
+    public boolean notCheating(int x, int y, int speedX, int speedY) {
+        boolean t = Math.abs(this.getPositionX() - x) <= BALL_SPEED * BALL_SPEED &&
+                Math.abs(this.getPositionY() - y) <= BALL_SPEED * BALL_SPEED;
+        boolean s = Math.abs(this.getSpeedX() - speedX) <= BALL_SPEED * 2 &&
+                Math.abs(this.getSpeedY() - speedY) <=BALL_SPEED * 2;
         return s && t;
     }
 
@@ -75,7 +75,7 @@ public class Ball extends PongItem {
      * Regarde si la balle touche un des cotes de l'ecran et renvoit le numero du joueur correspondant.
      * @return Un entier representant un cote de l'écran. Si il represente un joeur en jeu, il perd la balle.
      */
-    public int losePlayerSize(){
+    public int losePlayerSize() {
         if (this.getPositionX() <= 0) {
             return 1;
         }
@@ -96,10 +96,10 @@ public class Ball extends PongItem {
      * @param loseRacket La raquette du joueur qui a perdu la balle.
      * @return Le numéro du joueur qui a perdu la balle.
      */
-    public int restart(PongItem loseRacket){
-        switch(loseRacket.getNumber()){
+    public int restart(PongItem loseRacket) {
+        switch(loseRacket.getNumber()) {
             case 1:
-                this.setPosition(loseRacket.getPositionX()+loseRacket.getWidth(),
+                this.setPosition(loseRacket.getPositionX() + loseRacket.getWidth(),
                         loseRacket.getPositionY() + loseRacket.getHeight()/2 - this.getHeight()/2);
                 break;
             case 2:
@@ -121,12 +121,12 @@ public class Ball extends PongItem {
 
     /**
      * Donne une vitesse aleatoire a la balle de maniere a ce qu'elle soit remise en jeu
-     * avec une meilleure amplitude de possibilites pour sa trajectoire.
+     * avec plus de possibilites pour sa trajectoire.
      * @param idRacket La raquette qui tient la balle.
      */
-    public void launch(int idRacket){
+    public void launch(int idRacket) {
         int newSpeedX, newSpeedY;
-        switch (idRacket){
+        switch (idRacket) {
             case 1:
                 newSpeedX = BALL_SPEED;
                 newSpeedY = RandomNumber.randomValue(-BALL_SPEED, BALL_SPEED);
@@ -152,37 +152,39 @@ public class Ball extends PongItem {
     }
 
     /**
-     * Verifie si la vitesse de la balle est nulle et lui redonne une vitesse,
-     * mais principalement teste si la balle est rentree en collision avec un PongItem.
+     * Teste si la balle est rentree en collision avec un PongItem.
+     * Verifie si la vitesse de la balle est nulle et si vrai, lui redonne une vitesse .
      * @param item Le PongItem avec lequel on teste la collision de la balle.
      * @return True si il y a une collision, False sinon.
      */
-    public boolean collision(PongItem item){
+    public boolean collision(PongItem item) {
         if (this.getSpeedX() == 0) {
             this.setSpeedX(BALL_SPEED);
         }
-        if (this.getSpeedY() == 0)
+        if (this.getSpeedY() == 0) {
             this.setSpeedY(BALL_SPEED);
-
+        }
         Rectangle ball = new Rectangle(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY(), this.getWidth(), this.getHeight());
 
-        if ((ball.getX() >= item.getSurface().getX() + item.getSurface().getWidth())// trop a droite
-                || (ball.getX() + ball.getWidth() <= item.getSurface().getX()) // trop a gauche
-                || (ball.getY() >= item.getSurface().getY() + item.getSurface().getHeight()) // trop en bas
-                || (ball.getY() + ball.getHeight() <= item.getSurface().getY())) { // trop en haut
+        if ((ball.getX() >= item.getSurface().getX() + item.getSurface().getWidth())
+                || (ball.getX() + ball.getWidth() <= item.getSurface().getX())
+                || (ball.getY() >= item.getSurface().getY() + item.getSurface().getHeight())
+                || (ball.getY() + ball.getHeight() <= item.getSurface().getY())) {
             return false;
         } else {
-            if (item instanceof Racket)
+            if (item instanceof Racket) {
                 doCollision(item);
-            else
+            }
+            else {
                 doCollisionBall(item);
+            }
             return true;
         }
     }
 
     /**
-     * Le "rebond", les modifications de vitesse a effectuer suivant ou la balle est en collision avec le PongItem
-     * @param item PongItem avec lequelle il y a la collision (seulement raquette pour cette version)
+     * Le "rebond", les modifications de vitesse a effectuer suivant ou la balle est en collision avec le PongItem.
+     * @param item PongItem avec lequelle il y a la collision (seulement raquette pour cette version).
      */
     public void doCollision(PongItem item) {
         if (this.getPositionY() <= 0) {
@@ -193,7 +195,6 @@ public class Ball extends PongItem {
         if (item.getNumber() < 3) {
             if (this.getSurface().getX() >= item.getSurface().getX() + item.getSurface().getWidth() ||
                     this.getSurface().getX() + this.getSurface().getWidth() <= item.getSurface().getX()) {
-
                 this.setSpeedX(-this.getSpeedX());
                 this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY());
             } else {
@@ -204,12 +205,12 @@ public class Ball extends PongItem {
             }
         }
         else{
-            if(this.getSurface().getY() >= item.getSurface().getY() + item.getSurface().getHeight() ||
-                    this.getSurface().getY() + this.getSurface().getHeight() <= item.getSurface().getY() ){
+            if (this.getSurface().getY() >= item.getSurface().getY() + item.getSurface().getHeight() ||
+                    this.getSurface().getY() + this.getSurface().getHeight() <= item.getSurface().getY()) {
                 this.setSpeedY(-this.getSpeedY());
                 this.setPosition(this.getPositionX() + this.getSpeedX(), this.getPositionY() + this.getSpeedY());
             }
-            else{
+            else {
                 this.setSpeed(-this.getSpeedX(), -this.getSpeedY());
                 int s = item.getSpeedY();
                 this.setPosition(this.getPositionX() + this.getSpeedX() + s, this.getPositionY() + this.getSpeedY());
@@ -222,7 +223,7 @@ public class Ball extends PongItem {
      * @param item Un PongItem representant une balle.
      */
     public void doCollisionBall(PongItem item){
-        if(! (item instanceof Bonus )) {
+        if (!(item instanceof Bonus)) {
             item.setSpeed(item.getSpeedX(), -item.getSpeedY());
             this.setSpeed(this.getSpeedX(), -this.getSpeedY());
         }

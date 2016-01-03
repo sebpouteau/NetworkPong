@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 
 public class PlayerNetwork {
-    
+
     private ServerSocketChannel server;
     private ArrayList<SocketPlayer> tabSocket;
     private int port;
 
     public PlayerNetwork(){
-        tabSocket = new ArrayList<SocketPlayer>();
+        tabSocket = new ArrayList<>();
     }
 
     /* ================================================
@@ -44,30 +44,30 @@ public class PlayerNetwork {
      */
     public static String getAddressServeur() throws IOException {
         String ip = "";
-                Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-            while (interfaces.hasMoreElements()) {
-                NetworkInterface iface = interfaces.nextElement();
-                // filters out 127.0.0.1 and inactive interfaces
-                if (iface.isLoopback() || !iface.isUp())
-                    continue;
-                Enumeration<InetAddress> address = iface.getInetAddresses();
-
-                while(address.hasMoreElements()) {
-                    InetAddress addr = address.nextElement();
-                    ip = addr.getHostAddress();
-                    if (ip.length() < 16){
-                        if (!ip.startsWith("127") || ip.startsWith("0")){
-                            return ip;
-                        }
+        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+        while (interfaces.hasMoreElements()) {
+            NetworkInterface iface = interfaces.nextElement();
+            // Filters out 127.0.0.1 and inactive interfaces.
+            if (iface.isLoopback() || !iface.isUp()) {
+                continue;
+            }
+            Enumeration<InetAddress> address = iface.getInetAddresses();
+            while (address.hasMoreElements()) {
+                InetAddress addr = address.nextElement();
+                ip = addr.getHostAddress();
+                if (ip.length() < 16) {
+                    if (!ip.startsWith("127") || ip.startsWith("0")) {
+                        return ip;
                     }
                 }
             }
+        }
         return ip;
     }
 
     /**
      * Retourne la taille de la liste des sockets.
-     * @return taille de la liste des sockets.
+     * @return Taille de la liste des sockets.
      */
     public int getListSocketSize(){
         return this.tabSocket.size();
@@ -75,7 +75,7 @@ public class PlayerNetwork {
 
     /**
      * Supprime un socket player de la liste des sockets.
-     * @param id numero de la socket à supprimer.
+     * @param id Numero de la socket a supprimer.
      * @throws IOException
      */
     public void removeSocket(int id) throws IOException {
@@ -89,7 +89,7 @@ public class PlayerNetwork {
 
     /**
      * Initialise le serveur du joueur.
-     * @param port port d'écoute du serveur.
+     * @param port Port d'ecoute du serveur.
      * @throws IOException
      */
     public void initServeur(int port) throws IOException {
@@ -100,7 +100,7 @@ public class PlayerNetwork {
     }
 
     /**
-     * Ajoute une Socket a la liste de sockets existante.
+     * Ajoute une Socket a la liste de sockets existantes.
      * @param socket Socket a ajouter.
      * @return Retourne la position dans la liste de la socket.
      */
@@ -112,7 +112,7 @@ public class PlayerNetwork {
     /**
      * Envoie un message sur une socket.
      * @param socket Socket.
-     * @param message Message à envoyer.
+     * @param message Message a envoyer.
      * @throws IOException
      */
     public void sendMessage(SocketPlayer socket,String message) throws IOException {
@@ -131,7 +131,7 @@ public class PlayerNetwork {
     }
 
     /**
-     * Permet de ce connecter à un serveur.
+     * Permet de ce connecter a un serveur.
      * @param adress Addresse ou se connecter.
      * @param portConnection Port de connection.
      * @return Retourne la socket connectee.
@@ -146,10 +146,10 @@ public class PlayerNetwork {
     }
 
     /**
-     * Fonction permettant de ce connecter a un serveur avec procedure d'identification.
+     * Fonction permettant de ce connecter a un serveur avec une procedure d'identification.
      * @param adress Addresse ou se connecter.
      * @param portConnection Port de connection.
-     * @param first Vrai si premiere connection dans la partie. Faux sinon.
+     * @param first True si premiere connection dans la partie. False sinon.
      * @return La position de la nouvelle socket dans la liste des sockets.
      * @throws IOException
      */
@@ -159,7 +159,7 @@ public class PlayerNetwork {
         int position = this.addSocket(socketPlayer);
         /* Envoie des informations de reconnaissance. */
         String message = Protocol.identification(this.getPort(), first);
-        sendMessage(this.getSocketPlayer(position),message);
+        sendMessage(this.getSocketPlayer(position), message);
         /* Reception des informations envoyees par le serveur du premier joueur. */
         return position;
     }
@@ -167,15 +167,16 @@ public class PlayerNetwork {
     /**
      * Fonction permettant d'accepter la connexion d'un joueur.
      * @param socket Socket a accepter.
-     * @return True si premiere connection à un joueur,False sinon.
+     * @return True si premiere connection a un joueur, False sinon.
      * @throws IOException
      */
     public boolean connectionAccept(Socket socket) throws IOException {
         SocketPlayer socketPlayer = new SocketPlayer(socket, 0);
         int position = this.addSocket(socketPlayer);
         String lu = read(position);
-        if (!Protocol.validPlayer(lu))
-             position = -1;
+        if (!Protocol.validPlayer(lu)) {
+            position = -1;
+        }
         int port = Protocol.decryptPort(lu);
         this.getSocketPlayer(position).setPort(port);
         return Protocol.decryptFirst(lu);

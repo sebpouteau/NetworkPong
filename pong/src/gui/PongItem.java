@@ -74,14 +74,14 @@ public class PongItem {
         return this.surface;
     }
 
-    public void setSurface(int x, int y, int width, int height){
+    public void setSurface(int x, int y, int width, int height) {
         this.surface = new Rectangle(x, y,width,height);
         this.setPosition(x, y);
         this.setWidth(width);
         this.setHeight(height);
     }
 
-    public Rectangle setPositionRectangle (int x, int y){
+    public Rectangle setPositionRectangle (int x, int y) {
         return this.surface = new Rectangle(x, y, this.getWidth(), this.getHeight());
     }
 
@@ -119,12 +119,12 @@ public class PongItem {
 
     public void setPosition(int x,int y) {
         this.position.setLocation(x, y);
-        this.setPositionRectangle(x,y);
+        this.setPositionRectangle(x, y);
     }
 
     public PongItem(int x, int y) {
         this.setPosition(x, y);
-        this.speed = new Point(0 , 0);
+        this.speed = new Point(0, 0);
     }
 
     /* =================================================
@@ -135,7 +135,7 @@ public class PongItem {
      * Charge l'image qui se trouve en "chemin" et initialise sa surface et position.
      * @param chemin Le chemin permettant d'acceder a l'image.
      */
-    public void initImage(String chemin){
+    public void initImage(String chemin ){
         this.setImageItem(Toolkit.getDefaultToolkit().createImage(
                 ClassLoader.getSystemResource(chemin)));
         this.setSurface(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
@@ -147,7 +147,7 @@ public class PongItem {
      * @param sizePongX Longueur de la fenetre.
      * @param sizePongY Largueur de la fenêtre.
      */
-    public void animate(int sizePongX,int sizePongY){}
+    public void animate(int sizePongX, int sizePongY) {}
 
     /**
      * Verifie si les donnees sont valides.
@@ -155,15 +155,15 @@ public class PongItem {
      * @param y Nouvelle position en Y.
      * @param speedX Nouvelle vitesse en X.
      * @param speedY Nouvelle vitesse en Y.
-     * @return True si valide,False sinon.
+     * @return True si valide, False sinon.
      */
-    public boolean notCheating(int x, int y, int speedX,int speedY){
+    public boolean notCheating(int x, int y, int speedX, int speedY){
         return true;
     }
 
     /**
      * Verifie et applique la collision si il y en a une avec un autre composant de la liste.
-     * @param p Liste des PongItem composants le pong.
+     * @param p Liste des PongItem composant le pong.
      * @return True si une collision a eu lieu et False sinon.
      */
     public boolean collision (ArrayList<PongItem> p){
@@ -181,5 +181,4 @@ public class PongItem {
         }
         return t;
     }
-
 }
