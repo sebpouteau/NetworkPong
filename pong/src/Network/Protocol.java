@@ -244,8 +244,8 @@ public class Protocol {
     public static String informationScore(Player player){
         StringBuilder message = new StringBuilder();
         message.append("Score ");
-        message.append(String.valueOf(player.getIdplayer())).append(" ");
-        message.append(String.valueOf(player.getPong().getScore(player.getIdplayer())));
+        message.append(String.valueOf(player.getIdPlayer())).append(" ");
+        message.append(String.valueOf(player.getPong().getScore(player.getIdPlayer())));
         return message.toString();
     }
 

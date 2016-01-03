@@ -12,14 +12,11 @@ public class Player extends PlayerNetwork {
     private int idplayer;
     private int numberPlayer;
     private int maxPlayer;
-    private String tabPseudo[];
 
     private boolean activateBonus = false;
-    private String pseudo;
 
     public Player(Pong pong) {
         super();
-        tabPseudo = new String[4];
         this.pong = pong;
         idplayer = 1;
     }
@@ -40,7 +37,7 @@ public class Player extends PlayerNetwork {
         this.idplayer = idplayer;
     }
 
-    public int getIdplayer() {
+    public int getIdPlayer() {
         return this.idplayer;
     }
 
@@ -119,7 +116,7 @@ public class Player extends PlayerNetwork {
      */
     private String listItemGame(Racket newRacket) {
         StringBuilder message = new StringBuilder();
-        message.append(Protocol.attributionNewPlayer(this.getNumberPlayer(), this.getMaxPlayer(), newRacket, this.getIdplayer(),getMaxScore()));
+        message.append(Protocol.attributionNewPlayer(this.getNumberPlayer(), this.getMaxPlayer(), newRacket, this.getIdPlayer(),getMaxScore()));
         message.append(";");
         for (int i = 0; i < getPong().listItemSize(); i++) {
             message.append(Protocol.informationItem(getPong().getItem(i)));
@@ -382,7 +379,6 @@ public class Player extends PlayerNetwork {
         boolean first = super.connectionAccept(socket);
         int pos = getListSocketSize()-1;
         if (first) {
-
             this.addNewClient(this.getSocketPlayer(pos), pos);
         }
         else{

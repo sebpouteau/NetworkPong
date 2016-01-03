@@ -43,17 +43,17 @@ public class PlayerNetwork {
      * @throws IOException
      */
     public static String getAddressServeur() throws IOException {
-        String ip="";
+        String ip = "";
                 Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             while (interfaces.hasMoreElements()) {
                 NetworkInterface iface = interfaces.nextElement();
                 // filters out 127.0.0.1 and inactive interfaces
                 if (iface.isLoopback() || !iface.isUp())
                     continue;
-                Enumeration<InetAddress> adress = iface.getInetAddresses();
+                Enumeration<InetAddress> address = iface.getInetAddresses();
 
-                while(adress.hasMoreElements()) {
-                    InetAddress addr = adress.nextElement();
+                while(address.hasMoreElements()) {
+                    InetAddress addr = address.nextElement();
                     ip = addr.getHostAddress();
                     if (ip.length() < 16){
                         if (!ip.startsWith("127") || ip.startsWith("0")){
@@ -179,6 +179,5 @@ public class PlayerNetwork {
         int port = Protocol.decryptPort(lu);
         this.getSocketPlayer(position).setPort(port);
         return Protocol.decryptFirst(lu);
-
     }
 }

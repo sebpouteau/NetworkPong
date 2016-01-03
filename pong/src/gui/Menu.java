@@ -38,7 +38,6 @@ public class Menu extends JFrame implements ActionListener {
     private JTextField numberPlayerTextField = new JTextField();
     private JTextField addressTextField = new JTextField();
     private JTextField portTextField = new JTextField();
-    private JTextField pseudoTextField = new JTextField();
     private JTextField scoreMaxTextField = new JTextField();
 
     private Player client;
@@ -83,6 +82,7 @@ public class Menu extends JFrame implements ActionListener {
         setRadioButton(limitedScore, false, Color.WHITE,fontText);
 
         scoreButtonGroup.add(unlimitedScore);
+        unlimitedScore.setSelected(true);
         scoreButtonGroup.add(limitedScore);
 
         scoreMaxTextField.setEnabled(false);
@@ -104,8 +104,6 @@ public class Menu extends JFrame implements ActionListener {
     public Player getClient() {
         return this.client;
     }
-
-    public String getPseudo(){return pseudoTextField.getText();}
 
     /* ================================================
                          Functions
@@ -171,29 +169,32 @@ public class Menu extends JFrame implements ActionListener {
         JLabel numberPlayerLabel = new JLabel("<html><div style=\"text-align:center;\"> Saisir le nombre de joueurs<br>(max 4)</div></html>");
         setJLabel(numberPlayerLabel, fontText, Color.WHITE);
 
-        text.add(numberPlayerLabel,BorderLayout.CENTER);
-
-        JLabel pseudoLabel = new JLabel("<html><div style=\"text-align:center;\"> Entrez votre pseudo</div></html> ");
-        setJLabel(pseudoLabel, fontText, Color.WHITE);
-
         setJTextField(numberPlayerTextField, 100,30,fontText);
 
         setJTextField(scoreMaxTextField, 100, 30, fontText);
 
-        setJTextField(pseudoTextField, 100,30,fontText);
 
         GroupLayout groupLayout = new GroupLayout(contener);
         contener.setLayout(groupLayout);
+        groupLayout.setLayoutStyle(new LayoutStyle() {
+            @Override
+            public int getPreferredGap(JComponent component1, JComponent component2, ComponentPlacement type, int position, Container parent) {
+                return 20;
+            }
+
+            @Override
+            public int getContainerGap(JComponent component, int position, Container parent) {
+                return 100;
+            }
+        });
         groupLayout.setAutoCreateContainerGaps(true);
         groupLayout.setAutoCreateGaps(true);
         groupLayout.setHorizontalGroup(
-                groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(pseudoLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(pseudoTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(text, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER, true)
+                        .addComponent(numberPlayerLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(numberPlayerTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(unlimitedScore, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addGroup(groupLayout.createSequentialGroup()
-                                .addComponent(unlimitedScore, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(limitedScore, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(scoreMaxTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                         .addGroup(groupLayout.createSequentialGroup()
@@ -203,15 +204,16 @@ public class Menu extends JFrame implements ActionListener {
 
         groupLayout.setVerticalGroup(
                 groupLayout.createSequentialGroup()
-                        .addComponent(pseudoLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(pseudoTextField,  GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(text , GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(PREFERED_GAP, PREFERED_GAP*2)
+                        .addComponent(numberPlayerLabel , GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(numberPlayerTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addGroup(groupLayout.createParallelGroup()
-                                .addComponent(unlimitedScore,  GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGap(PREFERED_GAP)
+                        .addComponent(unlimitedScore,  GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(limitedScore, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(scoreMaxTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addGroup(groupLayout.createParallelGroup()
+                       .addGap(PREFERED_GAP)
+                        .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(createGame)
                                 .addComponent(back))
         );
@@ -225,12 +227,7 @@ public class Menu extends JFrame implements ActionListener {
 
         JLabel addressLabel, portLabel;
 
-        JLabel pseudoLabel = new JLabel("<html><div style=\"text-align:center;\"> Entrez votre pseudo</div></html> ");
-        setJLabel(pseudoLabel, fontText, Color.WHITE);
-
-        setJTextField(pseudoTextField, 100,30,fontText);
-
-        setJTextField(addressTextField, 200, 30,fontText);
+         setJTextField(addressTextField, 200, 30,fontText);
 
         addressLabel = new JLabel("Saisir l'addresse de connection:");
         setJLabel(addressLabel, fontText, Color.WHITE);
@@ -257,8 +254,6 @@ public class Menu extends JFrame implements ActionListener {
         groupLayout.setAutoCreateGaps(true);
         groupLayout.setHorizontalGroup(
                 groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(pseudoLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(pseudoTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(addressLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(addressTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addGroup(groupLayout.createSequentialGroup()
@@ -271,13 +266,13 @@ public class Menu extends JFrame implements ActionListener {
 
         groupLayout.setVerticalGroup(
                 groupLayout.createSequentialGroup()
-                        .addComponent(pseudoLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(pseudoTextField,  GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(addressLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(addressTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGap(PREFERED_GAP)
                         .addGroup(groupLayout.createParallelGroup()
                                 .addComponent(portLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(portTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addGap(PREFERED_GAP)
                         .addGroup(groupLayout.createParallelGroup()
                                 .addComponent(joinGame)
                                 .addComponent(back))
@@ -292,7 +287,7 @@ public class Menu extends JFrame implements ActionListener {
 
         JLabel jl = null;
         try {
-            jl = new JLabel("<html><div style=\"text-align:center;\">" + "Bonjour " + pseudoTextField.getText() +"<br>" +
+            jl = new JLabel("<html><div style=\"text-align:center;\">" +
                     "En attente de joueurs<br><br> "+
                     "addresse Connection: " +  getClient().getAddressServeur() + "<br> Port: "+ getClient().getPort() + "</div></html>",JLabel.CENTER);
             setJLabel(jl, fontConnection, Color.WHITE);
@@ -315,7 +310,6 @@ public class Menu extends JFrame implements ActionListener {
                 getClient().getPong().add(new Racket(1));
                 getClient().getPong().add(new Ball(1));
                 getClient().getPong().add(new Bonus());
-              //  getClient().setPseudo(pseudoTextField.getText());
                 if(limitedScore.isSelected()) {
                     // si ce n'est pas un nombre alors la partie sera infini
                     try {
@@ -338,7 +332,6 @@ public class Menu extends JFrame implements ActionListener {
     private void displayWaitPlayerJoin(){
         String address = addressTextField.getText();
         int portConnection = Integer.parseInt(portTextField.getText());
-        String pseudo = pseudoTextField.getText();
         getClient().setNumberPlayer(1);
 
         try {
@@ -348,7 +341,6 @@ public class Menu extends JFrame implements ActionListener {
             e.printStackTrace();
         }
         getClient().getPong().addKeyListener((Racket)getClient().getMyRacket());
-      //  getClient().setPseudo(pseudoTextField.getText());
         displayInformationConnection();
 
     }
@@ -418,7 +410,6 @@ public class Menu extends JFrame implements ActionListener {
         numberPlayerTextField.setText("");
         portTextField.setText("");
         scoreMaxTextField.setText("");
-        pseudoTextField.setText("");
     }
 
     /**

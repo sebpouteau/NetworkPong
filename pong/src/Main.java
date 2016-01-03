@@ -2,7 +2,6 @@ package src;
 
 import src.Network.*;
 import src.gui.*;
-
 import java.io.*;
 import java.nio.channels.SocketChannel;
 
@@ -37,7 +36,8 @@ public class Main{
 		menu.endMenu();
 
 		pong.setTabScore(client.getMaxPlayer());
-		Window window = new Window(pong,menu.getPseudo());
+		String name = "Joueur" + client.getIdPlayer();
+		Window window = new Window(pong,name);
 		window.displayOnscreen();
 
 		/* Boucle de jeu quand tous les joueurs sont connectés */
@@ -47,7 +47,7 @@ public class Main{
 				return;
 			}
 			if(pong.hasClientWin() != 0){
-                if(client.getIdplayer() == pong.hasClientWin())
+                if(client.getIdPlayer() == pong.hasClientWin())
 			    	pong.updateScreenWin();
                 else
                     pong.updateScreenLose();

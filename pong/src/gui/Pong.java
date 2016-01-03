@@ -3,7 +3,7 @@ package src.gui;
 import java.awt.*;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  * An Pong is a Java graphical container that extends the JPanel class in
@@ -27,45 +27,43 @@ public class Pong extends JPanel {
     private ArrayList<PongItem> pongList;
 
     /**
-     *  Est ce qu'il est arreter
+     *  Est ce qu'il est arrete?
      */
     private static boolean startGame;
 
     /**
-     * Est-ce que l'on peut le relancer
+     * Est-ce que l'on peut le relancer?
      */
     private static boolean go;
 
     /**
-     * qui relance la balle
+     * Qui relance la balle?
      */
     private static int waitPlayer;
 
     /**
      * Constant (c.f. final) common to all Pong instances (c.f. static)
-     * defining the background color of the Pong
+     * defining the background color of the Pong.
      */
     private static final Color backgroundColor = new Color(0, 0, 0);
 
-
     /**
-     * Time step of the simulation (in ms)
+     * Time step of the simulation (in ms).
      */
     public static final int timestep = 10;
 
     /**
-     * Pixel data buffer for the Pong rendering
+     * Pixel data buffer for the Pong rendering.
      */
     private Image buffer = null;
 
     /**
-     * Graphic component context derived from buffer Image
+     * Graphic component context derived from buffer Image.
      */
     private Graphics graphicContext = null;
 
     public Pong() {
         pongList = new ArrayList<PongItem>();
-
         this.setPreferredSize(new Dimension(SIZE_WINDOW_X, SIZE_WINDOW_Y));
         startGame = false;
         go = false;
@@ -76,13 +74,9 @@ public class Pong extends JPanel {
                       Getter and Setter
        ================================================= */
 
-    public static int getSizePongX() {
-        return SIZE_PONG_X;
-    }
+    public static int getSizePongX(){return SIZE_PONG_X;}
 
-    public static int getSizePongY(){
-        return SIZE_PONG_Y;
-    }
+    public static int getSizePongY(){return SIZE_PONG_Y;}
 
     public int getScore(int i){return score[i-1];}
 
@@ -98,13 +92,13 @@ public class Pong extends JPanel {
 
     public static boolean getIfStart(){return startGame;}
 
-    public static int getWaitPlayer(){return waitPlayer;}
-
-    public static void  setWaitPlayer(int idPlayer){ waitPlayer = idPlayer;}
-
     public static void setIfStart(boolean bool){
         startGame = bool;
     }
+
+    public static int getWaitPlayer(){return waitPlayer;}
+
+    public static void  setWaitPlayer(int idPlayer){ waitPlayer = idPlayer;}
 
     public int getMaxScore(){return maxScore;}
 
@@ -115,21 +109,21 @@ public class Pong extends JPanel {
         ================================================= */
 
     /**
-     * Ajoute un pong item a la liste
-     * @param item item a ajouter
+     * Ajoute un pong item a la liste.
+     * @param item Item a ajouter.
      */
     public void add(PongItem item){
         if (item instanceof Ball) {
             int compteur=0;
             for (int i = 0; i < listItemSize(); i++) {
-                if (getItem(i) instanceof Ball)
-                    compteur = Math.max(compteur,getItem(i).getNumber())+1;
+                if (getItem(i) instanceof Ball) {
+                    compteur = Math.max(compteur, getItem(i).getNumber()) + 1;
+                }
             }
             item.setNumber(compteur+1);
         }
         this.pongList.add(item);
     }
-
 
     /**
      * Lance la manche.
@@ -151,33 +145,26 @@ public class Pong extends JPanel {
      * Supprime le pong item.
      * @param id Position de l'item a supprimer.
      */
-    public void removeItem(int id){
-        pongList.remove(id);
-    }
+    public void removeItem(int id){pongList.remove(id);}
 
     /**
      * Retourne un pong Item present dans la liste.
      * @param number Numero de l'item a recuperer.
      * @return Un pongItem.
      */
-    public PongItem getItem(int number){
-        return this.pongList.get(number);
-    }
+    public PongItem getItem(int number){return this.pongList.get(number);}
 
     /**
      * Retourne le nombre d'items de la liste.
      * @return Nombre d'items.
      */
-    public int listItemSize(){
-        return pongList.size();
-    }
+    public int listItemSize(){return pongList.size();}
 
     /**
      * Anime les items du jeu.
      */
     public void animateItems() {
         startGame();
-
         for(int i = 0; i < listItemSize(); i++) {
             getItem(i).collision(pongList);
             getItem(i).animate(SIZE_PONG_X, SIZE_PONG_Y);
@@ -194,20 +181,18 @@ public class Pong extends JPanel {
             return 0;
         }
         for(int i = 0; i < score.length; i++ ){
-            if(score[i] >= maxScore)
-                return i+1;
+            if(score[i] >= maxScore) {
+                return i + 1;
+            }
         }
         return 0;
     }
-
 
     /**
      * Dessine le contenu du buffer.
      * @param g Graphics.
      */
-    public void paint(Graphics g) {
-        g.drawImage(buffer, 0, 0, this);
-    }
+    public void paint(Graphics g){g.drawImage(buffer, 0, 0, this);}
 
     /**
      * Dessine les items.
@@ -219,7 +204,6 @@ public class Pong extends JPanel {
                 item.getWidth(), item.getHeight(),
                 null);
     }
-
 
     /**
      * Selectionne la couleur d'un joueur.
@@ -249,45 +233,46 @@ public class Pong extends JPanel {
         if (buffer == null) {
 			/* First time we get called with all windows initialized */
             buffer = createImage(SIZE_WINDOW_X,SIZE_WINDOW_Y);
-            if (buffer == null)
+            if (buffer == null) {
                 throw new RuntimeException("Could not instanciate graphics");
-            else
+            }
+            else {
                 graphicContext = buffer.getGraphics();
+            }
         }
-
 
         graphicContext.setColor(backgroundColor);
         graphicContext.fillRect(0,0, SIZE_PONG_X, SIZE_PONG_Y);
 
-        int sumNumberPlayer =0;
+        int sumNumberPlayer = 0;
         graphicContext.setColor(Color.WHITE);
-        if (sumNumberPlayer <=3)
-            graphicContext.drawLine(SIZE_PONG_X /2,0,SIZE_PONG_X/2,SIZE_PONG_Y);
+        if (sumNumberPlayer <= 3) {
+            graphicContext.drawLine(SIZE_PONG_X / 2, 0, SIZE_PONG_X / 2, SIZE_PONG_Y);
+        }
         else {
             graphicContext.drawLine(0, 0, SIZE_PONG_X, SIZE_PONG_Y);
             graphicContext.drawLine(SIZE_PONG_X , 0, 0, SIZE_PONG_Y);
         }
 		/* Draw items */
         for (int i = 0; i < listItemSize(); i++) {
-            if(getItem(i) instanceof Racket){
+            if (getItem(i) instanceof Racket){
                 sumNumberPlayer += getItem(i).getNumber();
                 graphicContext.setColor(selectColor(getItem(i).getNumber()));
                 graphicContext.fillRect(getItem(i).getPositionX(), getItem(i).getPositionY(), getItem(i).getWidth(), getItem(i).getHeight());
 
             }
             else if (getItem(i) instanceof Bonus) {
-                Bonus b =(Bonus) getItem(i);
+                Bonus b = (Bonus) getItem(i);
                 if(b.isVisible()){
                     draw(getItem(i));
                 }
             }
-            else{
+            else {
                 draw(getItem(i));
             }
         }
 
         graphicContext.setColor(Color.GRAY);
-
         graphicContext.fillRect(0, SIZE_PONG_Y,SIZE_WINDOW_X,SIZE_WINDOW_Y);
         for (int j = 0; j < listItemSize() ; j++) {
             if(getItem(j) instanceof Racket){
@@ -319,7 +304,7 @@ public class Pong extends JPanel {
      * Affiche l'ecran de fin du perdant.
      */
     public void updateScreenLose(){
-        updateEND("Vous avez perdu!");
+        updateEND("Vous avez perdu! Le joueur " + hasClientWin() + " a gagné!");
     }
 
     /**
@@ -332,9 +317,16 @@ public class Pong extends JPanel {
         graphicContext.drawLine(SIZE_PONG_X/2,0,SIZE_PONG_Y/2,SIZE_PONG_Y);
         graphicContext.setColor(Color.WHITE);
 
-        graphicContext.drawString(string, 100, 250);
+        graphicContext.setFont(new Font("Arial", Font.PLAIN, 60));
+        graphicContext.drawString(string, SIZE_PONG_X/2 - string.length()/2 , 250);
         graphicContext.setFont(new Font("Serif", Font.PLAIN, 80));
         graphicContext.drawString("FIN",SIZE_PONG_X/2 -70, 350);
+
+        JButton quit = new JButton("Quitter");
+        quit.setPreferredSize(new Dimension(80,60));
+        quit.setFont( new Font("Arial",Font.PLAIN,50));
+        quit.setLocation(SIZE_PONG_X/2, 450);
+        this.add(quit);
 
         this.repaint();
         this.validate();
