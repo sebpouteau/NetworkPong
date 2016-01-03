@@ -1,6 +1,7 @@
 package src.Network;
 
-import src.gui.*;
+import src.Game.*;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -91,13 +92,14 @@ public class Player extends PlayerNetwork {
                 int playerLose = ball.losePlayerSize();
                 if (playerLose != 0) {
                     int sum = sumScore();
+                    sum += getNumberPlayer()-1;
                     for (int k = 0; k < getPong().listItemSize() ; k++) {
                         /* Si l'item est une raquette et que le numero du playerLose est bien un joueur alors: */
                         if (getPong().getItem(k) instanceof Racket && getPong().getItem(k).getNumber() == playerLose) {
                             if (idplayer==playerLose) {
                                 pong.setIfStart(true);
                             }
-                            if (idplayer == playerLose && sum % ((SCORE_FOR_BONUS-1) * (getNumberPlayer()-1)) == 0 && sumScore() != 0) {
+                            if (idplayer == playerLose && (sum % ((SCORE_FOR_BONUS) * (getNumberPlayer()-1)) == 0 )&& sumScore() != 0) {
                                 activateBonus = true;
                             }
                             for (int j = 0; j < getPong().listItemSize(); j++) {

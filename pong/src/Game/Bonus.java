@@ -1,4 +1,4 @@
-package src.gui;
+package src.Game;
 
 import src.util.RandomNumber;
 
@@ -75,7 +75,7 @@ public class Bonus extends PongItem {
         setPosition(Pong.getSizePongX()/2, Pong.getSizePongY()/2);
         int speedX = 0;
         int speedY = 0;
-        while (speedX == 0 || speedY == 0) {
+        while ((speedX == 0 || speedY == 0) || (Math.abs(speedX) == 3 && Math.abs(speedY) == 3) ) {
             speedX = RandomNumber.randomValue(-3, 3);
             speedY = RandomNumber.randomValue(-3, 3);
         }

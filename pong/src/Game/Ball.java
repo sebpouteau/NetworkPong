@@ -1,4 +1,4 @@
-package src.gui;
+package src.Game;
 
 import src.util.RandomNumber;
 import java.awt.*;
@@ -12,7 +12,9 @@ public class Ball extends PongItem {
         super(Pong.getSizePongX()/2, Pong.getSizePongY()/2);
         this.setNumber(id);
         initImage(image);
-        this.setSpeed(new Point(BALL_SPEED, BALL_SPEED));
+        int speedX =RandomNumber.randomValue(-BALL_SPEED, BALL_SPEED);
+        int speedY =RandomNumber.randomValue(-BALL_SPEED, BALL_SPEED);
+        this.setSpeed(new Point(speedX,speedY));
     }
 
     /* =================================================

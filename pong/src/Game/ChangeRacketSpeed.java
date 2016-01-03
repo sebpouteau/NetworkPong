@@ -1,4 +1,4 @@
-package src.gui;
+package src.Game;
 
 public class ChangeRacketSpeed extends Bonus {
 

@@ -1,5 +1,8 @@
 package src.gui;
 
+import src.Game.Pong;
+import src.Game.Racket;
+
 import javax.swing.*;
 
 /**

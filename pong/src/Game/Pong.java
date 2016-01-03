@@ -1,8 +1,6 @@
-package src.gui;
+package src.Game;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -281,14 +279,7 @@ public class Pong extends JPanel {
         graphicContext.fillRect(0,0, SIZE_PONG_X, SIZE_PONG_Y);
 
         int sumNumberPlayer = 0;
-        graphicContext.setColor(Color.WHITE);
-        if (sumNumberPlayer <= 3) {
-            graphicContext.drawLine(SIZE_PONG_X / 2, 0, SIZE_PONG_X / 2, SIZE_PONG_Y);
-        }
-        else {
-            graphicContext.drawLine(0, 0, SIZE_PONG_X, SIZE_PONG_Y);
-            graphicContext.drawLine(SIZE_PONG_X , 0, 0, SIZE_PONG_Y);
-        }
+
 		/* Draw items */
         for (int i = 0; i < listItemSize(); i++) {
             if (getItem(i) instanceof Racket){
@@ -306,6 +297,15 @@ public class Pong extends JPanel {
             else {
                 draw(getItem(i));
             }
+        }
+
+        graphicContext.setColor(Color.WHITE);
+        if (sumNumberPlayer <= 3) {
+            graphicContext.drawLine(SIZE_PONG_X / 2, 0, SIZE_PONG_X / 2, SIZE_PONG_Y);
+        }
+        else {
+            graphicContext.drawLine(0, 0, SIZE_PONG_X, SIZE_PONG_Y);
+            graphicContext.drawLine(SIZE_PONG_X , 0, 0, SIZE_PONG_Y);
         }
 
         graphicContext.setColor(Color.GRAY);
@@ -358,7 +358,7 @@ public class Pong extends JPanel {
         graphicContext.setFont(new Font("Serif", Font.PLAIN, 80));
         graphicContext.drawString("FIN",SIZE_PONG_X/2 -70, 350);
 
-              for (int j = 0; j < listItemSize() ; j++) {
+        for (int j = 0; j < listItemSize() ; j++) {
             if (getItem(j) instanceof Racket) {
                 int idPlayer = getItem(j).getNumber();
                 graphicContext.setFont(new Font("impact", Font.PLAIN, 20));

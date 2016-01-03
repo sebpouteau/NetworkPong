@@ -1,7 +1,7 @@
 package src.Network;
 
-import src.gui.PongItem;
-import src.gui.Racket;
+import src.Game.PongItem;
+import src.Game.Racket;
 
 /**
  * Protocol de communication.

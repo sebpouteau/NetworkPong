@@ -1,6 +1,9 @@
 package src.gui;
 
 
+import src.Game.Ball;
+import src.Game.Bonus;
+import src.Game.Racket;
 import src.Network.Player;
 
 import javax.swing.*;
@@ -9,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.nio.channels.SocketChannel;
+import java.nio.channels.UnresolvedAddressException;
 
 public class Menu extends JFrame implements ActionListener {
 
@@ -215,10 +219,10 @@ public class Menu extends JFrame implements ActionListener {
     /**
      * Menu concernant la partie permettant de rejoindre une partie
      */
-    private void initJoin() {
+    private void initJoin(boolean error) {
         clearWindow();
 
-        JLabel addressLabel, portLabel;
+        JLabel addressLabel, portLabel, errorLabel;
 
         setJTextField(addressTextField, 200, 30, fontText);
 
@@ -229,6 +233,11 @@ public class Menu extends JFrame implements ActionListener {
 
         portLabel = new JLabel("Saisir le port de connection:");
         setJLabel(portLabel, fontText, Color.WHITE);
+        errorLabel = new JLabel("");
+        setJLabel(errorLabel, fontText, Color.WHITE);
+        if (error)
+            errorLabel.setText("Erreur adresse/port, Réessayer!");
+
 
         GroupLayout groupLayout = new GroupLayout(contener);
         contener.setLayout(groupLayout);
@@ -255,6 +264,8 @@ public class Menu extends JFrame implements ActionListener {
                         .addGroup(groupLayout.createSequentialGroup()
                                 .addComponent(joinGame)
                                 .addComponent(back))
+                        .addGroup(groupLayout.createSequentialGroup()
+                                .addComponent(errorLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         groupLayout.setVerticalGroup(
@@ -269,7 +280,10 @@ public class Menu extends JFrame implements ActionListener {
                         .addGroup(groupLayout.createParallelGroup()
                                 .addComponent(joinGame)
                                 .addComponent(back))
+                        .addGroup(groupLayout.createSequentialGroup()
+                                .addComponent(errorLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
+
     }
 
     /**
@@ -321,13 +335,14 @@ public class Menu extends JFrame implements ActionListener {
      * Connecte un joueur a une partie.
      */
     private void displayWaitPlayerJoin() {
-        String address = addressTextField.getText();
-        int portConnection = Integer.parseInt(portTextField.getText());
-        try {
+        try{
+            String address = addressTextField.getText();
+            int portConnection = Integer.parseInt(portTextField.getText());
             getClient().setNumberPlayer(1);
             getClient().connectionServerInit(address, portConnection, true);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        } catch (IOException | InterruptedException | UnresolvedAddressException | NumberFormatException e) {
+            initJoin(true);
+            return;
         }
         getClient().getPong().addKeyListener((Racket)getClient().getMyRacket());
         displayInformationConnection();
@@ -357,7 +372,7 @@ public class Menu extends JFrame implements ActionListener {
             initHosting();
         }
         if (e.getSource() == join) {
-            initJoin();
+            initJoin(false);
         }
         if (e.getSource() == createGame) {
             displayWaitPlayerHost();
